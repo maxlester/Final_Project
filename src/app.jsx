@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import NavBar from './navBar.jsx';
-
+import RegisterStudent from './RegisterStudent.jsx'
+import RegisterTeacher from './RegisterTeacher.jsx'
 
 
 class App extends Component {
@@ -11,6 +12,12 @@ class App extends Component {
     return (
       <div>
         <NavBar/>
+          <span>
+            <RegisterTeacher/>
+          </span>
+          <span>
+            <RegisterStudent/>
+          </span>
       </div>
     );
   }
