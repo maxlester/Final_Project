@@ -9,14 +9,14 @@ class HomePage extends Component {
   render() {
     return (
       <div className="home">
-      <NavBar/>
+        <NavBar/>
         <aside className="left-sidebar">
         </aside>
         <main>
           <h2>Teach, connect, make a living with your friends</h2>
           <section className="register">
-            <a className="register-btn filled-button">I want to teach</a>
-            <a className="register-btn clear-button">I want to <br/> take classes</a>
+            <button type="button" className="btn btn-default">I want to teach</button>
+            <button type="button" className="btn btn-clear">I want to take classes</button>
           </section>
         </main>
       </div>

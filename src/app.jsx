@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import HomePage from './home.jsx';
+import Dashboard from './dashboard.jsx';
 
 
 class App extends Component {
@@ -8,6 +9,7 @@ class App extends Component {
   }
   render() {
     return (
+
       <HomePage/>
     );
   }

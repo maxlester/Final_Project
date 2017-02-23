@@ -1,7 +1,6 @@
 @import 'vars';
 
 nav {
-
   height: 60px;
   padding: 10px 30px;
   background-color: $green;
@@ -12,9 +11,12 @@ nav {
   z-index: 100;
 
   h1 {
-    margin: 0;
+    margin-top:30px;
+    font-size: 2.5rem;
     display: inline;
-
+    color:white;
+    text-transform: uppercase;
+    letter-spacing: .5rem;
   }
 
   #logins {
