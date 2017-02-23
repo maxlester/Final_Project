@@ -13,11 +13,11 @@ class App extends Component {
       <div>
         <NavBar/>
           <span>
-            Teacher:
+            <strong>Teacher:</strong>
             <RegisterTeacher/>
           </span>
           <span>
-            Student:
+            <strong>Student:</strong>
             <RegisterStudent/>
           </span>
       </div>
