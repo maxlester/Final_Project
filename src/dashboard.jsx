@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NavBar from './navBar.jsx';
 
 
-class HomePage extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
@@ -24,4 +24,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default Dashboard;

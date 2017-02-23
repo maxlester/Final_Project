@@ -16,9 +16,9 @@ constructor(props) {
         <nav>
           <h1>Yoga Buddy</h1>
           <button type="submit" id="logins">Login</button>
-          <div id="input">
-          <input id="username" type="text"/>
-          <input id="password" type="text"/>
+          <div id="login-input">
+            <input id="username" type="text"/>
+            <input id="password" type="text"/>
           </div>
         </nav>
     );

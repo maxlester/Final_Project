@@ -1,31 +1,42 @@
+@import 'vars';
+
 nav {
 
-  height: 40px;
-  padding: 8px;
-  background-color: #71EEB8;
-  position: relative;
+  height: 60px;
+  padding: 10px 30px;
+  background-color: $green;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index: 100;
 
   h1 {
     margin: 0;
     display: inline;
+
   }
 
   #logins {
     display: inline-block;
     right: 10px;
-    margin-right: 5px;
+    margin-left: 5px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
   }
 
-  #input{
-    display: inline-block;
-    right: 60PX;
-    margin-right: 5px;
+  #login-input{
     position: absolute;
+    right: 60px;
     top: 50%;
-    transform: translateY(-50%);
+    margin-right:5px;
+    input{
+      display: inline-block;
+      margin-right: 5px;
+      transform: translateY(-50%);
+    }
+
   }
 
   #username {
