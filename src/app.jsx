@@ -13,9 +13,11 @@ class App extends Component {
       <div>
         <NavBar/>
           <span>
+            Teacher:
             <RegisterTeacher/>
           </span>
           <span>
+            Student:
             <RegisterStudent/>
           </span>
       </div>
