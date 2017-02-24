@@ -10,7 +10,9 @@ class App extends Component {
   }
   render() {
     return (
-      <Dashboard/>
+      <div>
+      {this.props.children}
+      </div>
     );
   }
 }
