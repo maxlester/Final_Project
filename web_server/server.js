@@ -1,34 +1,56 @@
-const express = require('express');
-const SocketServer = require('ws').Server;
-const uuid = require('node-uuid');
-const PORT = 3001;
-const WebSocket = require('ws');
-
-// Create a new express server
-const server = express()
-   // Make the express server serve static assets (html, javascript, css) from the /public folder
-  .use(express.static('public'))
-  .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
-
-// Create the WebSockets server
-const wss = new SocketServer({ server });
+var path = require('path');
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var knex = require('knex');
 
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
-wss.on('connection', (ws) => {
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
+app.set('port', (process.env.PORT || 8080));
+
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/api/donations', function(req, res) {
+  fs.readFile(DONATIONS_FILE, function(err, data) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
     }
+    res.setHeader('Cache-Control', 'no-cache');
+    res.json(JSON.parse(data));
   });
+});
 
-
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => {
-
+app.post('/api/donations', function(req, res) {
+  fs.readFile(DONATIONS_FILE, function(err, data) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    var donations = JSON.parse(data);
+    // NOTE: In a real implementation, we would likely rely on a database or
+    // some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
+    // treat Date.now() as unique-enough for our purposes.
+    var newDonation = {
+      id: Date.now(),
+      contributor: req.body.contributor,
+      amount: req.body.amount,
+      comment: req.body.comment
+    };
+    donations.push(newDonation);
+    fs.writeFile(DONATIONS_FILE, JSON.stringify(donations, null, 4), function(err) {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
+      res.setHeader('Cache-Control', 'no-cache');
+      res.json(donations);
+    });
   });
-
 });
 
 
+app.listen(app.get('port'), function() {
+  console.log('Server started: http://localhost:' + app.get('port') + '/');
+});
