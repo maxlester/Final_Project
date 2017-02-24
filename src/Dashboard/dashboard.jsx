@@ -6,6 +6,8 @@ import ClassList from './classList.jsx';
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    this.dataServer = "http://localhost:8080";
+    this.getUserDashboardInfo();
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       classesTaking: [
@@ -45,12 +47,16 @@ class Dashboard extends Component {
 
   getUserDashboardInfo(){
     $.ajax({
-      url: this.props.url,
-      type: 'GET',
+      url: this.dataServer + "/",
+      type: 'POST',
+      data: {userId: 1},
       success: function(data) {
         //set the state with the newly loaded data so the display will update
-        this.setState({currentUser: data.currentUser, classesTaking: data.classesTaking, classesGiving : data.classesGiving});
-      }.bind(this),
+      //   this.setState({currentUser: data.currentUser, classesTaking: data.classesTaking, classesGiving : data.classesGiving});
+      // }.bind(this),
+        console.log(data)
+        console.log("seafoam graan")
+      },
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)

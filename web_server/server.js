@@ -1,30 +1,35 @@
-const ENV = process.env.ENV || "development";
-var path = require('path');
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var knexConfig  = require("./knexfile");
-var knex = require('knex');
-var PORT = process.env.PORT || 8080;
-const morgan      = require('morgan');
-// const knexLogger  = require('knex-logger');
 
-var cookieSession = require('cookie-session')
-var bcrypt = require('bcrypt');
+require('dotenv').config();
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const cookieSession = require('cookie-session')
+const bcrypt = require('bcrypt');
+
+const knexConfig  = require("../knexfile");
+const knex = require('knex')(knexConfig[ENV]);
+const knexLogger  = require('knex-logger');
+const morgan      = require('morgan');
+
 
 app.use(morgan('dev'));
-// app.use(knexLogger(knex));
+app.use(knexLogger(knex));
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static('public'));
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
 }))
 
 app.get('/', function(req, res) {
-  let currentUser = knex('users').where('first_name', "Alice");
-  res.json({currentUser : currentUser});
+  knex('users').where('first_name', "Alice").then((result) => {
+    console.log(result);
+    console.log(req.body);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json({currentUser : result});
+  })
 });
 
 app.listen(PORT, function(){

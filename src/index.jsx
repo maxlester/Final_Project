@@ -6,7 +6,18 @@ require("../styles/application.scss");
 // Render the top-level React component
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link, hashHistory, IndexRoute} from 'react-router';
 import App from './app.jsx';
+import HomePage from './Home/home.jsx';
+import Dashboard from './Dashboard/dashboard.jsx';
+import Conference from './Conference/conference.jsx';
 
-
-ReactDOM.render(<App url="/users/12345"/>, document.getElementById('react-root'));
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={HomePage} />
+      <Route path="dashboard" component={Dashboard}/>
+      <Route path="conference" component={Conference}/>
+    </Route>
+  </Router>
+),document.getElementById('react-root'));
