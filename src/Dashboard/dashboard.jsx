@@ -73,7 +73,7 @@ class Dashboard extends Component {
         <main>
           <h2>Dashboard</h2>
           <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-          <section class = "Quote">
+          <section className = "Quote">
             <p>{this.state.dailyQuote.quote}</p>
             <p>{this.state.dailyQuote.author}</p>
           </section>
