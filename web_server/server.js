@@ -25,7 +25,9 @@ app.use(cookieSession({
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
     console.log(result);
-    res.json({currentUser : result})
+    console.log(req.body);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json({currentUser : result});
   })
 });
 
