@@ -9,4 +9,4 @@ import ReactDOM from 'react-dom';
 import App from './app.jsx';
 
 
-ReactDOM.render(<App />, document.getElementById('react-root'));
+ReactDOM.render(<App url="/users/12345"/>, document.getElementById('react-root'));

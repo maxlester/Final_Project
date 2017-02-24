@@ -9,10 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "4.14.1",
-    "node-uuid": "1.4.7",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-alpha.2",
+    "express": "4.14.1",
+    "knex-logger": "^0.1.0",
+    "morgan": "^1.8.1",
+    "node-uuid": "1.4.7"
   }
 }

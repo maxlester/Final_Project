@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NavBar from './navBar.jsx';
+import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
 
 
@@ -7,7 +7,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Anonymous"},
+      currentUser: {firstName: "Anonymous", id:1234},
       classesTaking: [
         {
           teacherName : "Bridgit Wald",
@@ -40,6 +40,24 @@ class Dashboard extends Component {
       dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"}
     };
   }
+
+
+
+  getUserDashboardInfo(){
+    $.ajax({
+      url: this.props.url,
+      type: 'GET',
+      success: function(data) {
+        //set the state with the newly loaded data so the display will update
+        this.setState({currentUser: data.currentUser, classesTaking: data.classesTaking, classesGiving : data.classesGiving});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  }
+
+
   render() {
     return (
       <div className="dashboard">
