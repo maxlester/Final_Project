@@ -1,0 +1,48 @@
+.dashboard{
+  .left-sidebar{
+    width: 35%;
+    height:100vh;
+    position:fixed;
+    background-image: url(/build/assets/firecracker.jpg);
+    background-size: cover;
+    background-position: 50% 100%;
+    top:0;
+    left:0;
+  }
+  main{
+    width:65%;
+    position:absolute;
+    right:0;
+    top:0;
+    padding: 150px 30px 30px 30px;
+  }
+  .taking-class{
+    background-color: white;
+    padding:5px 30px;
+    box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-bottom:20px;
+    .class-info{
+      width:85%;
+      float: left;
+    }
+    .class-date{
+      width:15%;
+      float:left;
+      text-align:center;
+      span{
+        display:block;
+      }
+      .month{
+
+      }
+      .day{
+
+      }
+      .time{
+
+      }
+    }
+  }
+}
+
+
