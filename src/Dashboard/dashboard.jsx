@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NavBar from './navBar.jsx';
+import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
 
 

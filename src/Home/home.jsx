@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NavBar from './navBar.jsx';
+import NavBar from '../navBar.jsx';
 import RegisterStudent from './RegisterStudent.jsx'
 import RegisterTeacher from './RegisterTeacher.jsx'
 

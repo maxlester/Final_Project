@@ -1,0 +1,21 @@
+.conference{
+  .left-sidebar{
+    width: 25%;
+    height:100vh;
+    position:fixed;
+    background-position: 50% 100%;
+    margin-top: 60px;
+    padding:50px 30px;
+    top:0;
+    left:0;
+  }
+  main{
+    width:75%;
+    position:absolute;
+    right:0;
+    top:0;
+    height:100vh;
+    margin-top:60px;
+    background-color:red;
+  }
+}
