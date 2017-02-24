@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
 
 
-class TakingClass extends Component {
+class GivingClass extends Component {
 
   render() {
-
+    let studentNumber = this.props.students.length;
+    let students = this.props.students.map((student)=>{
+      return <li key = {student.id}>{student.firstName} {student.lastName}</li>
+    })
     return (
       <article className = "class clearfix">
         <div className="class-info">
           <h4>{this.props.classTitle}</h4>
-          <h5>{this.props.teacherName}</h5>
           <a href = {this.props.classLink}>Access at {this.props.classLink}</a>
+          <p><strong>{studentNumber}</strong> students registered</p>
+          <ul>
+            {students}
+          </ul>
         </div>
         <div className="class-date">
           <span className="month">Oct</span>
@@ -22,4 +28,4 @@ class TakingClass extends Component {
   }
 }
 
-export default TakingClass;
+export default GivingClass;

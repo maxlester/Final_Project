@@ -24,15 +24,20 @@ class Dashboard extends Component {
           id : 4536
         }
       ],
-      classesTeaching:[
+      classesGiving:[
         {
-          classTitle : "Yoga level II",
+          classTitle : "Yoga level III",
           classDate : "Thu Feb 24 2017 16:59:25 GMT-0500 (EST)",
-          classLink : "www.facebook.com",
-          nOfStudents : 3,
+          classLink : "www.google.com",
+          students : [
+            {firstName:"Marcus", lastName:"", id:3456},
+            {firstName:"Justine", lastName:"Gagnepain", id:8765},
+            {firstName:"Max", lastName:"Lester", id:1563}
+          ],
           id : 5647
         }
       ],
+      dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"}
     };
   }
   render() {
@@ -42,7 +47,12 @@ class Dashboard extends Component {
         <aside className="left-sidebar">
         </aside>
         <main>
-          <ClassList classesTaking = {this.state.classesTaking}/>
+          <h2>Dashboard</h2>
+          <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+          <section class = "Quote">
+            <p>{this.state.dailyQuote.quote}</p>
+            <p>{this.state.dailyQuote.author}</p>
+          </section>
         </main>
       </div>
     );
