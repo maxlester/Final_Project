@@ -8,8 +8,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link, hashHistory, IndexRoute} from 'react-router';
 import App from './app.jsx';
-import HomePage from './home.jsx';
-import Dashboard from './dashboard.jsx';
+import HomePage from './Home/home.jsx';
+import Dashboard from './Dashboard/dashboard.jsx';
 
 ReactDOM.render((
   <Router history={hashHistory}>

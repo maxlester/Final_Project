@@ -1,39 +1,38 @@
+require('dotenv').config();
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
 const express = require('express');
-const SocketServer = require('ws').Server;
-const uuid = require('node-uuid');
-const PORT = 3001;
-const WebSocket = require('ws');
+const bodyParser = require('body-parser');
+const app = express();
+const cookieSession = require('cookie-session')
+const bcrypt = require('bcrypt');
 
-// Create a new express server
-const server = express()
-   // Make the express server serve static assets (html, javascript, css) from the /public folder
-  .use(express.static('public'))
-  .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
-
-// Create the WebSockets server
-const wss = new SocketServer({ server });
+const knexConfig  = require("../knexfile");
+const knex = require('knex')(knexConfig[ENV]);
+const knexLogger  = require('knex-logger');
+const morgan      = require('morgan');
 
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+app.use(morgan('dev'));
+app.use(knexLogger(knex));
 
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+}))
 
+app.get('/', function(req, res) {
+  knex('users').where('first_name', "Alice").then((result) => {
+    console.log(result);
+    console.log(req.body);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json({currentUser : result});
+  })
+});
 
-
-
-wss.on('connection', (ws) => {
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-    }
-  });
-
-
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => {
-
-  });
-
+app.listen(PORT, function(){
+  console.log(`Example app listening on port ${PORT}!`);
 });
 
 
