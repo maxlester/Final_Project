@@ -11,16 +11,6 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/api/donations', function(req, res) {
-  fs.readFile(DONATIONS_FILE, function(err, data) {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    res.setHeader('Cache-Control', 'no-cache');
-    res.json(JSON.parse(data));
-  });
-});
 
 app.post('/api/donations', function(req, res) {
   fs.readFile(DONATIONS_FILE, function(err, data) {
