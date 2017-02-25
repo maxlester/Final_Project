@@ -7,7 +7,7 @@ const app = express();
 const cookieSession = require('cookie-session')
 const bcrypt = require('bcrypt');
 
-const knexConfig  = require("../knexfile");
+const knexConfig  = require("./knexfile");
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger  = require('knex-logger');
 const morgan      = require('morgan');
