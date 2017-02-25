@@ -10,31 +10,6 @@ class Register extends Component {
     console.log("constructing")
   }
 
-  registerUser(e){
-    let userInfo = {
-      password : this.state.password,
-      email : this.state.email,
-      username : this.state.username,
-      firstName : this.state.firstName,
-      lastName : this.state.lastName
-    }
-    $.ajax({
-      url: this.dataServer + "/users/new",
-      type: 'POST',
-      data: {userInfo},
-      success: function(data) {
-        //set the state with the newly loaded data so the display will update
-      //   this.setState({currentUser: data.currentUser, classesTaking: data.classesTaking, classesGiving : data.classesGiving});
-      // }.bind(this),
-        console.log(data)
-        console.log("seafoam graan")
-      },
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  }
-
   handleUsernameChange(e){
     this.setState({username: e.target.value});
   }
@@ -58,7 +33,7 @@ class Register extends Component {
       teacherDescription = <textarea placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)"></textarea>
     }
     return(
-       <form className="registerStudent" onSubmit={this.registerUser}>
+       <form className="registerStudent" onSubmit={this.props.registerUser(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password)}>
         <input className="firstName" type= "text" placeholder="First Name" onChange={this.handleFirstNameChange}/>
         <input className="lastName" type= "text" placeholder="Last Name" onChange={this.handleLastNameChange}/>
         <input className="username" type= "text" placeholder="User Name" onChange={this.handleUsernameChange}/>
