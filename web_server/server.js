@@ -84,10 +84,10 @@ app.post('/users/new', function(req, res) {
        .where('username', userObject.username)
        .then((results2) => {
          if(results2.length === 0){
-           knex.insert(userObject, "users.id")
+           knex.insert(userObject)
            .into("users")
            .then((result3) => {
-             res.json(result3[0])
+             res.json(JSON.stringify(result3[0]))
              res.status(200)
            }
          )}
@@ -103,18 +103,42 @@ app.post('/users/new', function(req, res) {
   })
 });
 
+app.put('/users/:id/update', function(req, res) {
+  const id =  req.params.id;
+  const userObjectUpdate = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    username : req.body.username,
+    email : req.body.email,
+    password : bcrypt.hashSync(req.body.password, 10)
+   }
+   knex('users')
+   .where('id', id)
+   .then((results) => {
+      if(results.length === 1){
+        knex.update(userObjectUpdate)
+        .into("users")
+        .then((result3) => {
+          res.json(JSON.stringify(result3[0]))
+          res.status(200)
+        })
+      }
+    })
+})
+
 app.post('/login', function(req,res) {
    const email = req.body.email;
    const password = req.body.password;
    knex
-   .select("password", "user_id")
+   .select('*')
    .from('users')
    .where('email', email)
    .then((result)=> {
      if (result[0]) {
+      console.log(result[0]);
        var passwordOK = bcrypt.compareSync(password, result[0].password);
-       if(passwordOK){
-         res.json(result[0]);
+       if(passwordOK) {
+         res.json(JSON.stringify(result[0]));
        }
      }
      else if(!result[0]){
@@ -124,34 +148,52 @@ app.post('/login', function(req,res) {
    })
 });
 
-// app.post('/class/new', function(req, res) {
-//   const classObject = {
-//     teacher_id: req.params, // Get teacher_id from params of URL???
-//     class_name: req.body.class_name,
-//     class_description : req.body.class_description,
-//     start_time : req.body.start_time,
-//     end_time : req.body.end_time,
-//     price : req.body.price,
-//     max_number_students : req.body.max_number_students,
-//     registered_number_students : 0
-//    }
-//    knex('class')
-//    .then((results) => {
-//      if(results.length === 0){
-//       knex.insert(userObject, "user_id")
-//         .into("users")
-//         .then((result3) => {
-//           req.session["user_id"] = result3[0];
-//           res.status(200)
-//         }
-//       )}
-//         else {
-//           res.status(400);
-//         }
-//       })
-//     }
-//   })
-// });
+app.post('/logout', function(req,res) {
+  if (res.status(200)) {
+  console.log("Status Good")
+  } else {
+     res.status(400);
+  }
+});
+
+app.post('/class/new', function(req, res) {
+  const classObject = {
+    teacher_id: req.body.teacher_id, // Get teacher_id from params of URL???
+    class_name: req.body.class_name,
+    class_description : req.body.class_description,
+    start_time : req.body.start_time,
+    end_time : req.body.end_time,
+    price : req.body.price,
+    max_number_students : req.body.max_number_students,
+    registered_number_students : 0
+   }
+   console.log(classObject);
+      knex.insert(classObject)
+        .into("class")
+        .then((result) => {
+          console.log(result);
+          req.json(JSON.stringify(classObject));
+          res.status(200)
+        })
+        .catch(function(err) {
+          res.status(400);
+        })
+      });
+
+app.delete('/class/:id/delete', function(req, res) {
+    var classID = req.params.id;
+    console.log(classID)
+    knex('class')
+    .where('class.id', classID)
+    .del()
+    .then((result) => {
+      console.log(result)
+  })
+  .catch(function(err) {
+    res.status(400);
+  })
+})
+
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)
