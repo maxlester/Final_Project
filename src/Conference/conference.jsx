@@ -14,16 +14,17 @@ class Conference extends Component {
 
   startConference(){
     console.log("conference started")
-    this.setState(startConference : true);
+    this.setState({startConference : true});
   }
 
   render() {
-    if (this.state.startConference === true){
+    if (this.state.startConference){
       return (
         <div className="conference">
           <NavBar/>
           <ConferenceSideBar/>
           <main>
+
           </main>
         </div>
       );
