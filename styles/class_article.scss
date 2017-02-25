@@ -1,0 +1,27 @@
+article.class{
+    background-color: white;
+    padding:5px 30px;
+    box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.05);
+    margin-bottom:20px;
+    .class-info{
+      width:85%;
+      float: left;
+    }
+    .class-date{
+      width:15%;
+      float:left;
+      text-align:center;
+      span{
+        display:block;
+      }
+      .month{
+
+      }
+      .day{
+
+      }
+      .time{
+
+      }
+    }
+  }
