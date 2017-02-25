@@ -11,6 +11,7 @@ import App from './app.jsx';
 import HomePage from './Home/home.jsx';
 import Dashboard from './Dashboard/dashboard.jsx';
 import Conference from './Conference/conference.jsx';
+import TakeMoney from './stripe.jsx';
 
 ReactDOM.render((
   <Router history={hashHistory}>
@@ -18,6 +19,8 @@ ReactDOM.render((
       <IndexRoute component={HomePage} />
       <Route path="dashboard" component={Dashboard}/>
       <Route path="conference" component={Conference}/>
+      <Route path="stripe" component={TakeMoney}/>
+
     </Route>
   </Router>
 ),document.getElementById('react-root'));
