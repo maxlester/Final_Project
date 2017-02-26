@@ -19,7 +19,7 @@ ReactDOM.render((
       <IndexRoute component={HomePage} />
       <Route path="dashboard" component={Dashboard}/>
       <Route path="conference" component={Conference}/>
-      <Route path="teacher" component={TeacherProfile}/>
+      <Route name="teacherProfile" path="teachers/:teacherId" component={TeacherProfile} />
     </Route>
   </Router>
 ),document.getElementById('react-root'));
