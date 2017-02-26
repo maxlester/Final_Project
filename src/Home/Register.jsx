@@ -15,9 +15,7 @@ class Register extends Component {
         email:"",
         password:""
       }
-
     }
-    console.log("constructing")
   }
 
   registerUser(e){
@@ -29,14 +27,16 @@ class Register extends Component {
       type: 'POST',
       data: {user},
       success: function(data) {
-        Auth.saveUser(user);
-        console.log(Auth.retrieveUser());
+        Auth.saveUser(data);
       },
       error: function(xhr, status, err) {
         console.error(err.toString());
       }.bind(this)
     })
+    return false; //returning false to prevent info showing in url
   }
+
+
 
   changeUser(e){
     const field = e.target.name;
@@ -45,25 +45,7 @@ class Register extends Component {
     this.setState({user})
   }
 
-  // handleUsernameChange(e){
-  //   this.setState({user.username: e.target.value});
-  // }
-  // handleEmailChange(e){
-  //   this.setState({user.email: e.target.value});
-  // }
-
-  // handlePasswordChange(e){
-  //   this.setState({user.password: e.target.value});
-  // }
-  // handleFirstNameChange(e){
-  //   this.setState({user.firstName: e.target.value});
-  // }
-  // handleLastNameChange (e){
-  //   this.setState({user.lastName: e.target.value});
-  // }
-
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.user);
   }
 
   render() {
