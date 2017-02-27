@@ -18,38 +18,46 @@ class Register extends Component {
     }
   }
 
-  // registerUser(e){
-  //   let user = this.state.user;
-  //   e.preventDefault();
-  //   console.log("registerUser", user);
-  //   $.ajax({
-  //     url: "http://localhost:8080/users/new",
-  //     type: 'POST',
-  //     data: {user},
-  //     success: function(data) {
-  //       Auth.saveUser(data);
-  //     },
-  //     error: function(xhr, status, err) {
-  //       console.error(err.toString());
-  //     }.bind(this)
-  //   })
-  //   return false; //returning false to prevent info showing in url
-  // }
+registerUser(e){
+   let user = this.state.user;
+   e.preventDefault();
+   console.log("Yoooooo", user);
+   $.ajax({
+     url: "http://localhost:8080/users/new",
+     type: 'POST',
+     dataType: 'jsonp',
+     data: {user},
+     headers: {
+       'Authorization':'Basic xxxxxxxxxxxxx',
+       'X_CSRF_TOKEN':'xxxxxxxxxxxxxxxxxxxx',
+       'Content-Type':'application/json'
+      },
+     success: function(data) {
+       // let user = JSON.parse(data);
+       console.log("Success", data);
+       Auth.saveUser(data);
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
 
   //for testing user before joining to server
 
-  registerUser(e){
-    let user = this.state.user;
-    e.preventDefault();
-    let userToStore = {
-      username : user.username,
-      firstName : user.firstName,
-      lastName : user.lastName
-    }
-    console.log("registerUser", userToStore);
-    Auth.saveUser(userToStore);
-    return false; //returning false to prevent info showing in url
-  }
+  // registerUser(e){
+  //   let user = this.state.user;
+  //   e.preventDefault();
+  //   let userToStore = {
+  //     username : user.username,
+  //     firstName : user.firstName,
+  //     lastName : user.lastName
+  //   }
+  //   console.log("registerUser", userToStore);
+  //   Auth.saveUser(userToStore);
+  //   return false; //returning false to prevent info showing in url
+  // }
 
 
 

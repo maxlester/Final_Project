@@ -24,6 +24,34 @@ class TeacherProfile extends Component {
     };
   }
 
+componentWillMount() {
+  this.getTeacher()
+}
+
+setTeacher(teacher) {
+  this.setState({teacher: teacher})
+}
+
+getTeacher() {
+  let teacher = this.state.teacher;
+   console.log("Yoooooo", teacher);
+   $.ajax({
+     url: "http://localhost:8080/teacher/1",
+     type: 'GET',
+     context: this,
+     success: function(data) {
+       // let data = JSON.parse(data);
+       console.log("Success", data);
+       this.setTeacher(data);
+       console.log(this.state.teacher);
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
+
   render() {
     return (
       <div className="teacher-profile">
