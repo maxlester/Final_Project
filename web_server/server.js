@@ -112,7 +112,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
       for (let i = 1; i < classes.length; i++){
         console.log('same link')
         if (classes[i-1].link === classes[i].link){
-          classes[i].students = [classes[i].first_name + " " + classes[i].last_name];
+          classes[i].students = classes[i].first_name + " " + classes[i].last_name;
           for(let k = 0; k < formattedRes.length; k++){
             if (formattedRes[k].link === classes[i].link){
               formattedRes[k].students.push(classes[i].students);
