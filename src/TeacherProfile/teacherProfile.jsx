@@ -37,8 +37,10 @@ setClasses(teacherClasses) {
 }
 
 getTeacher() {
+  let teacherId = this.props.params.teacherId;
+  console.log('teacher id', teacherId);
    $.ajax({
-     url: "http://localhost:8080/teacher/1",
+     url: `http://localhost:8080/teacher/${teacherId}`,
      type: 'GET',
      context: this,
      success: function(data) {
