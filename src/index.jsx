@@ -12,6 +12,7 @@ import HomePage from './Home/home.jsx';
 import Dashboard from './Dashboard/dashboard.jsx';
 import Conference from './Conference/conference.jsx';
 import TakeMoney from './stripe.jsx';
+import TeacherProfile from './TeacherProfile/teacherProfile.jsx';
 
 ReactDOM.render((
   <Router history={hashHistory}>
@@ -21,6 +22,7 @@ ReactDOM.render((
       <Route path="conference" component={Conference}/>
       <Route path="stripe" component={TakeMoney}/>
 
+      <Route name="teacherProfile" path="teachers/:teacherId" component={TeacherProfile} />
     </Route>
   </Router>
 ),document.getElementById('react-root'));
