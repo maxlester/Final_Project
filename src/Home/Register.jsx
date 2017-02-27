@@ -41,7 +41,7 @@ class Register extends Component {
   registerUser(e){
     let user = this.state.user;
     e.preventDefault();
-    userToStore = {
+    let userToStore = {
       username : user.username,
       firstName : user.firstName,
       lastName : user.lastName

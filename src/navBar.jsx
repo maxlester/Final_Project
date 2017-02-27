@@ -6,38 +6,60 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     console.log(this.props);
-    this.state = {
-      username: "",
-      firstName : "",
-      lastName : ""
-    };
+    this.state ={
+      user : {
+        username: "",
+        firstName : "",
+        lastName : ""
+      }
+    }
   }
 
   componentWillMount() {
     this.setUser();
   }
 
+  componentDidMount() {
+    this.setUser();
+  }
+
   setUser(){
-    console.log("ettingUser");
+    console.log("SettingUser");
     let currentUser = Auth.retrieveUser();
-    this.setState({username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName});
+    let userToSet = {username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName}
+    this.setState({user : userToSet});
+  }
+
+  logout(){
+    let noUser = {};
+    Auth.saveUser(noUser);
+    this.setState(user : {username : "", firstName : "", lastName : ""});
   }
 
   render() {
-    return (
+    let navContent;
+    if (this.state.user.username){
+      return (
         <nav>
           <h1>Yoga Buddy</h1>
-          <button type="submit" id="logins">Login</button>
-          <% if(this.state.username) {%>
-            <p>Logged in as {this.state.firstName} {this.state.lastName}</p>
-          <%}else{%>
-            <div id="login-input">
-              <input id="username" type="text"/>
-              <input id="password" type="text"/>
-            </div>
-          <%}%>
+          <button type="submit" id="logout" onClick = {this.logout.bind(this)}>Logout</button>
+          <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
         </nav>
-    );
+      );
+    } else {
+      return (
+        <nav>
+          <h1>Yoga Buddy</h1>
+          <div id="login-input">
+            <form>
+              <input id="username" type="text"/>
+              <input id="password" type="password"/>
+              <button type="submit" id="logins">Login</button>
+            </form>
+          </div>
+        </nav>
+      );
+    }
   }
 }
 
