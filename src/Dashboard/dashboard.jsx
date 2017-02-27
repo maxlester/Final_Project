@@ -50,7 +50,7 @@ class Dashboard extends Component {
    let teacherId = this.props.params.id;
    console.log("Yoooooo", classesTaking);
    $.ajax({
-     url: `http://localhost:8080/dashboard/${teacherId}`,
+     url: `http://localhost:8080/dashboard/${teacherId}/taking`,
      type: 'GET',
      context: this,
      success: function(data) {
