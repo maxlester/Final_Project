@@ -40,13 +40,27 @@ app.get('/teacher/:id', function(req, res) {
   .select('*')
   .from('users')
   .join('teachers', 'teachers.user_id', '=', 'users.id')
+  .join('class', 'class.teacher_id', '=', 'teachers.id')
   .where('teachers.id', req.params.id)
   .then((result) => {
+    console.log(result);
+    let classes = [];
+    for (let i = 0; i < result.length; i++) {
+      classes.push({
+        classTitle: result[i].class_name,
+        classDescription: result[i].class_description,
+        classDate: result[i].start_time,
+        endTime: result[i].end_time,
+        classCost: result[i].price,
+        maxNumberOfStudents: result[i].max_number_students
+      })
+    }
     let teacherObject = {
       firstName: result[0].first_name,
       lastName: result[0].last_name,
       description: result[0].description,
-      id: result[0].id
+      id: result[0].id,
+      classes: classes
     }
     console.log("yoooooooooo", teacherObject);
     res.setHeader('Access-Control-Allow-Origin', '*');
