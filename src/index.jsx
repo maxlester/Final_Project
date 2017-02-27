@@ -21,8 +21,7 @@ ReactDOM.render((
       <Route path="dashboard" component={Dashboard}/>
       <Route path="conference" component={Conference}/>
       <Route path="stripe" component={TakeMoney}/>
-
-      <Route name="teacherProfile" path="teachers/:teacherId" component={TeacherProfile} />
+      <Route name="teacherProfile" path="teacher/:teacherId" component={TeacherProfile} />
     </Route>
   </Router>
 ),document.getElementById('react-root'));

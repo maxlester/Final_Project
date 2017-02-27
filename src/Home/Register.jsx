@@ -18,23 +18,24 @@ class Register extends Component {
     }
   }
 
-  // registerUser(e){
-  //   let user = this.state.user;
-  //   e.preventDefault();
-  //   console.log("registerUser", user);
-  //   $.ajax({
-  //     url: "http://localhost:8080/users/new",
-  //     type: 'POST',
-  //     data: {user},
-  //     success: function(data) {
-  //       Auth.saveUser(data);
-  //     },
-  //     error: function(xhr, status, err) {
-  //       console.error(err.toString());
-  //     }.bind(this)
-  //   })
-  //   return false; //returning false to prevent info showing in url
-  // }
+  registerUser(e){
+    let user = this.state.user;
+    e.preventDefault();
+    $.ajax({
+      url: "http://localhost:8080/users/new",
+      type: 'POST',
+      dataType: 'jsonp',
+      data: {user},
+      success: function(data) {
+        let user = JSON.parse(data);
+        Auth.saveUser(user);
+      },
+      error: function(xhr, status, err) {
+        console.error(err.toString());
+      }.bind(this)
+    })
+    return false; //returning false to prevent info showing in url
+  }
 
   //for testing user before joining to server
 

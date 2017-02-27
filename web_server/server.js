@@ -35,7 +35,6 @@ app.get('/', function(req, res) {
   })
 });
 
-<<<<<<< HEAD
 app.get('/teacher/:id', function(req, res) {
   knex
   .select('*')
