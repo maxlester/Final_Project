@@ -11,7 +11,7 @@ import App from './app.jsx';
 import HomePage from './Home/home.jsx';
 import Dashboard from './Dashboard/dashboard.jsx';
 import Conference from './Conference/conference.jsx';
-import TakeMoney from './stripe.jsx';
+import TakeMoney from './TeacherProfile/stripe.jsx';
 import TeacherProfile from './TeacherProfile/teacherProfile.jsx';
 
 ReactDOM.render((

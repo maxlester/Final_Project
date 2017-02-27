@@ -25,11 +25,9 @@ registerUser(e){
    $.ajax({
      url: "http://localhost:8080/users/new",
      type: 'POST',
-     dataType: 'jsonp',
-     data: {user},
+     dataType: 'json',
+     data: JSON.stringify(user),
      headers: {
-       'Authorization':'Basic xxxxxxxxxxxxx',
-       'X_CSRF_TOKEN':'xxxxxxxxxxxxxxxxxxxx',
        'Content-Type':'application/json'
       },
      success: function(data) {

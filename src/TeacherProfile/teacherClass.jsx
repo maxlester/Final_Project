@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import TakeMoney from './stripe.jsx';
 
 
 class TeacherClass extends Component {
@@ -15,7 +16,7 @@ class TeacherClass extends Component {
           <span className="day">12</span>
           <span className="time">7:30 PM</span>
           <span className="cost">$ {this.props.classCost}</span>
-          <button data-class-cost={this.props.classCost} data-class-id={this.props.id} className="btn btn-default">Register</button>
+          <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle}/>
         </div>
       </article>
     );
@@ -23,3 +24,6 @@ class TeacherClass extends Component {
 }
 
 export default TeacherClass;
+
+
+

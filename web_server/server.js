@@ -16,11 +16,16 @@ const knex = require('knex')(knexConfig[ENV]);
 const knexLogger  = require('knex-logger');
 const morgan      = require('morgan');
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
@@ -68,10 +73,12 @@ app.get('/teacher/:id', function(req, res) {
   })
 });
 
-app.get('/users/:id', function(req, res) {
+app.get('/dashboard/:id', function(req, res) {
   knex
   .select('*')
   .from('users')
+  .join('class_user', 'class_user.user_id', '=', 'users.id')
+  .join('class', 'class.class_id', '=', 'class.id')
   .where('users.id', req.params.id)
   .then((result) => {
     console.log(result);
@@ -93,6 +100,7 @@ app.get('/class/:id', function(req, res) {
 });
 
 app.post('/users/new', function(req, res) {
+  console.log(req.body);
   const userObject = {
     first_name: req.body.firstName,
     last_name: req.body.lastName,
