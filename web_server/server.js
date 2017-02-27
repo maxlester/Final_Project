@@ -40,11 +40,31 @@ app.get('/teacher/:id', function(req, res) {
   .select('*')
   .from('users')
   .join('teachers', 'teachers.user_id', '=', 'users.id')
+  .join('class', 'class.teacher_id', '=', 'teachers.id')
   .where('teachers.id', req.params.id)
   .then((result) => {
     console.log(result);
+    let classes = [];
+    for (let i = 0; i < result.length; i++) {
+      classes.push({
+        classTitle: result[i].class_name,
+        classDescription: result[i].class_description,
+        classDate: result[i].start_time,
+        endTime: result[i].end_time,
+        classCost: result[i].price,
+        maxNumberOfStudents: result[i].max_number_students
+      })
+    }
+    let teacherObject = {
+      firstName: result[0].first_name,
+      lastName: result[0].last_name,
+      description: result[0].description,
+      id: result[0].id,
+      classes: classes
+    }
+    console.log("yoooooooooo", teacherObject);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.json({currentTeacher : result});
+    res.send(teacherObject);
   })
 });
 
@@ -74,12 +94,13 @@ app.get('/class/:id', function(req, res) {
 
 app.post('/users/new', function(req, res) {
   const userObject = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
+    first_name: req.body.firstName,
+    last_name: req.body.lastName,
     username : req.body.username,
     email : req.body.email,
     password : bcrypt.hashSync(req.body.password, 10)
    }
+   console.log(userObject);
    knex('users')
    .where('email', userObject.email)
    .then((results) => {
@@ -88,10 +109,22 @@ app.post('/users/new', function(req, res) {
        .where('username', userObject.username)
        .then((results2) => {
          if(results2.length === 0){
-           knex.insert(userObject)
+          console.log("Somethin")
+           knex.insert(userObject, "id")
            .into("users")
            .then((result3) => {
-             res.json(JSON.stringify(result3[0]))
+            console.log(result3[0])
+            let user_id = result3[0]
+            let returnObject = {
+              username: userObject.username,
+              firstName: userObject.firstName,
+              lastName: userObject.lastName,
+              email: userObject.email,
+              userId: user_id
+            }
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            console.log(result3[0])
+             res.send(returnObject)
              res.status(200)
            }
          )}

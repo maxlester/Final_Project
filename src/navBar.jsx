@@ -15,19 +15,21 @@ class NavBar extends Component {
     }
   }
 
-  componentWillMount() {
-    this.setUser();
-  }
+  // componentWillMount() {
+  //   this.setUser();
+  // }
 
-  componentDidMount() {
-    this.setUser();
-  }
+  // componentDidMount() {
+  //   this.setUser();
+  // }
 
   setUser(){
     console.log("SettingUser");
     let currentUser = Auth.retrieveUser();
-    let userToSet = {username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName}
-    this.setState({user : userToSet});
+    if (currentUser) {
+      let userToSet = {username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName}
+      this.setState({user : userToSet});
+    }
   }
 
   logout(){
