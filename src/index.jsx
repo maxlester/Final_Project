@@ -21,7 +21,6 @@ ReactDOM.render((
       <Route path="dashboard/:id" component={Dashboard}/>
       <Route path="conference" component={Conference}/>
       <Route path="stripe" component={TakeMoney}/>
-
       <Route name="teacherProfile" path="teacher/:teacherId" component={TeacherProfile} />
     </Route>
   </Router>

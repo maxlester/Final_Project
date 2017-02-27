@@ -57,8 +57,6 @@ registerUser(e){
   //   return false; //returning false to prevent info showing in url
   // }
 
-
-
   changeUser(e){
     const field = e.target.name;
     const user = this.state.user;
