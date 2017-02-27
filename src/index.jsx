@@ -18,7 +18,7 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePage} />
-      <Route path="dashboard" component={Dashboard}/>
+      <Route path="dashboard/:id" component={Dashboard}/>
       <Route path="conference" component={Conference}/>
       <Route path="stripe" component={TakeMoney}/>
 

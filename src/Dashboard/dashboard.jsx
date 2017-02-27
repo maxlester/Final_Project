@@ -7,7 +7,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.dataServer = "http://localhost:8080";
-    this.getUserDashboardInfo();
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       classesTaking: [
@@ -41,20 +40,23 @@ class Dashboard extends Component {
       ],
       dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"}
     };
+    this.getClassesTaking();
   }
 
 
 
-  registerUser(){
+  getClassesTaking() {
    let classesTaking = this.state.classesTaking;
+   let teacherId = this.props.params.id;
    console.log("Yoooooo", classesTaking);
    $.ajax({
-     url: "http://localhost:8080/dashboard/2",
+     url: `http://localhost:8080/dashboard/${teacherId}`,
      type: 'GET',
+     context: this,
      success: function(data) {
        // let user = JSON.parse(data);
        console.log("Success", data);
-       Auth.saveUser(data);
+       this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

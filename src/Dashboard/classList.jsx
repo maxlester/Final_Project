@@ -7,7 +7,7 @@ class ClassList extends Component {
 
   render() {
     var classesTaking = this.props.classesTaking.map((item)=>{
-      return <TakingClass key = {item.id} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
+      return <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
     })
     var classesGiving = this.props.classesGiving.map((item)=>{
       return <GivingClass key = {item.id} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
