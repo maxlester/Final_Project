@@ -73,7 +73,7 @@ app.get('/teacher/:id', function(req, res) {
   })
 });
 
-app.get('/dashboard/:id', function(req, res) {
+app.get('/dashboard/:id/taking', function(req, res) {
   knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class.id, class_description, class.link, start_time, end_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)
   .then((result) => {
     let formattedRes = result.rows;
@@ -93,6 +93,63 @@ app.get('/dashboard/:id', function(req, res) {
     res.send(classes);
   })
 });
+
+app.get('/dashboard/:id/giving', function(req, res) {
+  knex.select('*')
+  .from('users')
+  .join('teachers', 'teachers.user_id', '=', 'users.id')
+  .where('users.id', req.params.id)
+  .then((result) => {
+    let teacherId = req.params.id;
+    console.log(result);
+    if (result.length > 0) {
+     knex.raw(`select class_name, link, start_time, end_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
+    .then((result2) =>{
+      let classes = result2.rows;
+      let formattedRes = [];
+      classes[0].students = [classes[0].first_name + " " + classes[0].last_name];
+      formattedRes.push(classes[0]);
+      for (let i = 1; i < classes.length; i++){
+        console.log('same link')
+        if (classes[i-1].link === classes[i].link){
+          classes[i].students = [classes[i].first_name + " " + classes[i].last_name];
+          for(let k = 0; k < formattedRes.length; k++){
+            if (formattedRes[k].link === classes[i].link){
+              formattedRes[k].students.push(classes[i].students);
+            }
+          }
+        }
+        else{
+          console.log('diff link')
+          classes[i].students = [classes[i].first_name + " " + classes[i].last_name];
+          classes[i].first_name = "";
+          classes[i].last_name = "";
+          formattedRes.push(classes[i]);
+        }
+      }
+      console.log(formattedRes);
+      res.send(formattedRes);
+    })
+    }
+  })
+/*  })*/
+ /* .then((result) => {
+    let formattedRes = result.rows;
+    let classes = [];
+     for (let i = 0; i < formattedRes.length; i++) {
+      classes.push({
+        teacherName: formattedRes[i].first_name + " " + formattedRes[i].last_name,
+        classTitle: formattedRes[i].class_name,
+        classDescription: formattedRes[i].class_description,
+        classDate: formattedRes[i].start_time,
+        classLink: formattedRes[i].link,
+        classId: formattedRes[i].id
+      })
+    }
+    console.log(classes);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send(classes);*/
+  });
 
       // classesTaking: [
       //   {
