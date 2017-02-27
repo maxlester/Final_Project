@@ -74,18 +74,47 @@ app.get('/teacher/:id', function(req, res) {
 });
 
 app.get('/dashboard/:id', function(req, res) {
-  knex
-  .select('*')
-  .from('users')
-  .join('class_user', 'class_user.user_id', '=', 'users.id')
-  .join('class', 'class.class_id', '=', 'class.id')
-  .where('users.id', req.params.id)
+  knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class_description, class.link, start_time, end_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)
+
+  // .select('loggedInUsers.first_name')
+  // .from(knex.raw('users loggedInUsers'))
+  // .join('class_user', 'class_user.user_id', '=', 'loggedInUsers.id')
+  // .join('class', 'class.id', '=', 'class_user.class_id')
+  // .join('teachers', 'class.teacher_id', '=', 'teachers.id')
+  // .where('loggedInUsers.id', req.params.id)
   .then((result) => {
+    // let classlasses = [];
+    //  for (let i = 0; i < result.length; i++) {
+    //   classes.push({
+    //     classTitle: result[i].class_name,
+    //     classDescription: result[i].class_description,
+    //     classDate: result[i].start_time,
+    //     endTime: result[i].end_time,
+    //     classCost: result[i].price,
+    //     maxNumberOfStudents: result[i].max_number_students
+    //   })
+    // }
     console.log(result);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.json({currentUser : result});
   })
 });
+
+      // classesTaking: [
+      //   {
+      //     teacherName : "Bridgit Wald",
+      //     classTitle : "Yoga",
+      //     classDate : "Thu Feb 23 2017 16:59:25 GMT-0500 (EST)",
+      //     classLink : "www.facebook.com",
+      //     id : 1234
+      //   },
+      //   {
+      //     teacherName : "Marcus",
+      //     classTitle : "Yoga level II",
+      //     classDate : "Thu Feb 24 2017 16:59:25 GMT-0500 (EST)",
+      //     classLink : "www.facebook.com",
+      //     id : 4536
+      //   }
 
 app.get('/class/:id', function(req, res) {
   knex

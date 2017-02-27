@@ -3,7 +3,9 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return Promise.all([
         knex('class_user').insert({user_id: 2, class_id: 1}),
-        knex('class_user').insert({user_id: 3, class_id: 1})
+        knex('class_user').insert({user_id: 3, class_id: 1}),
+        knex('class_user').insert({user_id: 2, class_id: 2})
+
       ]);
     });
 };

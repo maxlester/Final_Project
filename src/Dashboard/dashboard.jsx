@@ -45,24 +45,27 @@ class Dashboard extends Component {
 
 
 
-  getUserDashboardInfo(){
-    $.ajax({
-      url: this.dataServer + "/",
-      type: 'POST',
-      data: {userId: 1},
-      success: function(data) {
-        //set the state with the newly loaded data so the display will update
-      //   this.setState({currentUser: data.currentUser, classesTaking: data.classesTaking, classesGiving : data.classesGiving});
-      // }.bind(this),
-        console.log(data)
-        console.log("seafoam graan")
-      },
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  }
+  registerUser(){
+   let classesTaking = this.state.classesTaking;
+   console.log("Yoooooo", classesTaking);
+   $.ajax({
+     url: "http://localhost:8080/dashboard/2",
+     type: 'GET',
+     success: function(data) {
+       // let user = JSON.parse(data);
+       console.log("Success", data);
+       Auth.saveUser(data);
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
 
+ setClassesTaking(data) {
+  this.setState({classesTaking: data})
+ }
 
   render() {
     return (
