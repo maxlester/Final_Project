@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
+import NewClass from './newClass.jsx';
 
 
 class Dashboard extends Component {
@@ -74,6 +75,7 @@ class Dashboard extends Component {
       <div className="dashboard">
         <NavBar/>
         <aside className="left-sidebar">
+          <NewClass/>
         </aside>
         <main>
           <h2>Dashboard</h2>

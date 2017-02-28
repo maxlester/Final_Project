@@ -31,6 +31,16 @@ app.use(cookieSession({
   keys: ['key1', 'key2'],
 }))
 
+function generateRandomString(n){
+  const charSet = "1234567890abcdefghijklmnopqrstuvwxyz";
+  let randomString = "";
+  for (var i = 0; i < n; i++){
+    let rnum = Math.floor(Math.random() * charSet.length);
+    randomString += charSet[rnum];
+  }
+  return randomString;
+};
+
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
     console.log(result);
@@ -281,29 +291,38 @@ app.post('/logout', function(req,res) {
   }
 });
 
-app.post('/class/new', function(req, res) {
-  const classObject = {
-    teacher_id: req.body.teacher_id, // Get teacher_id from params of URL???
-    class_name: req.body.class_name,
-    class_description : req.body.class_description,
-    start_time : req.body.start_time,
-    end_time : req.body.end_time,
-    price : req.body.price,
-    max_number_students : req.body.max_number_students,
-    registered_number_students : 0
+app.post('/dashboard/:id/class/new', function(req, res) {
+  let userId = req.params.id;
+  let randomString = generateRandomString(6)
+  let classLink = `http://localhost:3000/class/${randomString}`;
+  let classObject = {
+    class_name: req.body.classTitle,
+    class_description : req.body.classDescription,
+    start_time : req.body.startTime,
+    price : req.body.cost,
+    link : classLink,
+    max_number_students : req.body.maxNumberOfStudents
    }
-   console.log(classObject);
-      knex.insert(classObject)
-        .into("class")
-        .then((result) => {
-          console.log(result);
-          req.json(JSON.stringify(classObject));
-          res.status(200)
-        })
-        .catch(function(err) {
-          res.status(400);
-        })
-      });
+   knex
+   .select('id')
+   .from('teachers')
+   .where('user_id', "=", userId)
+   .then((result)=>{
+    console.log("result", result);
+    classObject.teacher_id = result[0].id;
+    console.log("class Object before insert", classObject);
+    knex.insert(classObject, "*")
+      .into("class")
+      .then((result1) => {
+        console.log("returning from the insert", result1);
+        res.send(result1);
+        res.status(200)
+      })
+      .catch(function(err) {
+        res.status(400);
+      })
+   })
+});
 
 app.delete('/class/:id/delete', function(req, res) {
     var classID = req.params.id;
