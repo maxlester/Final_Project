@@ -43,8 +43,6 @@ function generateRandomString(n){
 
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
-    console.log(result);
-    console.log(req.body);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.json({currentUser : result});
   })
@@ -58,7 +56,6 @@ app.get('/teacher/:id', function(req, res) {
   .join('class', 'class.teacher_id', '=', 'teachers.id')
   .where('teachers.id', req.params.id)
   .then((result) => {
-    console.log(result);
     let classes = [];
     for (let i = 0; i < result.length; i++) {
       classes.push({
@@ -76,7 +73,6 @@ app.get('/teacher/:id', function(req, res) {
       id: result[0].id,
       classes: classes
     }
-    console.log("yoooooooooo", teacherObject);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(teacherObject);
   })
@@ -97,7 +93,6 @@ app.get('/dashboard/:id/taking', function(req, res) {
         classId: formattedRes[i].id
       })
     }
-    console.log(classes);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(classes);
   })
@@ -110,10 +105,11 @@ app.get('/dashboard/:id/giving', function(req, res) {
   .where('users.id', req.params.id)
   .then((result) => {
     let teacherId = req.params.id;
-    console.log(result);
+    console.log("hahahahahahahah", result);
     if (result.length > 0) {
-     knex.raw(`select class.id, class_name, link, start_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
+     knex.raw(`select class.id, class_name, link, start_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id}`)
     .then((result2) =>{
+      console.log("LOKKKKKKKK", result2);
       let classes = result2.rows;
       for (var n = 0; n < classes.length; n++) {
         classes[n] = {
@@ -125,11 +121,9 @@ app.get('/dashboard/:id/giving', function(req, res) {
           last_name: classes[n].last_name
         }
       }
-      console.log("do a little string", classes)
       let formattedRes = [];
       classes[0].students = [classes[0].first_name + " " + classes[0].last_name];
       formattedRes.push(classes[0]);
-      console.log("before", formattedRes)
       for (let i = 1; i < classes.length; i++){
         if (classes[i-1].classLink === classes[i].classLink){
           classes[i].students = classes[i].first_name + " " + classes[i].last_name;
@@ -140,14 +134,12 @@ app.get('/dashboard/:id/giving', function(req, res) {
           }
         }
         else{
-          console.log('diff link')
           classes[i].students = [classes[i].first_name + " " + classes[i].last_name];
           classes[i].first_name = "";
           classes[i].last_name = "";
           formattedRes.push(classes[i]);
         }
       }
-      console.log(formattedRes);
       res.send(formattedRes);
     })
     }
@@ -193,14 +185,12 @@ app.get('/class/:id', function(req, res) {
   .from('class')
   .where('class.id', req.params.id)
   .then((result) => {
-    console.log(result);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.json({currentClass : result});
   })
 });
 
 app.post('/users/new', function(req, res) {
-  console.log(req.body);
   const userObject = {
     first_name: req.body.firstName,
     last_name: req.body.lastName,
@@ -208,7 +198,6 @@ app.post('/users/new', function(req, res) {
     email : req.body.email,
     password : bcrypt.hashSync(req.body.password, 10)
    }
-   console.log(userObject);
    knex('users')
    .where('email', userObject.email)
    .then((results) => {
@@ -217,11 +206,9 @@ app.post('/users/new', function(req, res) {
        .where('username', userObject.username)
        .then((results2) => {
          if(results2.length === 0){
-          console.log("Somethin")
            knex.insert(userObject, "id")
            .into("users")
            .then((result3) => {
-            console.log(result3[0])
             let user_id = result3[0]
             let returnObject = {
               username: userObject.username,
@@ -231,7 +218,6 @@ app.post('/users/new', function(req, res) {
               userId: user_id
             }
             res.setHeader('Access-Control-Allow-Origin', '*');
-            console.log(result3[0])
              res.send(returnObject)
              res.status(200)
            }
@@ -242,7 +228,6 @@ app.post('/users/new', function(req, res) {
        })
      }
      else {
-       console.log("email")
        res.status(400);
      }
   })
@@ -280,7 +265,6 @@ app.post('/login', function(req,res) {
    .where('email', email)
    .then((result)=> {
      if (result[0]) {
-      console.log(result[0]);
        var passwordOK = bcrypt.compareSync(password, result[0].password);
        if(passwordOK) {
          res.json(JSON.stringify(result[0]));
@@ -295,7 +279,6 @@ app.post('/login', function(req,res) {
 
 app.post('/logout', function(req,res) {
   if (res.status(200)) {
-  console.log("Status Good")
   } else {
      res.status(400);
   }
@@ -307,6 +290,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
   let randomString = generateRandomString(6)
   let classLink = `http://localhost:3000/class/${randomString}`;
   let classObject = {
+    id : randomString,
     class_name: req.body.classTitle,
     class_description : req.body.classDescription,
     start_time : req.body.startTime,
@@ -326,7 +310,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
       .into("class")
       .then((result1) => {
         console.log("returning from the insert", result1);
-        res.send(result1);
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200)
       })
       .catch(function(err) {
@@ -337,12 +321,10 @@ app.post('/dashboard/:id/class/new', function(req, res) {
 
 app.delete('/class/:id/delete', function(req, res) {
     var classID = req.params.id;
-    console.log(classID)
     knex('class')
     .where('class.id', classID)
     .del()
     .then((result) => {
-      console.log(result)
   })
   .catch(function(err) {
     res.status(400);

@@ -21,7 +21,6 @@ addClass(e){
    let newClass = this.state.newClass;
    e.preventDefault();
    // let userId = Auth.retrieveUser().userId;
-   console.log("Yoooooo", newClass);
    $.ajax({
      url: `http://localhost:8080/dashboard/1/class/new`,
      type: 'POST',
@@ -30,9 +29,10 @@ addClass(e){
      headers: {
        'Content-Type':'application/json'
       },
-     success: function(data) {
-       // let user = JSON.parse(data);
-       console.log("Success", data);
+      context: this,
+     success: function() {
+      console.log("succeassssss");
+      this.props.getClassesGiving();
      },
      error: function(xhr, status, err) {
        console.error(err.toString());
@@ -46,7 +46,6 @@ addClass(e){
     const newClass = this.state.newClass;
     newClass[field] = e.target.value;
     this.setState({newClass}, ()=>{
-      console.log(this.state.newClass);
     })
   }
 

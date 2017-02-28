@@ -78,7 +78,7 @@ class Dashboard extends Component {
  setClassesGiving(data) {
   console.log("data2")
   this.setState({classesGiving: data}, ()=>{
-    console.log(this.state)
+    console.log("LOOK AT THIS", this.state)
   })
  }
 
@@ -92,7 +92,7 @@ class Dashboard extends Component {
       <div className="dashboard">
         <NavBar/>
         <aside className="left-sidebar">
-          <NewClass/>
+          <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
         </aside>
         <main>
           <h2>Dashboard</h2>
