@@ -22,23 +22,22 @@ exports.up = function(knex, Promise) {
       table.text('content');
     }),
     knex.schema.createTable('class', function (table) {
-      table.increments('id');
+      table.string('id');
+      table.primary('id');
       table.integer('teacher_id');
       table.foreign('teacher_id').references('teachers.id');
       table.string('class_name');
       table.string('class_description');
       table.string('link')
       table.dateTime('start_time');
-      table.dateTime('end_time');
       table.float('price', [2]);
       table.integer('max_number_students');
-      table.integer('registered_number_students');
     }),
     knex.schema.createTable('payment', function (table) {
       table.increments('id');
       table.integer('user_id');
       table.foreign('user_id').references('users.id');
-      table.integer('class_id');
+      table.string('class_id');
       table.foreign('class_id').references('class.id');
       table.float('price', [2]);
       table.timestamp('created_at').defaultTo(knex.fn.now());
@@ -46,7 +45,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('class_user', function (table) {
       table.integer('user_id');
       table.foreign('user_id').references('users.id');
-      table.integer('class_id');
+      table.string('class_id');
       table.foreign('class_id').references('class.id');
     }),
   ])
