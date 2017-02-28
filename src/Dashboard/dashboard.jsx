@@ -26,31 +26,21 @@ class Dashboard extends Component {
         }
       ],
       classesGiving:[
-        {
-          classTitle : "Yoga level III",
-          classDate : "Thu Feb 24 2017 16:59:25 GMT-0500 (EST)",
-          classLink : "www.google.com",
-          students : [
-            {firstName:"Marcus", lastName:"", id:3456},
-            {firstName:"Justine", lastName:"Gagnepain", id:8765},
-            {firstName:"Max", lastName:"Lester", id:1563}
-          ],
-          id : 5647
-        }
       ],
       dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"}
     };
     this.getClassesTaking();
+    this.getClassesGiving();
   }
 
 
 
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;
-   let teacherId = this.props.params.id;
+   let userId = this.props.params.id;
    console.log("Yoooooo", classesTaking);
    $.ajax({
-     url: `http://localhost:8080/dashboard/${teacherId}/taking`,
+     url: `http://localhost:8080/dashboard/${userId}/taking`,
      type: 'GET',
      context: this,
      success: function(data) {
@@ -64,6 +54,33 @@ class Dashboard extends Component {
    })
    return false; //returning false to prevent info showing in url
  }
+
+ getClassesGiving() {
+   let classesGiving = this.state.classesGiving;
+   let userId = this.props.params.id;
+   $.ajax({
+     url: `http://localhost:8080/dashboard/${userId}/giving`,
+     type: 'GET',
+     context: this,
+     success: function(data) {
+       // let user = JSON.parse(data);
+       console.log("Success", data);
+       this.setClassesGiving(data)
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
+
+ setClassesGiving(data) {
+  console.log("data2")
+  this.setState({classesGiving: data}, ()=>{
+    console.log(this.state)
+  })
+ }
+
 
  setClassesTaking(data) {
   this.setState({classesTaking: data})

@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
+const uuidV4 = require('uuid/v4');
 
 
 class GivingClass extends Component {
 
   render() {
     let studentNumber = this.props.students.length;
+    console.log(this.props.students)
     let students = this.props.students.map((student)=>{
-      return <li key = {student.id}>{student.firstName} {student.lastName}</li>
+      let id = uuidV4();
+      return <li key = {id}>{student}</li>
     })
     return (
       <article className = "class clearfix">

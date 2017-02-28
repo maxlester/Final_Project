@@ -103,18 +103,29 @@ app.get('/dashboard/:id/giving', function(req, res) {
     let teacherId = req.params.id;
     console.log(result);
     if (result.length > 0) {
-     knex.raw(`select class_name, link, start_time, end_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
+     knex.raw(`select class.id, class_name, link, start_time, end_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
     .then((result2) =>{
       let classes = result2.rows;
+      for (var n = 0; n < classes.length; n++) {
+        classes[n] = {
+          classTitle: classes[n].class_name,
+          classDate: classes[n].start_time,
+          classLink: classes[n].link,
+          classId: classes[n].id,
+          first_name: classes[n].first_name,
+          last_name: classes[n].last_name
+        }
+      }
+      console.log("do a little string", classes)
       let formattedRes = [];
       classes[0].students = [classes[0].first_name + " " + classes[0].last_name];
       formattedRes.push(classes[0]);
+      console.log("before", formattedRes)
       for (let i = 1; i < classes.length; i++){
-        console.log('same link')
-        if (classes[i-1].link === classes[i].link){
+        if (classes[i-1].classLink === classes[i].classLink){
           classes[i].students = classes[i].first_name + " " + classes[i].last_name;
           for(let k = 0; k < formattedRes.length; k++){
-            if (formattedRes[k].link === classes[i].link){
+            if (formattedRes[k].classLink === classes[i].classLink){
               formattedRes[k].students.push(classes[i].students);
             }
           }
@@ -284,13 +295,12 @@ app.post('/logout', function(req,res) {
 app.post('/class/new', function(req, res) {
   const classObject = {
     teacher_id: req.body.teacher_id, // Get teacher_id from params of URL???
-    class_name: req.body.class_name,
-    class_description : req.body.class_description,
+    class_name: req.body.classTitle,
+    class_description : req.body.classDescription,
     start_time : req.body.start_time,
     end_time : req.body.end_time,
-    price : req.body.price,
+    price : req.body.cost,
     max_number_students : req.body.max_number_students,
-    registered_number_students : 0
    }
    console.log(classObject);
       knex.insert(classObject)
