@@ -31,6 +31,16 @@ app.use(cookieSession({
   keys: ['key1', 'key2'],
 }))
 
+function generateRandomString(n){
+  const charSet = "1234567890abcdefghijklmnopqrstuvwxyz";
+  let randomString = "";
+  for (var i = 0; i < n; i++){
+    let rnum = Math.floor(Math.random() * charSet.length);
+    randomString += charSet[rnum];
+  }
+  return randomString;
+};
+
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
     console.log(result);
@@ -55,7 +65,6 @@ app.get('/teacher/:id', function(req, res) {
         classTitle: result[i].class_name,
         classDescription: result[i].class_description,
         classDate: result[i].start_time,
-        endTime: result[i].end_time,
         classCost: result[i].price,
         maxNumberOfStudents: result[i].max_number_students
       })
@@ -74,7 +83,7 @@ app.get('/teacher/:id', function(req, res) {
 });
 
 app.get('/dashboard/:id/taking', function(req, res) {
-  knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class.id, class_description, class.link, start_time, end_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)
+  knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class.id, class_description, class.link, start_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)
   .then((result) => {
     let formattedRes = result.rows;
     let classes = [];
@@ -103,7 +112,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     let teacherId = req.params.id;
     console.log(result);
     if (result.length > 0) {
-     knex.raw(`select class.id, class_name, link, start_time, end_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
+     knex.raw(`select class.id, class_name, link, start_time, clientUsers.first_name, clientUsers.last_name from class join teachers on class.teacher_id = teachers.id join class_user on class.id = class_user.class_id join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id};`)
     .then((result2) =>{
       let classes = result2.rows;
       for (var n = 0; n < classes.length; n++) {
@@ -292,28 +301,39 @@ app.post('/logout', function(req,res) {
   }
 });
 
-app.post('/class/new', function(req, res) {
-  const classObject = {
-    teacher_id: req.body.teacher_id, // Get teacher_id from params of URL???
+
+app.post('/dashboard/:id/class/new', function(req, res) {
+  let userId = req.params.id;
+  let randomString = generateRandomString(6)
+  let classLink = `http://localhost:3000/class/${randomString}`;
+  let classObject = {
     class_name: req.body.classTitle,
     class_description : req.body.classDescription,
-    start_time : req.body.start_time,
-    end_time : req.body.end_time,
+    start_time : req.body.startTime,
     price : req.body.cost,
-    max_number_students : req.body.max_number_students,
+    link : classLink,
+    max_number_students : req.body.maxNumberOfStudents
    }
-   console.log(classObject);
-      knex.insert(classObject)
-        .into("class")
-        .then((result) => {
-          console.log(result);
-          req.json(JSON.stringify(classObject));
-          res.status(200)
-        })
-        .catch(function(err) {
-          res.status(400);
-        })
-      });
+   knex
+   .select('id')
+   .from('teachers')
+   .where('user_id', "=", userId)
+   .then((result)=>{
+    console.log("result", result);
+    classObject.teacher_id = result[0].id;
+    console.log("class Object before insert", classObject);
+    knex.insert(classObject, "*")
+      .into("class")
+      .then((result1) => {
+        console.log("returning from the insert", result1);
+        res.send(result1);
+        res.status(200)
+      })
+      .catch(function(err) {
+        res.status(400);
+      })
+   })
+});
 
 app.delete('/class/:id/delete', function(req, res) {
     var classID = req.params.id;
