@@ -251,7 +251,30 @@ app.post('/users/new', function(req, res) {
   })
 });
 
-app.put('/users/:id/update', function(req, res) {
+app.post('/users/:id/update', function(req, res) {
+  const id =  req.params.id;
+  const userObjectUpdate = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    username : req.body.username,
+    email : req.body.email,
+    password : bcrypt.hashSync(req.body.password, 10)
+   }
+   knex('users')
+   .where('id', id)
+   .then((results) => {
+      if(results.length === 1){
+        knex.update(userObjectUpdate)
+        .into("users")
+        .then((result3) => {
+          res.json(JSON.stringify(result3[0]))
+          res.status(200)
+        })
+      }
+    })
+})
+
+app.post('/users/:id/becometeacher', function(req, res) {
   const id =  req.params.id;
   const userObjectUpdate = {
     first_name: req.body.first_name,

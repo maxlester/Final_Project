@@ -3,6 +3,7 @@ import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
 import NewClass from './newClass.jsx';
 import Auth from '../auth-helper.js';
+import BecomeTeacher from './becomeTeacher.jsx';
 
 
 class Dashboard extends Component {
@@ -90,9 +91,14 @@ class Dashboard extends Component {
     console.log("params", this.props.params.id)
     if (userId == this.props.params.id) {
       let newClassForm;
+      let becomeTeacher;
       console.log("good user!")
       if (Auth.retrieveUser().teacherId){
         newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+      }
+      else {
+        becomeTeacher = <BecomeTeacher userId = {userId}/>
+        console.log("not a teacher")
       }
       return (
         <div className="dashboard">
@@ -102,6 +108,7 @@ class Dashboard extends Component {
           </aside>
           <main>
             <h2>Dashboard</h2>
+            {becomeTeacher}
             <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
               <p>{this.state.dailyQuote.quote}</p>
