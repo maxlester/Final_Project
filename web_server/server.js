@@ -282,14 +282,25 @@ app.post('/login', function(req,res) {
    .from('users')
    .where('email', email)
    .then((result)=> {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    console.log(result[0]);
      if (result[0]) {
+      console.log("We are inside");
        var passwordOK = bcrypt.compareSync(password, result[0].password);
        if(passwordOK) {
-         res.json(JSON.stringify(result[0]));
+        console.log("We are  double inside", result[0]);
+            let returnObject = {
+              username: result[0].username,
+              firstName: result[0].first_name,
+              lastName: result[0].last_name,
+              email: result[0].email,
+            }
+            console.log("I get fucked", returnObject);
+         res.json(JSON.stringify(returnObject));
        }
      }
      else if(!result[0]){
-      res.status(400)
+      res.status(400).send("Your fired!");
      }
      else res.status(401).send("Wrong password!");
    })
