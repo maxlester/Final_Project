@@ -88,6 +88,7 @@ module.exports = {
     $.getJSON(`http://localhost:8080/token/${userId}/class/${roomName}`, function (data) {
 
       identity = data.identity;
+      console.log(identity);
 
       // Create a Video Client and connect to Twilio
       videoClient = new Twilio.Video.Client(data.token);

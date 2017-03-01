@@ -429,35 +429,38 @@ app.get('/token/:userid/class/:classId', function(request, response) {
     var userId = request.params.userid;
     var classId = request.params.classId;
     knex.select("username").from("users").where("users.id", userId).then((result)=>{
-
       var identity = {username :result[0].username};
+      identity['teacher'] = false;
       console.log('identity', identity);
-      knex.select("user_id")
-      .from("teachers")
-      .join()
+      knex.select("user_id").from("teachers").join("class", "class.teacher_id","=", "teachers.id")
+      .where("class.id", classId).then((result2)=>{
+        if (result2.length != 0){
+          if (userId === result2[0].user_id){
+          identity['teacher'] = true;
+          }
+        }
+        // Create an access token which we will sign and return to the client,
+        // containing the grant we just created
+        var token = new AccessToken(
+            process.env.TWILIO_ACCOUNT_SID,
+            process.env.TWILIO_API_KEY,
+            process.env.TWILIO_API_SECRET
+        );
 
-    // Create an access token which we will sign and return to the client,
-    // containing the grant we just created
-    var token = new AccessToken(
-        process.env.TWILIO_ACCOUNT_SID,
-        process.env.TWILIO_API_KEY,
-        process.env.TWILIO_API_SECRET
-    );
-
-    // Assign the generated identity to the token
-    token.identity = identity.username;
-
-    //grant the access token Twilio Video capabilities
-    var grant = new VideoGrant();
-    grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
-    token.addGrant(grant);
-
-    // Serialize the token to a JWT string and include it in a JSON response
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.send({
-        identity: identity,
-        token: token.toJwt()
-    });
+        // Assign the generated identity to the token
+        token.identity = identity.username;
+        //grant the access token Twilio Video capabilities
+        var grant = new VideoGrant();
+        grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
+        token.addGrant(grant);
+        console.log('identity', identity);
+        // Serialize the token to a JWT string and include it in a JSON response
+        response.setHeader('Access-Control-Allow-Origin', '*');
+        response.send({
+            identity: identity,
+            token: token.toJwt()
+        });
+      })
     })
 
 });
