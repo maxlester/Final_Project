@@ -6,7 +6,6 @@ class GivingClass extends Component {
 
   render() {
     let students = this.props.students;
-    console.log("students", students)
     if (students[0] === "null null"){ students = []}
     let studentNumber = students.length;
     let studentsMarkup = students.map((student)=>{

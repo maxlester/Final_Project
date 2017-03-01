@@ -40,14 +40,12 @@ class Dashboard extends Component {
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;
    let userId = this.props.params.id;
-   console.log("Yoooooo", classesTaking);
    $.ajax({
      url: `http://localhost:8080/dashboard/${userId}/taking`,
      type: 'GET',
      context: this,
      success: function(data) {
        // let user = JSON.parse(data);
-       console.log("Success", data);
        this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
@@ -66,7 +64,6 @@ class Dashboard extends Component {
      context: this,
      success: function(data) {
        // let user = JSON.parse(data);
-       console.log("Success", data);
        this.setClassesGiving(data)
      },
      error: function(xhr, status, err) {
@@ -77,9 +74,7 @@ class Dashboard extends Component {
  }
 
  setClassesGiving(data) {
-  console.log("data2")
   this.setState({classesGiving: data}, ()=>{
-    console.log("LOOK AT THIS", this.state)
   })
  }
 
@@ -90,7 +85,6 @@ class Dashboard extends Component {
 
   render() {
     let userId = Auth.retrieveUser().userId;
-    console.log("currentUser", Auth.retrieveUser());
     let newClassForm;
     if (Auth.retrieveUser().teacherId){
       newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>

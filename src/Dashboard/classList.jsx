@@ -20,7 +20,6 @@ class ClassList extends Component {
     }
     if (this.props.classesGiving){
       classesGiving = this.props.classesGiving.map((item)=>{
-        console.log(item.classId)
         return (
           <div>
           <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
