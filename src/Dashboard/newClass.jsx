@@ -20,9 +20,9 @@ class NewClass extends Component {
 addClass(e){
    let newClass = this.state.newClass;
    e.preventDefault();
-   // let userId = Auth.retrieveUser().userId;
+   let userId = Auth.retrieveUser().userId;
    $.ajax({
-     url: `http://localhost:8080/dashboard/1/class/new`,
+     url: `http://localhost:8080/dashboard/${userId}/class/new`,
      type: 'POST',
      dataType: 'json',
      data: JSON.stringify(newClass),

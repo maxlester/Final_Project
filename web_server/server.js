@@ -100,17 +100,17 @@ app.get('/dashboard/:id/taking', function(req, res) {
 });
 
 app.get('/dashboard/:id/giving', function(req, res) {
-  knex.select('user_id')
+  knex.select('teachers.id')
   .from('users')
   .join('teachers', 'teachers.user_id', '=', 'users.id')
   .where('users.id', req.params.id)
   .then((result) => {
-    let teacherId = req.params.id;
+    let teacherId = result[0].id;
     console.log("hahahahahahahah", result);
     if (result.length > 0) {
-     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id} order by link`)
+     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by link`)
     .then((result2) =>{
-      console.log("LOKKKKKKKK", result2);
+      console.log("LOKkkkk", result2);
       let classes = result2.rows;
       for (var n = 0; n < classes.length; n++) {
         classes[n] = {
