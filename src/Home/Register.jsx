@@ -27,11 +27,8 @@ class Register extends Component {
 
   updateTeacherForm(){
     let user = this.state.user;
-    console.log(this.props.teacherForm)
     user.teacher = this.props.teacherForm;
-    this.setState({user : user}, ()=>{
-      console.log("updateteacherform", this.state.user)
-    })
+    this.setState({user : user})
   }
 
 

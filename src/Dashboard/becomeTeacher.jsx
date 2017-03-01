@@ -9,32 +9,10 @@ class BecomeTeacher extends Component {
     super(props);
     this.state = {
       becomeTeacherBtn:false,
-      teacherDescription: "",
+      teacher : {
+        description: "",
+      }
     }
-  }
-
-  getTeacher() {
-    let teacherId = this.props.params.teacherId;
-     $.ajax({
-       url: `http://localhost:8080/teacher/${teacherId}`,
-       type: 'GET',
-       context: this,
-       success: function(data) {
-         let teacher = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          description: data.description,
-          id: data.id
-         }
-         let classes = data.classes
-         this.setTeacher(teacher);
-         this.setClasses(classes);
-       },
-       error: function(xhr, status, err) {
-         console.error(err.toString());
-       }.bind(this)
-     })
-     return false; //returning false to prevent info showing in url
   }
 
   showBecomeTeacherForm(e){
@@ -47,34 +25,9 @@ class BecomeTeacher extends Component {
     }
   }
 
-  becomeTeacher(e){
-    e.preventDefault();
-    let userId = this.props.params.id;
-    $.ajax({
-       url: `http://localhost:8080/users/${userId}/becometeacher`,
-       type: 'POST',
-       context: this,
-       success: function(data) {
-         let teacher = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          description: data.description,
-          id: data.id
-         }
-         let classes = data.classes
-         this.setTeacher(teacher);
-         this.setClasses(classes);
-       },
-       error: function(xhr, status, err) {
-         console.error(err.toString());
-       }.bind(this)
-     })
-     return false; //returning false to prevent info showing in url
-  }
-
   render() {
     let teacherForm;
-    if (this.state.becomeTeacherBtn) teacherForm = <BecomeTeacherForm becomeTeacher = {this.becomeTeacher.bind(this)}/>
+    if (this.state.becomeTeacherBtn) teacherForm = <BecomeTeacherForm becomeTeacher = {this.props.becomeTeacher} handleChange = {this.props.handleChange}/>
     return (
       <div className="become-teacher">
         <button className = "btn btn-default" onClick={this.showBecomeTeacherForm.bind(this)}>Start Teaching Classes</button>

@@ -7,7 +7,7 @@ class BecomeTeacherForm extends Component {
     return (
       <form className="become-teacher-form" onSubmit={this.props.becomeTeacher}>
         <label htmlFor="description">Tell us a bit about what yourself to become a teacher</label>
-        <textarea name="description"></textarea>
+        <textarea name="description" onChange={this.props.handleChange}></textarea>
         <input type="submit"/>
       </form>
     );

@@ -12,6 +12,9 @@ class Dashboard extends Component {
     this.dataServer = "http://localhost:8080";
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
+      teacher:{
+        description:""
+      },
       classesTaking: [
         {
           teacherName : "Bridgit Wald",
@@ -75,15 +78,49 @@ class Dashboard extends Component {
    return false; //returning false to prevent info showing in url
  }
 
- setClassesGiving(data) {
-  this.setState({classesGiving: data}, ()=>{
-  })
- }
+  setClassesGiving(data) {
+    this.setState({classesGiving: data}, ()=>{
+    })
+  }
 
 
- setClassesTaking(data) {
-  this.setState({classesTaking: data})
- }
+  setClassesTaking(data) {
+    this.setState({classesTaking: data})
+  }
+
+  becomeTeacher(e){
+    e.preventDefault();
+    let userId = this.props.params.id;
+    let teacher = {
+      // description : this.state.teacher.description
+      description:"this is a descrption about me as a teacher"
+    }
+    $.ajax({
+       url: `http://localhost:8080/users/${userId}/becometeacher`,
+       type: 'POST',
+       context: this,
+       dataType: 'json',
+       data: JSON.stringify(teacher),
+       success: function(data) {
+          let currentUser = Auth.retrieveUser();
+          currentUser.teacherId = data.teacherId;
+          Auth.saveUser(currentUser);
+          this.setState({currentUser : currentUser})
+          console.log("this worked");
+       },
+       error: function(xhr, status, err) {
+         console.error(err.toString());
+       }.bind(this)
+    })
+    return false; //returning false to prevent info showing in url
+  }
+
+  changeTeacher(e){
+    const field = e.target.name;
+    const teacher = this.state.teacher;
+    teacher[field] = e.target.value;
+    this.setState({teacher:teacher})
+  }
 
   render() {
     let userId = Auth.retrieveUser().userId;
@@ -91,13 +128,13 @@ class Dashboard extends Component {
     console.log("params", this.props.params.id)
     if (userId == this.props.params.id) {
       let newClassForm;
-      let becomeTeacher;
+      let becomeTeacherOption;
       console.log("good user!")
       if (Auth.retrieveUser().teacherId){
         newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
-        becomeTeacher = <BecomeTeacher userId = {userId}/>
+        becomeTeacherOption = <BecomeTeacher userId = {userId} becomeTeacher = {this.becomeTeacher.bind(this)} handleChange = {this.changeTeacher.bind(this)}/>
         console.log("not a teacher")
       }
       return (
@@ -108,7 +145,7 @@ class Dashboard extends Component {
           </aside>
           <main>
             <h2>Dashboard</h2>
-            {becomeTeacher}
+            {becomeTeacherOption}
             <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
               <p>{this.state.dailyQuote.quote}</p>

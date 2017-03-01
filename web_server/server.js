@@ -275,24 +275,26 @@ app.post('/users/:id/update', function(req, res) {
 })
 
 app.post('/users/:id/becometeacher', function(req, res) {
+  console.log("becoming a teacher");
   const id =  req.params.id;
-  const userObjectUpdate = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    username : req.body.username,
-    email : req.body.email,
-    password : bcrypt.hashSync(req.body.password, 10)
-   }
-   knex('users')
-   .where('id', id)
-   .then((results) => {
-      if(results.length === 1){
-        knex.update(userObjectUpdate)
-        .into("users")
-        .then((result3) => {
-          res.json(JSON.stringify(result3[0]))
-          res.status(200)
-        })
+  let teacherToCreate = {
+    user_id: id,
+    // description: req.body.description,
+      description: 'did this work?'
+    }
+    knex.select("*").from("teachers").where("user_id", id).then((result)=>{
+      console.log("result", result);
+      if(result.length === 0){
+         knex
+         .insert(teacherToCreate, "id")
+         .into('teachers')
+         .then((result1) => {
+            let teacherId = result1[0];
+            res.send({teacherId});
+          })
+      }
+      else{
+        res.status(400).send("User is already a teacher");
       }
     })
 })
