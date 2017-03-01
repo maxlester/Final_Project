@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Auth from './auth-helper.js';
+import { default as Router, Route } from 'react-router'
+import { Navigation } from 'react-router'
 
 class NavBar extends Component {
 
@@ -41,10 +43,10 @@ loginUser(e){
       context: this,
      success: function(data) {
        // let user = JSON.parse(data);
-       console.log(data);
+       console.log("LLLLLLLLL", this.props);
        Auth.saveUser(data);
        this.setUser();
-
+       this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

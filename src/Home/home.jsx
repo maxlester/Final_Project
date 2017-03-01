@@ -25,7 +25,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="home">
-        <NavBar/>
+        <NavBar router={this.props.router}/>
         <aside className="left-sidebar">
         </aside>
         <main>

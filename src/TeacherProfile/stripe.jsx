@@ -29,7 +29,7 @@ class TakeMoney extends Component {
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
      type: 'POST',
      dataType: 'json',
-     data: JSON.stringify(classRegister),
+     data: JSON.stringifygi(classRegister),
      headers: {
        'Content-Type':'application/json'
       },
