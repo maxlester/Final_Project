@@ -32,7 +32,7 @@ class Conference extends Component {
       );
     }
     else {
-      return (<PreConference startConference={this.startConference.bind(this)}/>)
+      return (<PreConference startConference={this.startConference.bind(this)} classId = {this.props.params.classId}/>)
     }
   }
 }

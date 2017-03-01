@@ -19,7 +19,7 @@ ReactDOM.render((
     <Route path="/" component={App}>
       <IndexRoute component={HomePage} />
       <Route path="dashboard/:id" component={Dashboard}/>
-      <Route path="conference" component={Conference}/>
+      <Route path="class/:classId" component={Conference}/>
       <Route path="stripe" component={TakeMoney}/>
       <Route name="teacherProfile" path="teacher/:teacherId" component={TeacherProfile} />
     </Route>
