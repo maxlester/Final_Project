@@ -275,8 +275,10 @@ app.put('/users/:id/update', function(req, res) {
 })
 
 app.post('/login', function(req,res) {
-   const email = req.body.email;
-   const password = req.body.password;
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log("email", email);
+  console.log("password", password);
    knex
    .select('*')
    .from('users')
@@ -284,24 +286,31 @@ app.post('/login', function(req,res) {
    .then((result)=> {
     res.setHeader('Access-Control-Allow-Origin', '*');
     console.log(result[0]);
-     if (result[0]) {
-      console.log("We are inside");
-       var passwordOK = bcrypt.compareSync(password, result[0].password);
-       if(passwordOK) {
-        console.log("We are  double inside", result[0]);
-            let returnObject = {
-              username: result[0].username,
-              firstName: result[0].first_name,
-              lastName: result[0].last_name,
-              email: result[0].email,
+      if (result[0]) {
+        var passwordOK = bcrypt.compareSync(password, result[0].password);
+        if(passwordOK) {
+          let returnObject = {
+            username: result[0].username,
+            firstName: result[0].first_name,
+            lastName: result[0].last_name,
+            email: result[0].email,
+            userId: result[0].id
+          }
+          knex.select('id')
+          .from('teachers')
+          .where('user_id', returnObject.userId)
+          .then((result1)=>{
+            if (result1[0]){
+              returnObject.teacherId = result1[0].id;
             }
-            console.log("I get fucked", returnObject);
-         res.json(JSON.stringify(returnObject));
-       }
-     }
-     else if(!result[0]){
-      res.status(400).send("Your fired!");
-     }
+            res.send(returnObject);
+          })
+
+        }
+      }
+      else if(!result[0]){
+        res.status(400).send("Your fired!");
+      }
      else res.status(401).send("Wrong password!");
    })
 });

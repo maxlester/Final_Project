@@ -40,6 +40,7 @@ class Dashboard extends Component {
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;
    let userId = this.props.params.id;
+   let authUserId = Auth.retrieveUser().userId
    $.ajax({
      url: `http://localhost:8080/dashboard/${userId}/taking`,
      type: 'GET',
@@ -85,11 +86,14 @@ class Dashboard extends Component {
 
   render() {
     let userId = Auth.retrieveUser().userId;
-    let newClassForm;
-    if (Auth.retrieveUser().teacherId){
-      newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
-    }
-    // if (userId === this.props.params.id) {
+    console.log("userId", userId);
+    console.log("params", this.props.params.id)
+    if (userId == this.props.params.id) {
+      let newClassForm;
+      console.log("good user!")
+      if (Auth.retrieveUser().teacherId){
+        newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+      }
       return (
         <div className="dashboard">
           <NavBar/>
@@ -106,15 +110,15 @@ class Dashboard extends Component {
           </main>
         </div>
       );
-    // }
-    // else{
-    //   return(
-    //     <div className = "wrong-dashboard">
-    //       <h1>You do not have access to this page it seems</h1>
-    //       <h3>Login or register now!</h3>
-    //     </div>
-    //   );
-    // }
+    }
+    else{
+      return(
+        <div className = "wrong-dashboard">
+          <h1>You do not have access to this page it seems</h1>
+          <h3>Login or register now!</h3>
+        </div>
+      );
+    }
   }
 }
 
