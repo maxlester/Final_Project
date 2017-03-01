@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
 import NewClass from './newClass.jsx';
+import Auth from '../auth-helper.js';
 
 
 class Dashboard extends Component {
@@ -88,22 +89,33 @@ class Dashboard extends Component {
  }
 
   render() {
-    return (
-      <div className="dashboard">
-        <NavBar/>
-        <aside className="left-sidebar">
-          <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
-        </aside>
-        <main>
-          <h2>Dashboard</h2>
-          <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-          <section className = "Quote">
-            <p>{this.state.dailyQuote.quote}</p>
-            <p>{this.state.dailyQuote.author}</p>
-          </section>
-        </main>
-      </div>
-    );
+    let userId = Auth.retrieveUser().userId;
+    // if (userId === this.props.params.id) {
+      return (
+        <div className="dashboard">
+          <NavBar/>
+          <aside className="left-sidebar">
+            <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+          </aside>
+          <main>
+            <h2>Dashboard</h2>
+            <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            <section className = "Quote">
+              <p>{this.state.dailyQuote.quote}</p>
+              <p>{this.state.dailyQuote.author}</p>
+            </section>
+          </main>
+        </div>
+      );
+    // }
+    // else{
+    //   return(
+    //     <div className = "wrong-dashboard">
+    //       <h1>You do not have access to this page it seems</h1>
+    //       <h3>Login or register now!</h3>
+    //     </div>
+    //   );
+    // }
   }
 }
 

@@ -4,58 +4,62 @@ import Auth from '../auth-helper.js';
 class Register extends Component {
   constructor(props) {
     super(props);
-    let teacherForm = this.props.teacherForm;
+   let teacherForm = this.props.teacherForm;
     this.state = {
-      teacherForm :teacherForm,
       errors:{},
       user:{
         firstName:"",
         lastName:"",
         username:"",
         email:"",
-        password:""
+        password:"",
+        teacher : teacherForm,
+        description : ""
       }
     }
   }
 
-registerUser(e){
-   let user = this.state.user;
-   e.preventDefault();
-   console.log("Yoooooo", user);
-   $.ajax({
-     url: "http://localhost:8080/users/new",
-     type: 'POST',
-     dataType: 'json',
-     data: JSON.stringify(user),
-     headers: {
-       'Content-Type':'application/json'
-      },
-     success: function(data) {
-       // let user = JSON.parse(data);
-       console.log("Success", data);
-       Auth.saveUser(data);
-     },
-     error: function(xhr, status, err) {
-       console.error(err.toString());
-     }.bind(this)
-   })
-   return false; //returning false to prevent info showing in url
- }
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.teacherForm !== this.state.user.teacher){
+      this.updateTeacherForm();
+    }
+  }
 
-  //for testing user before joining to server
+  updateTeacherForm(){
+    let user = this.state.user;
+    console.log(this.props.teacherForm)
+    user.teacher = this.props.teacherForm;
+    this.setState({user : user}, ()=>{
+      console.log("updateteacherform", this.state.user)
+    })
+  }
 
-  // registerUser(e){
-  //   let user = this.state.user;
-  //   e.preventDefault();
-  //   let userToStore = {
-  //     username : user.username,
-  //     firstName : user.firstName,
-  //     lastName : user.lastName
-  //   }
-  //   console.log("registerUser", userToStore);
-  //   Auth.saveUser(userToStore);
-  //   return false; //returning false to prevent info showing in url
-  // }
+
+  registerUser(e){
+      e.preventDefault();
+      let user = this.state.user;
+       console.log("Yoooooo", user);
+       $.ajax({
+         url: "http://localhost:8080/users/new",
+         type: 'POST',
+         dataType: 'json',
+         data: JSON.stringify(user),
+         headers: {
+           'Content-Type':'application/json'
+          },
+         success: function(data) {
+           // let user = JSON.parse(data);
+           console.log("Success", data);
+           Auth.saveUser(data);
+           let userId = data.userId;
+           window.location = `/#/dashboard/${userId}`;
+         },
+         error: function(xhr, status, err) {
+           console.error(err.toString());
+         }.bind(this)
+       })
+     return false; //returning false to prevent info showing in url
+   }
 
   changeUser(e){
     const field = e.target.name;
@@ -64,16 +68,13 @@ registerUser(e){
     this.setState({user})
   }
 
-  componentDidUpdate(prevProps, prevState) {
-  }
-
   render() {
     let teacherDescription
     if(this.props.teacherForm){
-      teacherDescription = <textarea placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)"></textarea>
+      teacherDescription = <textarea name = "description" placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)" onChange={this.changeUser.bind(this)}></textarea>
     }
     return(
-       <form className="registerStudent" onSubmit={this.registerUser.bind(this)}>
+      <form className="registerStudent" onSubmit={this.registerUser.bind(this)}>
         <input className="firstName" name="firstName" type= "text" placeholder="First Name" onChange={this.changeUser.bind(this)}/>
         <input className="lastName" name="lastName" type= "text" placeholder="Last Name" onChange={this.changeUser.bind(this)}/>
         <input className="username" name="username" type= "text" placeholder="User Name" onChange={this.changeUser.bind(this)}/>

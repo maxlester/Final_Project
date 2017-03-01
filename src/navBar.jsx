@@ -15,13 +15,6 @@ class NavBar extends Component {
     }
   }
 
-  // componentWillMount() {
-  //   this.setUser();
-  // }
-
-  // componentDidMount() {
-  //   this.setUser();
-  // }
 
   setUser(){
     console.log("SettingUser");
