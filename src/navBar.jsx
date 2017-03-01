@@ -18,8 +18,8 @@ class NavBar extends Component {
 
   }
 
-  componentDidMount() {
-        this.setUser();
+  componentWillMount() {
+    this.props.setUser();
   }
 
 
@@ -43,7 +43,7 @@ loginUser(e){
        // let user = JSON.parse(data);
        console.log(data);
        Auth.saveUser(data);
-       this.setUser();
+       this.props.setUser();
 
      },
      error: function(xhr, status, err) {

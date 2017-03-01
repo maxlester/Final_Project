@@ -21,7 +21,7 @@ class Conference extends Component {
     if (this.state.startConference){
       return (
         <div className="conference">
-          <NavBar/>
+          <NavBar setUser = {this.props.setUser} user={this.props.user}/>
           <ConferenceSideBar/>
           <main>
             <div id="remote-media"></div>

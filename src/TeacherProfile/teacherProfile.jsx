@@ -63,7 +63,7 @@ getTeacher() {
   render() {
     return (
       <div className="teacher-profile">
-        <NavBar/>
+        <NavBar setUser = {this.props.setUser} user={this.props.user}/>
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
           <h2>{this.state.teacher.firstName} is teaching the following classes</h2>

@@ -25,7 +25,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="home">
-        <NavBar/>
+        <NavBar setUser = {this.props.setUser} user={this.props.user}/>
         <aside className="left-sidebar">
         </aside>
         <main>

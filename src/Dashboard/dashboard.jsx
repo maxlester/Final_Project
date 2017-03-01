@@ -139,7 +139,7 @@ class Dashboard extends Component {
       }
       return (
         <div className="dashboard">
-          <NavBar/>
+          <NavBar setUser = {this.props.setUser} user={this.props.user}/>
           <aside className="left-sidebar">
             {newClassForm}
           </aside>

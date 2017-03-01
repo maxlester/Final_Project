@@ -44,9 +44,17 @@ class Register extends Component {
            'Content-Type':'application/json'
           },
          success: function(data) {
-           Auth.saveUser(data);
-           let userId = data.userId;
-           window.location = `/#/dashboard/${userId}`;
+            let userId = data.userId;
+            let teacherId = data.teacherId;
+            let userToSave = {
+              firstName:user.firstName,
+              lastName:user.lastName,
+              username:user.username,
+              userId: userId,
+              teacherId:teacherId
+            }
+            Auth.saveUser(data);
+            window.location = `/#/dashboard/${userId}`;
          },
          error: function(xhr, status, err) {
            console.error(err.toString());
