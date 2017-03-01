@@ -6,8 +6,10 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     console.log(this.props);
-    this.state ={
+    this.state =  {
       user : {
+        email: "",
+        password: "",
         username: "",
         firstName : "",
         lastName : ""
@@ -23,11 +25,39 @@ class NavBar extends Component {
   //   this.setUser();
   // }
 
+loginUser(e){
+   let user = this.state.user
+   console.log("just anything")
+   e.preventDefault();
+   $.ajax({
+     url: "http://localhost:8080/login",
+     type: 'POST',
+     dataType: 'json',
+     data: JSON.stringify(user),
+     headers: {
+       'Content-Type':'application/json'
+      },
+      context: this,
+     success: function(data) {
+       // let user = JSON.parse(data);
+       console.log(data);
+       Auth.saveUser(JSON.parse(data));
+       this.setUser();
+
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
+
   setUser(){
     console.log("SettingUser");
     let currentUser = Auth.retrieveUser();
     if (currentUser) {
-      let userToSet = {username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName}
+      console.log("I've had it up to beer with you")
+      let userToSet = {email: currentUser.email, password: currentUser.password, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName}
       this.setState({user : userToSet});
     }
   }
@@ -35,12 +65,19 @@ class NavBar extends Component {
   logout(){
     let noUser = {};
     Auth.saveUser(noUser);
-    this.setState(user : {username : "", firstName : "", lastName : ""});
+    this.setState({user : noUser});
+  }
+
+  changeUser(e){
+    const field = e.target.name;
+    const user = this.state.user;
+    user[field] = e.target.value;
+    this.setState({user : user})
   }
 
   render() {
     let navContent;
-    if (this.state.user.username){
+    if (this.state.user.username) {
       return (
         <nav>
           <h1>Yoga Buddy</h1>
@@ -53,9 +90,9 @@ class NavBar extends Component {
         <nav>
           <h1>Yoga Buddy</h1>
           <div id="login-input">
-            <form>
-              <input id="username" type="text"/>
-              <input id="password" type="password"/>
+            <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
+              <input id="email" name ="email" value={this.state.email} type="text" onChange={this.changeUser.bind(this)}/>
+              <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
               <button type="submit" id="logins">Login</button>
             </form>
           </div>
