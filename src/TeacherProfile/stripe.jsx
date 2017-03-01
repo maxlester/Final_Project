@@ -10,11 +10,6 @@ class TakeMoney extends Component {
     this.state = {
       classId: classId
     }
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@")
-    console.log(this.state);
-    console.log(classId);
-    console.log(this.props);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@")
   }
   onToken(token) {
    fetch('/save-stripe-token', {
@@ -23,16 +18,18 @@ class TakeMoney extends Component {
    }).then(token => {
      alert("Thank you for your purchase!")
     })
-   console.log("YOOOOOOOOOOO", Auth.retrieveUser().userId);
-  let userRegister = {
+  let classRegister = {
     user_id: Auth.retrieveUser().userId,
     class_id: this.state.classId
   }
+  console.log("$$$$$$$$$$$$$$$$");
+  console.log(classRegister);
+  console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
-     url: `http://localhost:8080/class/${userRegister.class_id}/register`,
+     url: `http://localhost:8080/class/${classRegister.class_id}/register`,
      type: 'POST',
      dataType: 'json',
-     data: JSON.stringify(userRegister.user_id),
+     data: JSON.stringify(classRegister),
      headers: {
        'Content-Type':'application/json'
       },

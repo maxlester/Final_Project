@@ -192,16 +192,17 @@ app.get('/class/:id', function(req, res) {
 });
 
 app.post('/class/:id/register', function(req, res) {
-  let userRegister = {
+  let classRegister = {
   user_id: req.body.user_id,
-  class_id: req.params.id
+  class_id: req.body.class_id
   };
-  console.log(userRegister);
-  knex.insert(userRegister)
+  console.log(classRegister);
+  knex.insert(classRegister)
   .into("class_user")
   .then((result) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200)
+    res.send("ANything")
   })
 });
 
