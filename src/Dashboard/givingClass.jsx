@@ -5,9 +5,10 @@ const uuidV4 = require('uuid/v4');
 class GivingClass extends Component {
 
   render() {
-    let studentNumber = this.props.students.length;
-    console.log(this.props.students)
-    let students = this.props.students.map((student)=>{
+    let students = this.props.students;
+    if (students[0] === "null null"){ students = []}
+    let studentNumber = students.length;
+    let studentsMarkup = students.map((student)=>{
       let id = uuidV4();
       return <li key = {id}>{student}</li>
     })
@@ -18,7 +19,7 @@ class GivingClass extends Component {
           <a href = {this.props.classLink}>Access at {this.props.classLink}</a>
           <p><strong>{studentNumber}</strong> students registered</p>
           <ul>
-            {students}
+            {studentsMarkup}
           </ul>
         </div>
         <div className="class-date">

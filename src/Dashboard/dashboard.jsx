@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import ClassList from './classList.jsx';
 import NewClass from './newClass.jsx';
+import Auth from '../auth-helper.js';
 
 
 class Dashboard extends Component {
@@ -39,14 +40,13 @@ class Dashboard extends Component {
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;
    let userId = this.props.params.id;
-   console.log("Yoooooo", classesTaking);
+   let authUserId = Auth.retrieveUser().userId
    $.ajax({
      url: `http://localhost:8080/dashboard/${userId}/taking`,
      type: 'GET',
      context: this,
      success: function(data) {
        // let user = JSON.parse(data);
-       console.log("Success", data);
        this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
@@ -65,7 +65,6 @@ class Dashboard extends Component {
      context: this,
      success: function(data) {
        // let user = JSON.parse(data);
-       console.log("Success", data);
        this.setClassesGiving(data)
      },
      error: function(xhr, status, err) {
@@ -76,9 +75,7 @@ class Dashboard extends Component {
  }
 
  setClassesGiving(data) {
-  console.log("data2")
   this.setState({classesGiving: data}, ()=>{
-    console.log("LOOK AT THIS", this.state)
   })
  }
 
@@ -88,22 +85,40 @@ class Dashboard extends Component {
  }
 
   render() {
-    return (
-      <div className="dashboard">
-        <NavBar/>
-        <aside className="left-sidebar">
-          <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
-        </aside>
-        <main>
-          <h2>Dashboard</h2>
-          <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-          <section className = "Quote">
-            <p>{this.state.dailyQuote.quote}</p>
-            <p>{this.state.dailyQuote.author}</p>
-          </section>
-        </main>
-      </div>
-    );
+    let userId = Auth.retrieveUser().userId;
+    console.log("userId", userId);
+    console.log("params", this.props.params.id)
+    if (userId == this.props.params.id) {
+      let newClassForm;
+      console.log("good user!")
+      if (Auth.retrieveUser().teacherId){
+        newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+      }
+      return (
+        <div className="dashboard">
+          <NavBar/>
+          <aside className="left-sidebar">
+            {newClassForm}
+          </aside>
+          <main>
+            <h2>Dashboard</h2>
+            <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            <section className = "Quote">
+              <p>{this.state.dailyQuote.quote}</p>
+              <p>{this.state.dailyQuote.author}</p>
+            </section>
+          </main>
+        </div>
+      );
+    }
+    else{
+      return(
+        <div className = "wrong-dashboard">
+          <h1>You do not have access to this page it seems</h1>
+          <h3>Login or register now!</h3>
+        </div>
+      );
+    }
   }
 }
 
