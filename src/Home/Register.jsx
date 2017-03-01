@@ -38,7 +38,6 @@ class Register extends Component {
   registerUser(e){
       e.preventDefault();
       let user = this.state.user;
-       console.log("Yoooooo", user);
        $.ajax({
          url: "http://localhost:8080/users/new",
          type: 'POST',
@@ -48,8 +47,6 @@ class Register extends Component {
            'Content-Type':'application/json'
           },
          success: function(data) {
-           // let user = JSON.parse(data);
-           console.log("Success", data);
            Auth.saveUser(data);
            let userId = data.userId;
            window.location = `/#/dashboard/${userId}`;

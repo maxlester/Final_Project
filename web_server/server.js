@@ -225,7 +225,9 @@ app.post('/users/new', function(req, res) {
                 user_id: user_id,
                 description: teacher_description
               }
-              knex.insert(teacherInfo).into("teachers").then(()=>{
+              knex.insert(teacherInfo, "id").into("teachers").then((result4)=>{
+                console.log("result4", result4);
+                returnObject.teacherId = result4[0];
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.send(returnObject)
                 res.status(200)

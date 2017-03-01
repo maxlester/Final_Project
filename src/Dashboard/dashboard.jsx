@@ -90,12 +90,17 @@ class Dashboard extends Component {
 
   render() {
     let userId = Auth.retrieveUser().userId;
+    console.log("currentUser", Auth.retrieveUser());
+    let newClassForm;
+    if (Auth.retrieveUser().teacherId){
+      newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+    }
     // if (userId === this.props.params.id) {
       return (
         <div className="dashboard">
           <NavBar/>
           <aside className="left-sidebar">
-            <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+            {newClassForm}
           </aside>
           <main>
             <h2>Dashboard</h2>
