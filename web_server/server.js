@@ -63,6 +63,7 @@ app.get('/teacher/:id', function(req, res) {
         classDescription: result[i].class_description,
         classDate: result[i].start_time,
         classCost: result[i].price,
+        classId: result[i].id,
         maxNumberOfStudents: result[i].max_number_students
       })
     }
@@ -189,6 +190,22 @@ app.get('/class/:id', function(req, res) {
     res.json({currentClass : result});
   })
 });
+
+app.post('/class/:id/register', function(req, res) {
+  let userRegister = {
+  user_id: req.body.user_id,
+  class_id: req.params.id
+  };
+  console.log(userRegister);
+  knex.insert(userRegister)
+  .into("class_user")
+  .then((result) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(200)
+  })
+});
+
+
 
 app.post('/users/new', function(req, res) {
   const userObject = {

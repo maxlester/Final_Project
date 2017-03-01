@@ -10,7 +10,6 @@ class ClassList extends Component {
       return <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
     })
     var classesGiving = this.props.classesGiving.map((item)=>{
-      console.log(item.classId)
       return <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
     })
     return (
