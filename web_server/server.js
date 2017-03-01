@@ -334,10 +334,16 @@ app.post('/login', function(req,res) {
 });
 
 app.post('/logout', function(req,res) {
-  if (res.status(200)) {
-  } else {
-     res.status(400);
-  }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    let returnObject = {
+            username: req.body.username,
+            firstName: req.body.first_name,
+            lastName: req.body.last_name,
+            email: req.body.email,
+            userId: req.body.id
+          }
+    console.log("IMSIDE");
+    res.send(returnObject)
 });
 
 

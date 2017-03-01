@@ -30,7 +30,6 @@ loginUser(e){
     email : this.state.user.email,
     password : this.state.user.password
    }
-   console.log("just anything")
    e.preventDefault();
    $.ajax({
      url: "http://localhost:8080/login",
@@ -65,11 +64,38 @@ loginUser(e){
     }
   }
 
-  logout(){
-    let noUser = {};
-    Auth.saveUser(noUser);
-    this.setState({user : noUser});
-  }
+  logout(e){
+    let noUser = {
+        email: "",
+        password: "",
+        username: "",
+        firstName : "",
+        lastName : ""
+      };
+    e.preventDefault();
+    $.ajax({
+     url: "http://localhost:8080/logout",
+     type: 'POST',
+     dataType: 'json',
+     data: JSON.stringify(noUser),
+     headers: {
+       'Content-Type':'application/json'
+      },
+      context: this,
+     success: function(data) {
+      console.log("SUCCESS")
+      console.log("WWWWWWWWWW",this.props.router)
+      Auth.saveUser(data);
+      this.setState({user : data});
+      this.props.router.push('/');
+     },
+     error: function(xhr, status, err) {
+       console.error(err.toString());
+     }.bind(this)
+   })
+   return false; //returning false to prevent info showing in url
+ }
+
 
   changeUser(e){
     const field = e.target.name;

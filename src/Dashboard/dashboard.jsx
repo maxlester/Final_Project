@@ -96,7 +96,7 @@ class Dashboard extends Component {
       }
       return (
         <div className="dashboard">
-          <NavBar/>
+          <NavBar router={this.props.router}/>
           <aside className="left-sidebar">
             {newClassForm}
           </aside>
