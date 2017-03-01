@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 const uuidV4 = require('uuid/v4');
+var moment = require('moment');
 
 
 class GivingClass extends Component {
 
   render() {
     let students = this.props.students;
+    console.log("HQQQQQLLLEEEEDDDDD", this.props);
     if (students[0] === "null null"){ students = []}
     let studentNumber = students.length;
     let studentsMarkup = students.map((student)=>{
@@ -23,9 +25,7 @@ class GivingClass extends Component {
           </ul>
         </div>
         <div className="class-date">
-          <span className="month">Oct</span>
-          <span className="day">12</span>
-          <span className="time">7:30 PM</span>
+          <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
         </div>
       </article>
     );
