@@ -9,21 +9,22 @@ if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
   alert('WebRTC is not available in your browser.');
 }
 
+var userId = JSON.parse(localStorage.getItem('user') || {});
 // When we are about to transition away from this page, disconnect
 // from the room, if joined.
 // window.addEventListener('beforeunload', leaveRoomIfJoined);
 
-$.getJSON('http://localhost:8080/token', function (data) {
+$.getJSON(`http://localhost:8080/token/${userId}`, function (data) {
   identity = data.identity;
-
   // Create a Video Client and connect to Twilio
   videoClient = new Twilio.Video.Client(data.token);
   // document.getElementById('room-controls').style.display = 'block';
 
   // Bind button to join room
   document.getElementById('button-join').onclick = function () {
-    // roomName = document.getElementById('room-name').value;
-    roomName = "trial"
+    roomName = yoga;
+    // roomName = document.getElementById('room-name').getAttribute('data-class-id');
+    console.log("room name", roomName)
     if (roomName) {
       // log("Joining room '" + roomName + "'...");
 
