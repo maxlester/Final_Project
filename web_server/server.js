@@ -425,12 +425,16 @@ app.delete('/class/:id/delete', function(req, res) {
 //     })
 // });
 
-app.get('/token/:userid', function(request, response) {
+app.get('/token/:userid/class/:classId', function(request, response) {
     var userId = request.params.userid;
+    var classId = request.params.classId;
     knex.select("username").from("users").where("users.id", userId).then((result)=>{
 
-      var identity = result[0].username;
-      console.log(identity)
+      var identity = {username :result[0].username};
+      console.log('identity', identity);
+      knex.select("user_id")
+      .from("teachers")
+      .join()
 
     // Create an access token which we will sign and return to the client,
     // containing the grant we just created
@@ -441,7 +445,7 @@ app.get('/token/:userid', function(request, response) {
     );
 
     // Assign the generated identity to the token
-    token.identity = identity;
+    token.identity = identity.username;
 
     //grant the access token Twilio Video capabilities
     var grant = new VideoGrant();
