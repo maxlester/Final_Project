@@ -418,31 +418,73 @@ app.delete('/class/:id/delete', function(req, res) {
   })
 })
 
-app.get('/token', function(request, response) {
-    var identity = randomUsername();
+// app.get('/token/:userid', function(request, response) {
+//     var userId = request.params.userid
+//     knex.select('username').from('users').where('users.id', userId).then((result)=>{
+//       console.log("twillio token result ", result);
+//       var identity = result[0].username;
 
-    // Create an access token which we will sign and return to the client,
-    // containing the grant we just created
-    var token = new AccessToken(
-        process.env.TWILIO_ACCOUNT_SID,
-        process.env.TWILIO_API_KEY,
-        process.env.TWILIO_API_SECRET
-    );
+//       // Create an access token which we will sign and return to the client,
+//       // containing the grant we just created
+//       var token = new AccessToken(
+//           process.env.TWILIO_ACCOUNT_SID,
+//           process.env.TWILIO_API_KEY,
+//           process.env.TWILIO_API_SECRET
+//       );
 
-    // Assign the generated identity to the token
-    token.identity = identity;
+//       // Assign the generated identity to the token
+//       token.identity = identity;
 
-    //grant the access token Twilio Video capabilities
-    var grant = new VideoGrant();
-    grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
-    token.addGrant(grant);
+//       //grant the access token Twilio Video capabilities
+//       var grant = new VideoGrant();
+//       grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
+//       token.addGrant(grant);
 
-    // Serialize the token to a JWT string and include it in a JSON response
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.send({
-        identity: identity,
-        token: token.toJwt()
-    });
+//       // Serialize the token to a JWT string and include it in a JSON response
+//       response.setHeader('Access-Control-Allow-Origin', '*');
+//       response.send({
+//           identity: identity,
+//           token: token.toJwt()
+//       });
+//     })
+// });
+
+app.get('/token/:userid/class/:classId', function(request, response) {
+    var userId = request.params.userid;
+    var classId = request.params.classId;
+    knex.select("username").from("users").where("users.id", userId).then((result)=>{
+      let username = result[0].username;
+      var identity = {username : username};
+      console.log('identity', identity);
+      knex.select("username").from("users").join("teachers", "teachers.user_id","=", "users.id")
+      .join("class", "class.teacher_id","=", "teachers.id")
+      .where("class.id", classId).then((result2)=>{
+        console.log(result2);
+        identity['teacher'] = result2[0].username;
+        // Create an access token which we will sign and return to the client,
+        // containing the grant we just created
+        var token = new AccessToken(
+            process.env.TWILIO_ACCOUNT_SID,
+            process.env.TWILIO_API_KEY,
+            process.env.TWILIO_API_SECRET
+        );
+
+        // Assign the generated identity to the token
+        token.identity = identity.username;
+        //grant the access token Twilio Video capabilities
+        var grant = new VideoGrant();
+        grant.configurationProfileSid = process.env.TWILIO_CONFIGURATION_SID;
+        token.addGrant(grant);
+        console.log('identity', identity);
+        // Serialize the token to a JWT string and include it in a JSON response
+        response.setHeader('Access-Control-Allow-Origin', '*');
+        response.send({
+            identity: identity,
+            token: token.toJwt()
+        });
+      })
+    })
+
 });
 
 app.listen(PORT, function(){

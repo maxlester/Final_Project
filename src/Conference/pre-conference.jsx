@@ -9,7 +9,7 @@ class PreConference extends Component {
         <h2>You are about to join</h2>
         <h3>Yoga</h3>
         <h4>With Bridgit Wald</h4>
-        <button className="btn btn-clear" id="button-join" onClick={this.props.startConference}>Join now</button>
+        <button className="btn btn-clear" id="button-join" data-class-id={this.props.classId} onClick={this.props.startConference}>Join now</button>
       </div>
     );
   }
