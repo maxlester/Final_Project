@@ -42,7 +42,12 @@ function roomJoined(room, teacherUsername, username) {
   // When a participant joins, draw their video on screen
   room.on('participantConnected', function (participant) {
     // log("Joining: '" + participant.identity + "'");
-    participant.media.attach('#remote-media');
+    if (participant.identity === teacherUsername){
+      participant.media.attach('#local-media');
+    }
+    else{
+      participant.media.attach('#remote-media');
+    }
   });
 
   // When a participant disconnects, note in log
