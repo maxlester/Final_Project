@@ -19,9 +19,8 @@ class ConferenceMain extends Component {
         <NavBar/>
         <ConferenceSideBar/>
         <main>
-          <div id="presenter-media"></div>
-          <div id="remote-media"></div>
-          <div id="local-media"></div>
+          <div id="teacher-media"></div>
+          <div id="student-media"></div>
         </main>
       </div>
     )

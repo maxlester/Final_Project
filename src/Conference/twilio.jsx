@@ -13,7 +13,7 @@ function roomJoined(room, teacherUsername, username) {
   activeRoom = room;
   console.log('got to roomJoined');
 
-  let $local = document.getElementById('local-media');
+  let $local = document.getElementById('teacher-media');
   console.log($local);
   // log("Joined as '" + identity + "'");
   // document.getElementById('button-join').style.display = 'none';
@@ -23,18 +23,18 @@ function roomJoined(room, teacherUsername, username) {
   console.log("user", username)
 
   if (teacherUsername === username){
-    room.localParticipant.media.attach('#local-media');
+    room.localParticipant.media.attach('#teacher-media');
   }
   else {
-    room.localParticipant.media.attach('#remote-media');
+    room.localParticipant.media.attach('#student-media');
   }
   room.participants.forEach(function(participant) {
     console.log("participant", participant)
     if (participant.identity === teacherUsername){
-      participant.media.attach('#local-media');
+      participant.media.attach('#teacher-media');
     }
     else{
-      participant.media.attach('#remote-media');
+      participant.media.attach('#student-media');
     }
   });
 
@@ -43,10 +43,10 @@ function roomJoined(room, teacherUsername, username) {
   room.on('participantConnected', function (participant) {
     // log("Joining: '" + participant.identity + "'");
     if (participant.identity === teacherUsername){
-      participant.media.attach('#local-media');
+      participant.media.attach('#teacher-media');
     }
     else{
-      participant.media.attach('#remote-media');
+      participant.media.attach('#student-media');
     }
   });
 
@@ -77,7 +77,7 @@ function roomJoined(room, teacherUsername, username) {
 //     Twilio.Video.getUserMedia().then(
 //     function (mediaStream) {
 //       previewMedia.addStream(mediaStream);
-//       previewMedia.attach('#local-media');
+//       previewMedia.attach('#teacher-media');
 //     },
 //     function (error) {
 //       console.error('Unable to access local media', error);
