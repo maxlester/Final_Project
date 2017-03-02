@@ -8,7 +8,7 @@ class TakeMoney extends Component {
     super(props);
     let classId = this.props.classId
     this.state = {
-      classId: classId
+      classId: classId,
     }
   }
   onToken(token) {
@@ -39,9 +39,11 @@ class TakeMoney extends Component {
        'Content-Type':'application/json'
       },
       context: this,
-     success: function() {
-      this.props.router.push(`/teacher/${this.props.teacherId}`)
+     success: function(data) {
+      console.log(data);
       console.log("User has registered for class");
+      this.props.onHandleCount(data);
+      this.props.router.push(`/teacher/${this.props.teacherId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

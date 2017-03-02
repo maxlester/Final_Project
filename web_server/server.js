@@ -200,10 +200,14 @@ app.post('/class/:id/register', function(req, res) {
   knex.insert(classRegister)
   .into("class_user")
   .then((result) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200)
-    res.send({success: "Aything"})
-  })
+    knex.raw(`select count(class_id) from class_user where class_id = '${req.body.class_id}'`)
+      .then((result2) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.status(200)
+        console.log("THIS IS IT", result2.rows[0].count);
+        res.send({count: result2.rows[0].count})
+      })
+    })
 });
 
 
