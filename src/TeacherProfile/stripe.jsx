@@ -28,7 +28,7 @@ class TakeMoney extends Component {
   user.classes = classes;
   Auth.saveUser(user);
   console.log("$$$$$$$$$$$$$$$$");
-  console.log(user);
+  console.log(this.props);
   console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
@@ -40,7 +40,7 @@ class TakeMoney extends Component {
       },
       context: this,
      success: function() {
-
+      this.props.router.push(`/teacher/${this.props.teacherId}`)
       console.log("User has registered for class");
      },
      error: function(xhr, status, err) {

@@ -202,7 +202,7 @@ app.post('/class/:id/register', function(req, res) {
   .then((result) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200)
-    res.send("ANything")
+    res.send({success: "Aything"})
   })
 });
 

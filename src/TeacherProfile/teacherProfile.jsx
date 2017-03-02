@@ -67,7 +67,7 @@ getTeacher() {
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
           <h2>{this.state.teacher.firstName} is teaching the following classes</h2>
-          <TeacherClassList teacherClasses = {this.state.teacherClasses}/>
+          <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router={this.props.router}/>
         </main>
       </div>
     );

@@ -11,7 +11,7 @@ class TeacherClass extends Component {
     if (userClasses && userClasses.includes(this.props.id)) {
       registered = <p>You are registered</p>
     } else{
-      registered = <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle}/>
+      registered = <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
     }
     return (
       <article className = "class clearfix">
