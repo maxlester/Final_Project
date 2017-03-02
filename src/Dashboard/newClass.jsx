@@ -17,9 +17,18 @@ class NewClass extends Component {
     }
   }
 
+clearInputs(e){
+  e.target.classTitle.value = "";
+  e.target.classDescription.value = "";
+  e.target.cost.value = "";
+  e.target.maxNumberOfStudents.value = "";
+  e.target.startTime.value = "";
+}
+
 addClass(e){
    let newClass = this.state.newClass;
    e.preventDefault();
+    this.clearInputs(e);
    let userId = Auth.retrieveUser().userId;
    $.ajax({
      url: `http://localhost:8080/dashboard/${userId}/class/new`,
@@ -32,8 +41,8 @@ addClass(e){
       context: this,
      success: function() {
       console.log("succeassssss");
+      console.log("THISSS", this)
       this.props.getClassesGiving();
-      this.props.router.push(`/dashboard/${userId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

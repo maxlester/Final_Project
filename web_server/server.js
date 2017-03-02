@@ -108,7 +108,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     let teacherId = result[0].id;
     console.log("hahahahahahahah", result);
     if (result.length > 0) {
-     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by link`)
+     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("LOKkkkk", result2);
       let classes = result2.rows;
@@ -398,6 +398,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
       .then((result1) => {
         console.log("returning from the insert", result1);
         res.setHeader('Access-Control-Allow-Origin', '*');
+        res.send({success: "success"});
         res.status(200)
       })
       .catch(function(err) {
