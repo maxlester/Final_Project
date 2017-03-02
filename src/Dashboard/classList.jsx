@@ -13,6 +13,7 @@ class ClassList extends Component {
        classesTaking = this.props.classesTaking.map((item)=>{
         return (
           <div>
+          <h3>Classes you are registered for</h3>
           <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
           </div>
           )
@@ -22,27 +23,23 @@ class ClassList extends Component {
       classesGiving = this.props.classesGiving.map((item)=>{
         return (
           <div>
+          <h3>Classes you are teaching</h3>
           <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
           </div>
         )
-    })
-
-    if(!(this.props.classesGiving || this.props.classesTaking)){
-      console.log("nothing");
-      noClasses.push(
-          <div>
-            <h3>You are not currently registered for or teaching any classes</h3>
-          </div>
-        )
-      }
+      })
     }
+    if (!(this.props.classesGiving) && !(this.props.classesTaking)) {
+      console.log("Not signed up bitch")
+      noClasses = <h3>Your are not signed up for shit sign up motherfucker</h3>
+      } else {
+        noClasses = "";
+      }
 
 
     return (
       <div>
-          <h3>Classes you are teaching</h3>
           {classesGiving}
-          <h3>Classes you are registered for</h3>
           {classesTaking}
           {noClasses}
       </div>

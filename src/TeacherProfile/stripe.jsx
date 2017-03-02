@@ -22,19 +22,25 @@ class TakeMoney extends Component {
     user_id: Auth.retrieveUser().userId,
     class_id: this.state.classId
   }
+  let user = Auth.retrieveUser()
+  let classes = user.classes || [];
+  classes.push(this.state.classId);
+  user.classes = classes;
+  Auth.saveUser(user);
   console.log("$$$$$$$$$$$$$$$$");
-  console.log(classRegister);
+  console.log(user);
   console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
      type: 'POST',
      dataType: 'json',
-     data: JSON.stringifygi(classRegister),
+     data: JSON.stringify(classRegister),
      headers: {
        'Content-Type':'application/json'
       },
       context: this,
      success: function() {
+
       console.log("User has registered for class");
      },
      error: function(xhr, status, err) {

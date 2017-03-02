@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 import TakeMoney from './stripe.jsx';
+var moment = require('moment');
+import Auth from '../auth-helper.js';
 
 
 class TeacherClass extends Component {
-
   render() {
+    let userClasses = Auth.retrieveUser().classes;
+    let registered = null;
+    if (userClasses && userClasses.includes(this.props.id)) {
+      registered = <p>You are registered</p>
+    } else{
+      registered = <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle}/>
+    }
     return (
       <article className = "class clearfix">
         <div className="class-info">
@@ -12,11 +20,9 @@ class TeacherClass extends Component {
           <p>{this.props.classDescription}</p>
         </div>
         <div className="class-date">
-          <span className="month">Oct</span>
-          <span className="day">12</span>
-          <span className="time">7:30 PM</span>
+       <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
           <span className="cost">$ {this.props.classCost}</span>
-          <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle}/>
+          {registered}
         </div>
       </article>
     );
