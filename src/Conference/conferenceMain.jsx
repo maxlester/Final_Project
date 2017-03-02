@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import ConferenceSideBar from './conferenceSideBar.jsx';
 import Twilio from './twilio.jsx';
-import Auth from '../auth-helper.js';
 
 class ConferenceMain extends Component {
 
   componentDidMount() {
     console.log("mounting conference");
     let classId = this.props.classId;
-    let userId = Auth.retrieveUser().userId;
+    let userId = this.props.currentUser.userId;
+    console.log(userId);
     Twilio.startTwilio(classId, userId);
   }
 
@@ -17,7 +17,7 @@ class ConferenceMain extends Component {
     return(
       <div className="conference">
         <NavBar router={this.props.router}/>
-        <ConferenceSideBar/>
+        <ConferenceSideBar classInfo = {this.props.classInfo}/>
         <main>
           <div id="teacher-media"></div>
           <div id="student-media"></div>

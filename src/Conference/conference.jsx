@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PreConference from './pre-conference.jsx';
 import ConferenceMain from './conferenceMain.jsx';
+import Auth from '../auth-helper.js';
+
 
 
 
@@ -8,10 +10,14 @@ class Conference extends Component {
   constructor(props) {
     super(props);
     let classId = this.props.params.classId;
+    let currentUser = this.props.currentUser;
     this.state = {
       startConference : false,
-      classId : classId
+      classId : classId,
+      classInfo : {},
+      currentUser : currentUser
     }
+    this.getConferenceData();
   }
 
   startConference(){
@@ -21,14 +27,13 @@ class Conference extends Component {
 
   getConferenceData(){
     let classId = this.state.classId;
-    let authUserId = Auth.retrieveUser().userId
     $.ajax({
       url: `http://localhost:8080/class/${classId}`,
       type: 'GET',
       context: this,
       success: function(data) {
-        // let user = JSON.parse(data);
-        this.setClassesTaking(data)
+        let classInfo = data.classInfo;
+        this.setState({classInfo})
       },
       error: function(xhr, status, err) {
         console.error(err.toString());
@@ -40,11 +45,11 @@ class Conference extends Component {
   render() {
     if (this.state.startConference){
       return (
-        <ConferenceMain router={this.props.router} classId = {this.state.classId}/>
+        <ConferenceMain router={this.props.router} classId = {this.state.classId} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo}/>
       );
     }
     else {
-      return (<PreConference startConference={this.startConference.bind(this)} classId = {this.state.classId}/>)
+      return (<PreConference startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
     }
   }
 }

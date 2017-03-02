@@ -27,6 +27,7 @@ function roomJoined(room, teacherUsername, username) {
   }
   else {
     room.localParticipant.media.attach('#student-media');
+    document.getElementById(`${username}`).setAttribute("class", 'connected');
   }
   room.participants.forEach(function(participant) {
     console.log("participant", participant)
@@ -35,6 +36,8 @@ function roomJoined(room, teacherUsername, username) {
     }
     else{
       participant.media.attach('#student-media');
+      console.log('identity', participant.identity)
+      document.getElementById(`${participant.identity}`).setAttribute("class", 'connected');
     }
   });
 
@@ -47,6 +50,7 @@ function roomJoined(room, teacherUsername, username) {
     }
     else{
       participant.media.attach('#student-media');
+      document.getElementById(`${participant.identity}`).setAttribute("class", 'connected');
     }
   });
 

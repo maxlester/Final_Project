@@ -23,6 +23,14 @@
   }
 }
 
+li{
+  list-style: none;
+}
+ul{
+  margin:0;
+  padding:0;
+}
+
 .btn-clear{
   background-color:white;
   border:1px solid $green;
