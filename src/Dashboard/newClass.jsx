@@ -33,6 +33,7 @@ addClass(e){
      success: function() {
       console.log("succeassssss");
       this.props.getClassesGiving();
+      this.props.router.push(`/dashboard/${userId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

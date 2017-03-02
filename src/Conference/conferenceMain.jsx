@@ -16,7 +16,7 @@ class ConferenceMain extends Component {
   render(){
     return(
       <div className="conference">
-        <NavBar/>
+        <NavBar router={this.props.router}/>
         <ConferenceSideBar/>
         <main>
           <div id="teacher-media"></div>

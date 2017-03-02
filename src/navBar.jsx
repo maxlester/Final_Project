@@ -60,9 +60,10 @@ loginUser(e){
     console.log(currentUser.username);
     let userToSet = {email: currentUser.email, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName, id:currentUser.id, teacherId : currentUser.teacherId}
     this.setState({user : userToSet});
-    if (currentUser.username !== "") {
-      this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
-    }
+    // if (currentUser.username !== "") {
+    //   console.log(this.props.router);
+    //   this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
+    // }
   }
 
   logout(e){

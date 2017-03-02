@@ -20,7 +20,7 @@ class Conference extends Component {
   render() {
     if (this.state.startConference){
       return (
-        <ConferenceMain classId = {this.props.params.classId}/>
+        <ConferenceMain router={this.props.router} classId = {this.props.params.classId}/>
       );
     }
     else {
