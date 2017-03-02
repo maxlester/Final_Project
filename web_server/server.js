@@ -429,16 +429,14 @@ app.get('/token/:userid/class/:classId', function(request, response) {
     var userId = request.params.userid;
     var classId = request.params.classId;
     knex.select("username").from("users").where("users.id", userId).then((result)=>{
-      var identity = {username :result[0].username};
-      identity['teacher'] = false;
+      let username = result[0].username;
+      var identity = {username : username};
       console.log('identity', identity);
-      knex.select("user_id").from("teachers").join("class", "class.teacher_id","=", "teachers.id")
+      knex.select("username").from("users").join("teachers", "teachers.user_id","=", "users.id")
+      .join("class", "class.teacher_id","=", "teachers.id")
       .where("class.id", classId).then((result2)=>{
-        if (result2.length != 0){
-          if (userId === result2[0].user_id){
-          identity['teacher'] = true;
-          }
-        }
+        console.log(result2);
+        identity['teacher'] = result2[0].username;
         // Create an access token which we will sign and return to the client,
         // containing the grant we just created
         var token = new AccessToken(

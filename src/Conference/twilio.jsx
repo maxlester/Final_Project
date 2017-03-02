@@ -4,8 +4,12 @@ var previewMedia;
 var identity;
 var roomName;
 
+import Auth from "../auth-helper.js";
+
+var username = Auth.retrieveUser().username
+
 // Successfully connected!
-function roomJoined(room) {
+function roomJoined(room, teacherUsername) {
   activeRoom = room;
   console.log('got to roomJoined');
 
@@ -17,13 +21,19 @@ function roomJoined(room) {
 
   // Draw local video, if not already previewing
   if (!previewMedia) {
-    room.localParticipant.media.attach('#local-media');
+    room.localParticipant.media.attach('#remote-media');
   }
 
   room.participants.forEach(function(participant) {
     console.log("participant", participant)
+    if (username === teacherUsername){
+      participant.media.attach('#local-media');
+    }
+    else{
+      participant.media.attach('#remote-media');
+    }
     // log("Already in Room: '" + participant.identity + "'");
-    participant.media.attach('#remote-media');
+
   });
 
   // When a participant joins, draw their video on screen
@@ -87,8 +97,8 @@ module.exports = {
     console.log("twilio starting");
     $.getJSON(`http://localhost:8080/token/${userId}/class/${roomName}`, function (data) {
 
-      identity = data.identity;
-      console.log(identity);
+      identity = data.identity.username;
+      let teacherUsername = data.identity.teacher;
 
       // Create a Video Client and connect to Twilio
       videoClient = new Twilio.Video.Client(data.token);
@@ -99,7 +109,9 @@ module.exports = {
         if (roomName) {
           // log("Joining room '" + roomName + "'...");
 
-          videoClient.connect({ to: roomName}).then(roomJoined,
+          videoClient.connect({ to: roomName}).then(function(room){
+            roomJoined(room, teacherUsername);
+          },
             function(error) {
               console.log('Could not connect to Twilio: ' + error.message);
             });
