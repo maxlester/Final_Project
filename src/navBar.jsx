@@ -57,10 +57,11 @@ loginUser(e){
   setUser(){
     console.log("SettingUser");
     let currentUser = Auth.retrieveUser();
-    if (currentUser) {
-      console.log("I've had it up to beer with you")
-      let userToSet = {email: currentUser.email, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName, id:currentUser.id, teacherId : currentUser.teacherId}
-      this.setState({user : userToSet});
+    console.log(currentUser.username);
+    let userToSet = {email: currentUser.email, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName, id:currentUser.id, teacherId : currentUser.teacherId}
+    this.setState({user : userToSet});
+    if (currentUser.username !== "") {
+      this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
     }
   }
 

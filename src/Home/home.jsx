@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import Register from './Register.jsx';
-
+import Auth from '../auth-helper.js';
 
 
 class HomePage extends Component {
@@ -42,3 +42,4 @@ class HomePage extends Component {
 }
 
 export default HomePage;
+
