@@ -6,7 +6,7 @@ require("../styles/application.scss");
 // Render the top-level React component
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, hashHistory, IndexRoute} from 'react-router';
+import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router';
 import App from './app.jsx';
 import HomePage from './Home/home.jsx';
 import Dashboard from './Dashboard/dashboard.jsx';
@@ -15,7 +15,7 @@ import TakeMoney from './TeacherProfile/stripe.jsx';
 import TeacherProfile from './TeacherProfile/teacherProfile.jsx';
 
 ReactDOM.render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePage} />
       <Route path="dashboard/:id" component={Dashboard}/>

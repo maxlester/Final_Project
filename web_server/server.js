@@ -420,6 +420,11 @@ app.get('/token', function(request, response) {
     });
 });
 
+app.get("*", function(req, res) {
+  res.redirect("/")
+});
+
+
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)
 });

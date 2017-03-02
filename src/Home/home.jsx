@@ -33,7 +33,7 @@ class HomePage extends Component {
           <section className="register">
             <button type="button" className="btn btn-default" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
             <button type="button" className="btn btn-clear" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
-            <Register teacherForm={this.state.teacherForm}/>
+            <Register teacherForm={this.state.teacherForm} router={this.props.router}/>
           </section>
         </main>
       </div>
