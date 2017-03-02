@@ -122,10 +122,19 @@ class Dashboard extends Component {
     this.setState({teacher:teacher})
   }
 
+
   render() {
     let userId = Auth.retrieveUser().userId;
     console.log("userId", userId);
     console.log("params", this.props.params.id)
+    let teacherLink = null;
+    if (Auth.retrieveUser().teacherId) {
+      teacherLink = <p>This is your link: {`http://localhost:3000/#/teacher/${Auth.retrieveUser().teacherId}`}</p>
+      console.log("FFFFFFF", teacherLink);
+    }
+    else {
+      console.log("NOT WORKING");
+    }
     if (userId == this.props.params.id) {
       let newClassForm;
       let becomeTeacherOption;
@@ -148,6 +157,7 @@ class Dashboard extends Component {
             {becomeTeacherOption}
             <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
+              {teacherLink}
               <p>{this.state.dailyQuote.quote}</p>
               <p>{this.state.dailyQuote.author}</p>
             </section>
