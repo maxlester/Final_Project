@@ -17,6 +17,10 @@ class Conference extends Component {
       classInfo : {},
       currentUser : currentUser
     }
+
+  }
+
+  componentWillMount() {
     this.getConferenceData();
   }
 
@@ -31,8 +35,10 @@ class Conference extends Component {
       url: `http://localhost:8080/class/${classId}`,
       type: 'GET',
       context: this,
+      async:false,
       success: function(data) {
         let classInfo = data.classInfo;
+        console.log("classInfo", classInfo);
         this.setState({classInfo})
       },
       error: function(xhr, status, err) {
@@ -49,7 +55,10 @@ class Conference extends Component {
       );
     }
     else {
-      return (<PreConference startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
+      console.log(this.state.classInfo);
+      if (this.state.classInfo){
+        return (<PreConference startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
+      }
     }
   }
 }

@@ -5,15 +5,16 @@ class PreConference extends Component {
 
   render() {
     let userId = this.props.currentUser.userId;
+    console.log(this.props.classInfo);
     let students = this.props.classInfo.students;
     let isRegistered = false;
     console.log("userId", userId);
     console.log("student", students);
-    // for (student of students){
-    //   if (student.user_id === userId){
-    //     isRegistered = true;
-    //   }
-    // }
+    for ( let i = 0; i < students.length; i++){
+      if (students[i].user_id === userId){
+        isRegistered = true;
+      }
+    }
     if (isRegistered){
       return (
         <div className="pre-conference">
