@@ -63,6 +63,7 @@ app.get('/teacher/:id', function(req, res) {
         classDescription: result[i].class_description,
         classDate: result[i].start_time,
         classCost: result[i].price,
+        classId: result[i].id,
         maxNumberOfStudents: result[i].max_number_students
       })
     }
@@ -99,17 +100,17 @@ app.get('/dashboard/:id/taking', function(req, res) {
 });
 
 app.get('/dashboard/:id/giving', function(req, res) {
-  knex.select('user_id')
+  knex.select('teachers.id')
   .from('users')
   .join('teachers', 'teachers.user_id', '=', 'users.id')
   .where('users.id', req.params.id)
   .then((result) => {
-    let teacherId = req.params.id;
+    let teacherId = result[0].id;
     console.log("hahahahahahahah", result);
     if (result.length > 0) {
-     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${req.params.id} order by link`)
+     knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by link`)
     .then((result2) =>{
-      console.log("LOKKKKKKKK", result2);
+      console.log("LOKkkkk", result2);
       let classes = result2.rows;
       for (var n = 0; n < classes.length; n++) {
         classes[n] = {
@@ -189,6 +190,23 @@ app.get('/class/:id', function(req, res) {
     res.json({currentClass : result});
   })
 });
+
+app.post('/class/:id/register', function(req, res) {
+  let classRegister = {
+  user_id: req.body.user_id,
+  class_id: req.body.class_id
+  };
+  console.log(classRegister);
+  knex.insert(classRegister)
+  .into("class_user")
+  .then((result) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(200)
+    res.send("ANything")
+  })
+});
+
+
 
 app.post('/users/new', function(req, res) {
   let userObject = {
@@ -341,10 +359,16 @@ app.post('/login', function(req,res) {
 });
 
 app.post('/logout', function(req,res) {
-  if (res.status(200)) {
-  } else {
-     res.status(400);
-  }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    let returnObject = {
+            username: req.body.username,
+            firstName: req.body.first_name,
+            lastName: req.body.last_name,
+            email: req.body.email,
+            userId: req.body.id
+          }
+    console.log("IMSIDE");
+    res.send(returnObject)
 });
 
 
