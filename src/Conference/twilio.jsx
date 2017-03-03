@@ -67,11 +67,14 @@ function roomJoined(room, teacherUsername, username) {
     room.localParticipant.media.detach();
     room.participants.forEach(function(participant) {
       participant.media.detach();
+      document.getElementById(`${participant.identity}`).removeAttribute("class", 'connected');
     });
     activeRoom = null;
-    document.getElementById('button-join').style.display = 'inline';
     // document.getElementById('button-leave').style.display = 'none';
   });
+
+  // When we are about to transition away from this page, disconnect from the room, if joined.
+  window.addEventListener('beforeunload', leaveRoomIfJoined);
 }
 
 //  Local video preview
@@ -97,11 +100,11 @@ function roomJoined(room, teacherUsername, username) {
 //   logDiv.scrollTop = logDiv.scrollHeight;
 // }
 
-// function leaveRoomIfJoined() {
-//   if (activeRoom) {
-//     activeRoom.disconnect();
-//   }
-// }
+function leaveRoomIfJoined() {
+  if (activeRoom) {
+    activeRoom.disconnect();
+  }
+}
 
 
 module.exports = {
@@ -131,11 +134,11 @@ module.exports = {
           alert('Please enter a room name.');
         }
 
-      // Bind button to leave room
-    //   document.getElementById('button-leave').onclick = function () {
-    //     log('Leaving room...');
-    //     activeRoom.disconnect();
-    //   };
+      //Bind button to leave room
+      document.getElementById('button-leave').onclick = function () {
+        log('Leaving room...');
+        activeRoom.disconnect();
+      };
     });
   },
 }
@@ -143,8 +146,6 @@ module.exports = {
 
 
 
-// When we are about to transition away from this page, disconnect
-// from the room, if joined.
-// window.addEventListener('beforeunload', leaveRoomIfJoined);
+
 
 
