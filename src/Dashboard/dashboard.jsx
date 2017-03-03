@@ -35,7 +35,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.generateRandomQuote().bind(this);
+    this.generateRandomQuote();
   }
 
   generateRandomQuote(){
