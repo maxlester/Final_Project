@@ -74,7 +74,7 @@ class Register extends Component {
         <input className="lastName" name="lastName" type= "text" placeholder="Last Name" onChange={this.changeUser.bind(this)}/>
         <input className="username" name="username" type= "text" placeholder="User Name" onChange={this.changeUser.bind(this)}/>
         <input className="email" name="email" type= "email" placeholder="Email" onChange={this.changeUser.bind(this)}/>
-        <input className="password" name="password" type= "text" placeholder="Password" onChange={this.changeUser.bind(this)}/>
+        <input className="password" name="password" type= "password" placeholder="Password" onChange={this.changeUser.bind(this)}/>
         {teacherDescription}
         <button type="submit">Submit</button>
       </form>
