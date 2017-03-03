@@ -182,7 +182,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
 
 app.get('/class/:id', function(req, res) {
   let class_id = req.params.id;
-  knex.select('users.first_name', 'users.last_name', 'class.class_name')
+  knex.select('users.first_name', 'users.last_name', 'class.class_name', 'users.id', 'teacher_id')
   .from('class')
   // .fullOuterJoin('class_user', 'class_user.class_id', '=', 'class.id')
   // .fullOuterJoin('users as studentUsers', 'studentUsers.id', '=', 'class_user.user_id')
@@ -193,7 +193,9 @@ app.get('/class/:id', function(req, res) {
     let classInfo = {
       teacherFirstName : result[0].first_name,
       teacherLastName : result[0].last_name,
-      className : result[0].class_name
+      className : result[0].class_name,
+      teacherUserId: result[0].id,
+      teacherId:result[0].teacher_id
     }
     knex.select("first_name", "last_name", "username", 'user_id')
     .from('class')

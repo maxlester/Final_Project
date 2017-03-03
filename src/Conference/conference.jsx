@@ -57,7 +57,7 @@ class Conference extends Component {
     else {
       console.log(this.state.classInfo);
       if (this.state.classInfo){
-        return (<PreConference startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
+        return (<PreConference router={this.props.router} startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
       }
     }
   }
