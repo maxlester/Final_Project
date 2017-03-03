@@ -24,8 +24,12 @@ class NavBar extends Component {
         this.setUser();
   }
 
+  redirectHome(){
+    this.props.router.push('/');
+  }
 
-loginUser(e){
+
+  loginUser(e){
    let logInUser = {
     email : this.state.user.email,
     password : this.state.user.password
@@ -56,7 +60,7 @@ loginUser(e){
 
   setUser(){
     console.log("SettingUser");
-    let currentUser = Auth.retrieveUser();
+    let currentUser = Auth.retrieveUser() || {};
     console.log(currentUser.username);
     let userToSet = {email: currentUser.email, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName, id:currentUser.id, teacherId : currentUser.teacherId}
     this.setState({user : userToSet});
@@ -117,16 +121,16 @@ loginUser(e){
     if (this.state.user.username) {
       return (
         <nav>
-          <h1>Yoga Buddy</h1>
+           <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
           <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
           <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
-          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}>My Dashboard</button>
+          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
         </nav>
       );
     } else {
       return (
         <nav>
-          <h1>Yoga Buddy</h1>
+          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
           <div id="login-input">
             <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
               <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>

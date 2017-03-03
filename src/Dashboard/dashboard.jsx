@@ -33,13 +33,18 @@ class Dashboard extends Component {
       ],
       classesGiving:[
       ],
-      dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"}
+      dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"},
+      newClass:{
+        classTitle:"",
+        classDescription:"",
+        startTime:"",
+        cost:"",
+        maxNumberOfStudents: "",
+      }
     };
     this.getClassesTaking();
     this.getClassesGiving();
   }
-
-
 
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;
@@ -50,7 +55,6 @@ class Dashboard extends Component {
      type: 'GET',
      context: this,
      success: function(data) {
-       // let user = JSON.parse(data);
        this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
@@ -126,20 +130,64 @@ class Dashboard extends Component {
     this.setState({teacher:teacher})
   }
 
+  changeClass(e){
+    console.log("changing");
+    const field = e.target.name;
+    const newClass = this.state.newClass;
+    newClass[field] = e.target.value;
+    this.setState({newClass})
+  }
+
+  addClassToState(classInfo){
+    this.getClassesGiving();
+  }
+
+  // teacherName : "Bridgit Wald",
+  //         classTitle : "Yoga",
+  //         classDate : "Thu Feb 23 2017 16:59:25 GMT-0500 (EST)",
+  //         classLink : "www.facebook.com",
+  //         id : 1234
+
+  addClass(e){
+    console.log("addiing class!")
+    let newClass = this.state.newClass;
+    e.preventDefault();
+    let userId = Auth.retrieveUser().userId;
+    $.ajax({
+       url: `http://localhost:8080/dashboard/${userId}/class/new`,
+       type: 'POST',
+       dataType: 'json',
+       data: JSON.stringify(newClass),
+       headers: {
+         'Content-Type':'application/json'
+        },
+        context: this,
+       success: function(data) {
+        console.log('this worked');
+        console.log(data);
+        let returnClass = data;
+        returnClass.numberOfStudent = 0
+        returnClass.students = ["null null"];
+        this.addClassToState(returnClass);
+       },
+       error: function(xhr, status, err) {
+         console.error(err.toString());
+       }.bind(this)
+    })
+    return false; //returning false to prevent info showing in url
+  }
+
+
   render() {
     let userId = Auth.retrieveUser().userId;
-    console.log("userId", userId);
-    console.log("params", this.props.params.id)
     if (userId == this.props.params.id) {
       let newClassForm;
       let becomeTeacherOption;
-      console.log("good user!")
       if (Auth.retrieveUser().teacherId){
-        newClassForm = <NewClass getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+        newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
         becomeTeacherOption = <BecomeTeacher userId = {userId} becomeTeacher = {this.becomeTeacher.bind(this)} handleChange = {this.changeTeacher.bind(this)}/>
-        console.log("not a teacher")
       }
       return (
         <div className="dashboard">
