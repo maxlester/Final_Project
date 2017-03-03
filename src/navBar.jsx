@@ -107,14 +107,20 @@ loginUser(e){
     })
   }
 
+  redirectToDashboard(){
+    let userId = Auth.retrieveUser().userId;
+    this.props.router.push(`/dashboard/${userId}`);
+  }
+
   render() {
     let navContent;
     if (this.state.user.username) {
       return (
         <nav>
           <h1>Yoga Buddy</h1>
-          <button type="submit" id="logout" onClick = {this.logout.bind(this)}>Logout</button>
           <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
+          <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
+          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}>My Dashboard</button>
         </nav>
       );
     } else {
