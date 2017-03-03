@@ -88,6 +88,10 @@ class Dashboard extends Component {
     this.setState({classesTaking: data})
   }
 
+  redirectHome(){
+    this.props.router.push('/');
+  }
+
   becomeTeacher(e){
     e.preventDefault();
     let userId = this.props.params.id;
@@ -158,8 +162,9 @@ class Dashboard extends Component {
     else{
       return(
         <div className = "wrong-dashboard">
+          <NavBar router={this.props.router}/>
           <h1>You do not have access to this page it seems</h1>
-          <h3>Login or register now!</h3>
+          <button className="btn btn-default" onClick={this.redirectHome.bind(this)}>Return to home page</button>
         </div>
       );
     }
