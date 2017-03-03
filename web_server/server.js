@@ -58,47 +58,54 @@ app.get('/', function(req, res) {
 
 app.get('/teacher/:id', function(req, res) {
   let teacherId = req.params.id;
+  let formattedRes;
   knex.raw(`select class_name, class_description, max_number_students, price, start_time, clientUsers.first_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("LOKkkkk", result2);
-      let classes = result2.rows;
-      for (var n = 0; n < classes.length; n++) {
-        classes[n] = {
-          classTitle: classes[n].class_name,
-          classDate: classes[n].start_time,
-          classId: classes[n].id,
-          first_name: classes[n].first_name,
-          classDescription: classes[n].class_description,
-          classCost: classes[n].price,
-          maxNumberOfStudents:classes[n].max_number_students
-        }
-      }
-      let formattedRes = [];
-      let firstName = classes[0].first_name;
-      if (firstName) {
-      classes[0].students = [classes[0].first_name];
-      } else {
-        classes[0].students = [];
-      }
-      formattedRes.push(classes[0]);
-      for (let i = 1; i < classes.length; i++){
-        if (classes[i-1].classId === classes[i].classId){
-          classes[i].students = classes[i].first_name;
-          for(let k = 0; k < formattedRes.length; k++){
-            if (formattedRes[k].classId === classes[i].classId){
-              formattedRes[k].students.push(classes[i].students);
+      let classes;
+        if (result2.rows.length > 0) {
+          let classes = result2.rows;
+          for (var n = 0; n < classes.length; n++) {
+            classes[n] = {
+              classTitle: classes[n].class_name,
+              classDate: classes[n].start_time,
+              classId: classes[n].id,
+              first_name: classes[n].first_name,
+              classDescription: classes[n].class_description,
+              classCost: classes[n].price,
+              maxNumberOfStudents:classes[n].max_number_students
             }
           }
+          formattedRes = [];
+          let firstName = "";
+          if (classes.length > 0){
+          firstName = classes[0].first_name;
+          }
+          if (firstName) {
+          classes[0].students = [classes[0].first_name];
+          } else {
+            classes[0].students = [];
+          }
+          formattedRes.push(classes[0]);
+          for (let i = 1; i < classes.length; i++){
+            if (classes[i-1].classId === classes[i].classId){
+              classes[i].students = classes[i].first_name;
+              for(let k = 0; k < formattedRes.length; k++){
+                if (formattedRes[k].classId === classes[i].classId){
+                  formattedRes[k].students.push(classes[i].students);
+                }
+              }
+            }
+            else{
+              classes[i].students = [classes[i].first_name];
+              classes[i].first_name = "";
+              formattedRes.push(classes[i]);
+            }
+          }
+          for (let j = 0; j< formattedRes.length; j++) {
+            formattedRes[j].numberOfStudents = formattedRes[j].students.length;
+          }
         }
-        else{
-          classes[i].students = [classes[i].first_name];
-          classes[i].first_name = "";
-          formattedRes.push(classes[i]);
-        }
-      }
-      for (let j = 0; j< formattedRes.length; j++) {
-        formattedRes[j].numberOfStudents = formattedRes[j].students.length;
-      }
       knex
       .select('*')
       .from('users')
@@ -111,7 +118,8 @@ app.get('/teacher/:id', function(req, res) {
             description: result[0].description,
             id: result[0].id
         }
-        teacherObject.classes = formattedRes;
+        teacherObject.classes = formattedRes || "";
+        console.log(teacherObject);
       res.send(teacherObject);
       })
     })
@@ -203,8 +211,10 @@ app.get('/dashboard/:id/giving', function(req, res) {
         }
       }
       let formattedRes = [];
+      if (classes.length > 0) {
       classes[0].students = [classes[0].first_name + " " + classes[0].last_name];
       formattedRes.push(classes[0]);
+      }
       for (let i = 1; i < classes.length; i++){
         if (classes[i-1].classLink === classes[i].classLink){
           classes[i].students = classes[i].first_name + " " + classes[i].last_name;
@@ -348,6 +358,7 @@ app.post('/users/new', function(req, res) {
               console.log("it's a teacher!")
               let teacher_description = req.body.description;
               let teacherInfo = {
+                id: generateRandomNumber(),
                 user_id: user_id,
                 description: teacher_description
               }
@@ -405,6 +416,7 @@ app.post('/users/:id/becometeacher', function(req, res) {
   const id =  req.params.id;
   let teacherToCreate = {
     user_id: id,
+    id: generateRandomNumber(),
     // description: req.body.description,
       description: 'did this work?'
     }

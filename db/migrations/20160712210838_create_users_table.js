@@ -10,7 +10,8 @@ exports.up = function(knex, Promise) {
       table.string('password');
     }),
     knex.schema.createTable('teachers', function (table) {
-      table.increments('id');
+      table.integer('id');
+      table.primary('id');
       table.integer('user_id');
       table.foreign('user_id').references('users.id');
       table.string('description');

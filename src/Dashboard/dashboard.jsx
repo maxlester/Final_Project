@@ -212,7 +212,7 @@ class Dashboard extends Component {
       let teacherLink;
       let becomeTeacherOption;
       if (Auth.retrieveUser().teacherId){
-        teacherLink = <p>This is your link: {`http://localhost:3000/#/teacher/${Auth.retrieveUser().teacherId}`}</p>
+        teacherLink = <p>This is your link: <a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
         newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
