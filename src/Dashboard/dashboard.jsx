@@ -11,26 +11,11 @@ class Dashboard extends Component {
     super(props);
     this.dataServer = "http://localhost:8080";
     this.state = {
-      currentUser: {firstName: "Anonymous", id:1234},
+      currentUser: {},
       teacher:{
         description:""
       },
-      classesTaking: [
-        {
-          teacherName : "Bridgit Wald",
-          classTitle : "Yoga",
-          classDate : "Thu Feb 23 2017 16:59:25 GMT-0500 (EST)",
-          classLink : "www.facebook.com",
-          id : 1234
-        },
-        {
-          teacherName : "Marcus",
-          classTitle : "Yoga level II",
-          classDate : "Thu Feb 24 2017 16:59:25 GMT-0500 (EST)",
-          classLink : "www.facebook.com",
-          id : 4536
-        }
-      ],
+      classesTaking: [],
       classesGiving:[
       ],
       dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"},

@@ -105,7 +105,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
   .join('teachers', 'teachers.user_id', '=', 'users.id')
   .where('users.id', req.params.id)
   .then((result) => {
-    let teacherId = result[0].id;
+    let teacherId = result[0].id || "";
     if (result.length > 0) {
      knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
@@ -224,12 +224,14 @@ app.post('/class/:id/register', function(req, res) {
   })
 });
 
-
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 app.post('/users/new', function(req, res) {
   let userObject = {
-    first_name: req.body.firstName,
-    last_name: req.body.lastName,
+    first_name: req.body.firstName.capitalizeFirstLetter(),
+    last_name: req.body.lastName.capitalizeFirstLetter(),
     username : req.body.username,
     email : req.body.email,
     password : bcrypt.hashSync(req.body.password, 10),
@@ -249,11 +251,12 @@ app.post('/users/new', function(req, res) {
             let user_id = result3[0]
             let returnObject = {
               username: userObject.username,
-              firstName: userObject.firstName,
-              lastName: userObject.lastName,
+              firstName: userObject.first_name,
+              lastName: userObject.last_name,
               email: userObject.email,
               userId: user_id
             }
+            console.log(returnObject);
             if (isTeacher){
               console.log("it's a teacher!")
               let teacher_description = req.body.description;

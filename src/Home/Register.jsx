@@ -46,6 +46,7 @@ class Register extends Component {
          success: function(data) {
            Auth.saveUser(data);
            let userId = data.userId;
+           console.log(data);
            window.location = `/#/dashboard/${userId}`;
          },
          error: function(xhr, status, err) {
