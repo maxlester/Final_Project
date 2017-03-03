@@ -121,6 +121,7 @@ app.get('/teacher/:id', function(req, res) {
 //   .join('teachers', 'teachers.user_id', '=', 'users.id')
 //   .join('class', 'class.teacher_id', '=', 'teachers.id')
 //   .where('teachers.id', req.params.id)
+
 //   .then((result) => {
 //     let classes = [];
 //     for (let i = 0; i < result.length; i++) {
@@ -584,6 +585,13 @@ app.get('/token/:userid/class/:classId', function(request, response) {
     })
 
 });
+
+app.get('*', function (request, response){
+  console.log("caught request")
+  console.log(path.resolve(__dirname, '../index.html'))
+  console.log(path.resolve(__dirname, 'index.html'))
+  response.sendFile(path.resolve(__dirname, 'index.html'))
+})
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)

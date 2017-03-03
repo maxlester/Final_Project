@@ -8,6 +8,9 @@ var stripe = require("stripe")(
 
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
+
+    historyApiFallback: true,
+
     watchOptions: {
       aggregateTimeout: 300,
       poll: 3000,
