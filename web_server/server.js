@@ -66,7 +66,12 @@ app.get('/teacher/:id', function(req, res) {
         }
       }
       let formattedRes = [];
+      let firstName = classes[0].first_name;
+      if (firstName) {
       classes[0].students = [classes[0].first_name];
+      } else {
+        classes[0].students = [];
+      }
       formattedRes.push(classes[0]);
       for (let i = 1; i < classes.length; i++){
         if (classes[i-1].classId === classes[i].classId){
