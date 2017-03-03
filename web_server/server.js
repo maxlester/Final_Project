@@ -41,6 +41,14 @@ function generateRandomString(n){
   return randomString;
 };
 
+
+function generateRandomNumber(){
+  let randomNumber =  Math.floor(Math.random() * 1000000000);
+  return randomNumber;
+};
+
+
+
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -121,6 +129,7 @@ app.get('/teacher/:id', function(req, res) {
 //   .join('teachers', 'teachers.user_id', '=', 'users.id')
 //   .join('class', 'class.teacher_id', '=', 'teachers.id')
 //   .where('teachers.id', req.params.id)
+
 //   .then((result) => {
 //     let classes = [];
 //     for (let i = 0; i < result.length; i++) {
@@ -309,6 +318,7 @@ app.post('/users/new', function(req, res) {
   let userObject = {
     first_name: req.body.firstName.capitalizeFirstLetter(),
     last_name: req.body.lastName.capitalizeFirstLetter(),
+    id: generateRandomNumber(),
     username : req.body.username,
     email : req.body.email,
     password : bcrypt.hashSync(req.body.password, 10),
@@ -584,6 +594,13 @@ app.get('/token/:userid/class/:classId', function(request, response) {
     })
 
 });
+
+app.get('*', function (request, response){
+  console.log("caught request")
+  console.log(path.resolve(__dirname, '../index.html'))
+  console.log(path.resolve(__dirname, 'index.html'))
+  response.sendFile(path.resolve(__dirname, 'index.html'))
+})
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)

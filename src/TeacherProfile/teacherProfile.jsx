@@ -64,11 +64,11 @@ getTeacher() {
   render() {
     return (
       <div className="teacher-profile">
-        <NavBar/>
+        <NavBar router = {this.props.router}/>
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
           <h2>{this.state.teacher.firstName} is teaching the following classes</h2>
-          <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router={this.props.router}/>
+          <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
         </main>
       </div>
     );

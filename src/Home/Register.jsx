@@ -43,11 +43,11 @@ class Register extends Component {
          headers: {
            'Content-Type':'application/json'
           },
+          context: this,
          success: function(data) {
            Auth.saveUser(data);
            let userId = data.userId;
-           console.log(data);
-           window.location = `/#/dashboard/${userId}`;
+           this.props.router.push(`/dashboard/${userId}`)
          },
          error: function(xhr, status, err) {
            console.error(err.toString());
