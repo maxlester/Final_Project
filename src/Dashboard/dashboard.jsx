@@ -17,32 +17,28 @@ class Dashboard extends Component {
       },
       classesTaking: [],
       classesGiving:[],
-      dailyQuote:{
-        quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
-        author:"Ghandi"
-      },
-      // dailyQuote : [
-      //   {
-      //     quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
-      //     author:"Ghandi"
-      //   }
-      //   {
-      //     quote : "Education is the most powerful weapon which you can use to change the world.",
-      //     author : "Nelson Mandela"
-      //   }
-      //   {
-      //     quote : "Tell me and I forget, teach me and I may remember, involve me and I learn." ,
-      //     author : "Benjamin Franklin"
-      //   }
-      //   {
-      //     quote : "Education is the most powerful weapon which you can use to change the world.",
-      //     author : "Nelson Mandela"
-      //   }
-      //   {
-      //     quote : "Education is the most powerful weapon which you can use to change the world.",
-      //     author : "Nelson Mandela"
-      //   }
-      // ],
+      dailyQuote : [
+        {
+          quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+          author:"Ghandi"
+        },
+        {
+          quote : "Education is the most powerful weapon which you can use to change the world.",
+          author : "Nelson Mandela"
+        },
+        {
+          quote : "Tell me and I forget, teach me and I may remember, involve me and I learn." ,
+          author : "Benjamin Franklin"
+        },
+        {
+          quote : "The only way for a woman, as for a man, to find herself, to know herself as a person, is by creative work of her own. There is no other way.",
+          author : "Betty Friedan"
+        },
+        {
+          quote : "Without courage we cannot practice any other virtue with consistency.",
+          author : "Maya Angelou"
+        }
+      ],
       newClass:{
         classTitle:"",
         classDescription:"",
@@ -191,8 +187,16 @@ class Dashboard extends Component {
   }
 
 
+  generateRandomQuote(){
+    let number = Math.floor(Math.random() * 6) + 1  ;
+    return this.state.dailyQuote[number];
+  }
+
+
   render() {
     let userId = Auth.retrieveUser().userId;
+    let dailyQuote = this.generateRandomQuote();
+    console.log(dailyQuote);
     if (userId == this.props.params.id) {
       let newClassForm;
       let teacherLink;
@@ -216,8 +220,8 @@ class Dashboard extends Component {
             <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
               {teacherLink}
-              <p>{this.state.dailyQuote.quote}</p>
-              <p>{this.state.dailyQuote.author}</p>
+              <p>{dailyQuote.quote}</p>
+              <p>{dailyQuote.author}</p>
             </section>
           </main>
         </div>
