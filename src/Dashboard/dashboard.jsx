@@ -17,7 +17,32 @@ class Dashboard extends Component {
       },
       classesTaking: [],
       classesGiving:[],
-      dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"},
+      dailyQuote:{
+        quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+        author:"Ghandi"
+      },
+      // dailyQuote : [
+      //   {
+      //     quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      //     author:"Ghandi"
+      //   }
+      //   {
+      //     quote : "Education is the most powerful weapon which you can use to change the world.",
+      //     author : "Nelson Mandela"
+      //   }
+      //   {
+      //     quote : "Tell me and I forget, teach me and I may remember, involve me and I learn." ,
+      //     author : "Benjamin Franklin"
+      //   }
+      //   {
+      //     quote : "Education is the most powerful weapon which you can use to change the world.",
+      //     author : "Nelson Mandela"
+      //   }
+      //   {
+      //     quote : "Education is the most powerful weapon which you can use to change the world.",
+      //     author : "Nelson Mandela"
+      //   }
+      // ],
       newClass:{
         classTitle:"",
         classDescription:"",
