@@ -5,26 +5,9 @@ import Auth from '../auth-helper.js';
 
 class TeacherClass extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: 0
-    }
-  }
-
-handleCount(count) {
-  console.log("COUNTTTTTT", count);
-  this.setState({
-    count: count.count
-  })
-}
-
   render() {
     let userClasses = Auth.retrieveUser().classes;
     let registered = null;
-    console.log("qqqqqqqqqqq", this.state)
-    console.log("qqqqqqqqqqq", this.props.maxNumberOfStudents)
-    console.log("qqqqqqqqqqq", this.props.numberOfStudents)
     if (userClasses && userClasses.includes(this.props.id)) {
       registered = <p>You are registered</p>
     } else if (this.props.maxNumberOfStudents <= this.props.numberOfStudents){
