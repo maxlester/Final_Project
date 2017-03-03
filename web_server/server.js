@@ -49,35 +49,102 @@ app.get('/', function(req, res) {
 });
 
 app.get('/teacher/:id', function(req, res) {
-  knex
-  .select('*')
-  .from('users')
-  .join('teachers', 'teachers.user_id', '=', 'users.id')
-  .join('class', 'class.teacher_id', '=', 'teachers.id')
-  .where('teachers.id', req.params.id)
-  .then((result) => {
-    let classes = [];
-    for (let i = 0; i < result.length; i++) {
-      classes.push({
-        classTitle: result[i].class_name,
-        classDescription: result[i].class_description,
-        classDate: result[i].start_time,
-        classCost: result[i].price,
-        classId: result[i].id,
-        maxNumberOfStudents: result[i].max_number_students
+  let teacherId = req.params.id;
+  knex.raw(`select class_name, class_description, price, start_time, clientUsers.first_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
+    .then((result2) =>{
+      console.log("LOKkkkk", result2);
+      let classes = result2.rows;
+      for (var n = 0; n < classes.length; n++) {
+        classes[n] = {
+          classTitle: classes[n].class_name,
+          classDate: classes[n].start_time,
+          classId: classes[n].id,
+          first_name: classes[n].first_name,
+          classDescription: classes[n].class_description,
+          classCost: classes[n].price
+        }
+      }
+      let formattedRes = [];
+      classes[0].students = [classes[0].first_name];
+      formattedRes.push(classes[0]);
+      for (let i = 1; i < classes.length; i++){
+        if (classes[i-1].classId === classes[i].classId){
+          classes[i].students = classes[i].first_name;
+          for(let k = 0; k < formattedRes.length; k++){
+            if (formattedRes[k].classId === classes[i].classId){
+              formattedRes[k].students.push(classes[i].students);
+            }
+          }
+        }
+        else{
+          classes[i].students = [classes[i].first_name];
+          classes[i].first_name = "";
+          formattedRes.push(classes[i]);
+        }
+      }
+      for (let j = 0; j< formattedRes.length; j++) {
+        formattedRes[j].numberOfStudents = formattedRes[j].students.length;
+      }
+      knex
+      .select('*')
+      .from('users')
+      .join('teachers', 'teachers.user_id', '=', 'users.id')
+      .where('teachers.id', teacherId)
+      .then((result) => {
+        let teacherObject = {
+            firstName: result[0].first_name,
+            lastName: result[0].last_name,
+            description: result[0].description,
+            id: result[0].id
+        }
+        teacherObject.classes = formattedRes;
+      res.send(teacherObject);
       })
-    }
-    let teacherObject = {
-      firstName: result[0].first_name,
-      lastName: result[0].last_name,
-      description: result[0].description,
-      id: result[0].id,
-      classes: classes
-    }
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.send(teacherObject);
+    })
   })
-});
+
+//   knex.raw(`select class_name, class_description, price, link, start_time, clientUsers.id,  class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
+//     .then((result2) =>{
+//       console.log("LOKkkkk", result2);
+//       res.send(result2);
+// })
+// app.get('/teacher/:id', function(req, res) {
+//   knex
+//   .select('*')
+//   .from('users')
+//   .join('teachers', 'teachers.user_id', '=', 'users.id')
+//   .join('class', 'class.teacher_id', '=', 'teachers.id')
+//   .where('teachers.id', req.params.id)
+//   .then((result) => {
+//     let classes = [];
+//     for (let i = 0; i < result.length; i++) {
+//         knex.raw(`select count(class_id) from class_user where class_id = '${result[i].id}'`)
+//         .then((result2) => {
+//         res.setHeader('Access-Control-Allow-Origin', '*');
+//         res.status(200)
+//         console.log("THIS IS IT", result2.rows[0].count);
+//         res.send({count: result2.rows[0].count})
+//       })
+//       classes.push({
+//         classTitle: result[i].class_name,
+//         classDescription: result[i].class_description,
+//         classDate: result[i].start_time,
+//         classCost: result[i].price,
+//         classId: result[i].id,
+//         maxNumberOfStudents: result[i].max_number_students
+//       })
+//     }
+//     let teacherObject = {
+//       firstName: result[0].first_name,
+//       lastName: result[0].last_name,
+//       description: result[0].description,
+//       id: result[0].id,
+//       classes: classes
+//     }
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.send(teacherObject);
+//   })
+// });
 
 app.get('/dashboard/:id/taking', function(req, res) {
   knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class.id, class_description, class.link, start_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)

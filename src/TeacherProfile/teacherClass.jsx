@@ -22,9 +22,11 @@ handleCount(count) {
   render() {
     let userClasses = Auth.retrieveUser().classes;
     let registered = null;
+    console.log("qqqqqqqqqqq", this.state)
+    console.log("qqqqqqqqqqq", this.props.maxNumberOfStudents)
     if (userClasses && userClasses.includes(this.props.id)) {
       registered = <p>You are registered</p>
-    } else if (this.props.maxNumberOfStudents >= this.state.count){
+    } else if (this.props.maxNumberOfStudents === this.state.count){
       registered = <p>Class is full</p>
     }else {
       registered = <TakeMoney onHandleCount={this.handleCount} maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />

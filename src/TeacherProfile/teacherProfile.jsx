@@ -43,6 +43,7 @@ getTeacher() {
      type: 'GET',
      context: this,
      success: function(data) {
+      console.log("eeeeeeeeeeeeee", data);
        let teacher = {
         firstName: data.firstName,
         lastName: data.lastName,

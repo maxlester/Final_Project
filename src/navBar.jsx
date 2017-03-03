@@ -56,7 +56,7 @@ loginUser(e){
 
   setUser(){
     console.log("SettingUser");
-    let currentUser = Auth.retrieveUser();
+    let currentUser = Auth.retrieveUser() || {};
     console.log(currentUser.username);
     let userToSet = {email: currentUser.email, username : currentUser.username, firstName : currentUser.firstName, lastName : currentUser.lastName, id:currentUser.id, teacherId : currentUser.teacherId}
     this.setState({user : userToSet});
