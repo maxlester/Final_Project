@@ -16,8 +16,7 @@ class Dashboard extends Component {
         description:""
       },
       classesTaking: [],
-      classesGiving:[
-      ],
+      classesGiving:[],
       dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"},
       newClass:{
         classTitle:"",
