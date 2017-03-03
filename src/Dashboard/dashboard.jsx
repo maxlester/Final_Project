@@ -16,9 +16,11 @@ class Dashboard extends Component {
         description:""
       },
       classesTaking: [],
-      classesGiving:[
-      ],
-      dailyQuote : {quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.", author:"Ghandi"},
+      classesGiving:[],
+      dailyQuote : {
+        quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+        author:"Ghandi"
+      },
       newClass:{
         classTitle:"",
         classDescription:"",
@@ -29,7 +31,43 @@ class Dashboard extends Component {
     };
     this.getClassesTaking();
     this.getClassesGiving();
+
   }
+
+  componentDidMount() {
+    this.generateRandomQuote();
+  }
+
+  generateRandomQuote(){
+    let quotes =
+    [
+      {
+        quote : "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+        author:"Ghandi"
+      },
+      {
+        quote : "Education is the most powerful weapon which you can use to change the world.",
+        author : "Nelson Mandela"
+      },
+      {
+        quote : "Tell me and I forget, teach me and I may remember, involve me and I learn." ,
+        author : "Benjamin Franklin"
+      },
+      {
+        quote : "The only way for a woman, as for a man, to find herself, to know herself as a person, is by creative work of her own. There is no other way.",
+        author : "Betty Friedan"
+      },
+      {
+        quote : "Without courage we cannot practice any other virtue with consistency.",
+        author : "Maya Angelou"
+      }
+    ]
+    let number = Math.floor(Math.random() * 6) + 1  ;
+    let quote = quotes[number]
+    this.setState({dailyQuote : quote});
+  }
+
+
 
   getClassesTaking() {
    let classesTaking = this.state.classesTaking;

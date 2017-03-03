@@ -74,7 +74,10 @@ function roomJoined(room, teacherUsername, username) {
   });
 
   // When we are about to transition away from this page, disconnect from the room, if joined.
-  window.addEventListener('beforeunload', leaveRoomIfJoined);
+  window.addEventListener('unload', leaveRoomIfJoined);
+  $("#logout, #dashboard, h1").click(()=>{
+    leaveRoomIfJoined();
+  })
 }
 
 //  Local video preview

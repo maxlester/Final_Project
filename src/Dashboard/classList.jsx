@@ -8,40 +8,35 @@ class ClassList extends Component {
   render() {
     let classesTaking;
     let classesGiving;
-    let noClasses;
-    if (this.props.classesTaking){
+    let givingMessage;
+    let takingMessage;
+    let noClassesMessage;
+    console.log("classesTaking", this.props.classesTaking)
+    console.log("classesGiving", this.props.classesGiving)
+    if (this.props.classesTaking.length != 0){
+        takingMessage = <h3>Classes you are registered for</h3>
        classesTaking = this.props.classesTaking.map((item)=>{
-        return (
-          <div>
-          <h3>Classes you are registered for</h3>
-          <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
-          </div>
-          )
+        return <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
       })
     }
-    if (this.props.classesGiving){
+    if (this.props.classesGiving.length != 0){
+      givingMessage = <h3>Classes you are teaching</h3>
       classesGiving = this.props.classesGiving.map((item)=>{
-        return (
-          <div>
-          <h3>Classes you are teaching</h3>
-          <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
-          </div>
-        )
+        return <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
       })
     }
-    if (!(this.props.classesGiving) && !(this.props.classesTaking)) {
-      console.log("Not signed up bitch")
-      noClasses = <h3>Your are not signed up for shit sign up motherfucker</h3>
-      } else {
-        noClasses = "";
+    if ((this.props.classesGiving.length === 0) && (this.props.classesTaking.length === 0)) {
+      noClassesMessage = <h3>Your are not registered for any class</h3>
       }
 
 
     return (
       <div>
+          {givingMessage}
           {classesGiving}
+          {takingMessage}
           {classesTaking}
-          {noClasses}
+          {noClassesMessage}
       </div>
     );
   }
