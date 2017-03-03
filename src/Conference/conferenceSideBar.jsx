@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import RegisteredStudents from './registeredStudents.jsx';
 
 
 class ConferenceSideBar extends Component {
@@ -6,14 +7,10 @@ class ConferenceSideBar extends Component {
   render() {
     return (
       <aside className="left-sidebar">
-        <h2>Yoga</h2>
-        <h3>With Bridgit Wald</h3>
-        <p>Connected Students</p>
-        <ul>
-          <li>Justine Gagnepain</li>
-          <li>Marcus</li>
-          <li>Max Lester</li>
-        </ul>
+        <h2>{this.props.classInfo.className}</h2>
+        <h3>With {this.props.classInfo.teacherFirstName} {this.props.classInfo.teacherLastName}</h3>
+        <p>Registered Students</p>
+        <RegisteredStudents students={this.props.classInfo.students}/>
       </aside>
     );
   }

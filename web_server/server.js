@@ -254,13 +254,33 @@ app.get('/dashboard/:id/giving', function(req, res) {
       //   }
 
 app.get('/class/:id', function(req, res) {
-  knex
-  .select('*')
+  let class_id = req.params.id;
+  knex.select('users.first_name', 'users.last_name', 'class.class_name', 'users.id', 'teacher_id')
   .from('class')
-  .where('class.id', req.params.id)
+  // .fullOuterJoin('class_user', 'class_user.class_id', '=', 'class.id')
+  // .fullOuterJoin('users as studentUsers', 'studentUsers.id', '=', 'class_user.user_id')
+  .join('teachers', 'teachers.id', '=', 'class.teacher_id')
+  .join('users ','users.id', '=', 'teachers.user_id')
+  .where('class.id', class_id)
   .then((result) => {
+    let classInfo = {
+      teacherFirstName : result[0].first_name,
+      teacherLastName : result[0].last_name,
+      className : result[0].class_name,
+      teacherUserId: result[0].id,
+      teacherId:result[0].teacher_id
+    }
+    knex.select("first_name", "last_name", "username", 'user_id')
+    .from('class')
+    .join('class_user', 'class_user.class_id', '=', 'class.id')
+    .join('users', 'users.id', '=', 'class_user.user_id')
+    .where('class.id', class_id)
+    .then((result2)=>{
+      classInfo.students = result2;
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.json({currentClass : result});
+    res.json({classInfo});
+    })
+
   })
 });
 

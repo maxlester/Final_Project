@@ -4,6 +4,7 @@ import HomePage from './Home/home.jsx';
 import Dashboard from './Dashboard/dashboard.jsx';
 import StripeCheckout from 'react-stripe-checkout';
 import authentification from './authentification-tools.jsx';
+import Auth from './auth-helper.js';
 
 class App extends Component {
     constructor(props) {
@@ -13,8 +14,10 @@ class App extends Component {
 
 
   render() {
+    let currentUser = Auth.retrieveUser() || {};
     const childrenWithProps = React.Children.map(this.props.children,
      (child) => React.cloneElement(child, {
+        currentUser : currentUser
      }))
     return (
       <div>

@@ -2,24 +2,31 @@ import React, {Component} from 'react';
 import NavBar from '../navBar.jsx';
 import ConferenceSideBar from './conferenceSideBar.jsx';
 import Twilio from './twilio.jsx';
-import Auth from '../auth-helper.js';
 
 class ConferenceMain extends Component {
 
   componentDidMount() {
     console.log("mounting conference");
     let classId = this.props.classId;
-    let userId = Auth.retrieveUser().userId;
+    let userId = this.props.currentUser.userId;
+    console.log(userId);
     Twilio.startTwilio(classId, userId);
   }
 
   render(){
+    let teacherMedia = $('#teacher-media');
+    let noTeacher;
+    if ($('#teacher-media').children().length === 0 ) {
+      noTeacher = <p>Class will start as soon as your instructor joins!</p>;
+    }
     return(
       <div className="conference">
         <NavBar router={this.props.router}/>
-        <ConferenceSideBar/>
+        <ConferenceSideBar classInfo = {this.props.classInfo}/>
         <main>
-          <div id="teacher-media"></div>
+          <div id="teacher-media">
+            {noTeacher}
+          </div>
           <div id="student-media"></div>
         </main>
       </div>
