@@ -14,12 +14,19 @@ class ConferenceMain extends Component {
   }
 
   render(){
+    let teacherMedia = $('#teacher-media');
+    let noTeacher;
+    if ($('#teacher-media').children().length === 0 ) {
+      noTeacher = <p>Class will start as soon as your instructor joins!</p>;
+    }
     return(
       <div className="conference">
         <NavBar router={this.props.router}/>
         <ConferenceSideBar classInfo = {this.props.classInfo}/>
         <main>
-          <div id="teacher-media"></div>
+          <div id="teacher-media">
+            {noTeacher}
+          </div>
           <div id="student-media"></div>
         </main>
       </div>

@@ -100,6 +100,7 @@ function roomJoined(room, teacherUsername, username) {
 //   logDiv.scrollTop = logDiv.scrollHeight;
 // }
 
+
 function leaveRoomIfJoined() {
   if (activeRoom) {
     activeRoom.disconnect();
