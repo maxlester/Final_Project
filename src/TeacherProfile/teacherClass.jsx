@@ -1,10 +1,23 @@
 import React, {Component} from 'react';
 import TakeMoney from './stripe.jsx';
-
+var moment = require('moment');
+import Auth from '../auth-helper.js';
 
 class TeacherClass extends Component {
 
+
   render() {
+    let userClasses = Auth.retrieveUser().classes;
+    let registered = null;
+    console.log("faaaaaaaaaaaa", this.props.maxNumberOfStudents)
+    console.log("faaaaaaaaaaaa", this.props.numberOfStudents)
+    if (userClasses && userClasses.includes(this.props.id)) {
+      registered = <p>You are registered</p>
+    } else if (this.props.maxNumberOfStudents <= this.props.numberOfStudents){
+      registered = <p>Class is full</p>
+    }else {
+      registered = <TakeMoney onHandleCount={this.handleCount} maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
+    }
     return (
       <article className = "class clearfix">
         <div className="class-info">
@@ -12,11 +25,9 @@ class TeacherClass extends Component {
           <p>{this.props.classDescription}</p>
         </div>
         <div className="class-date">
-          <span className="month">Oct</span>
-          <span className="day">12</span>
-          <span className="time">7:30 PM</span>
+       <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
           <span className="cost">$ {this.props.classCost}</span>
-          <TakeMoney cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle}/>
+          {registered}
         </div>
       </article>
     );

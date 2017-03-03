@@ -115,6 +115,14 @@ class Dashboard extends Component {
     this.setState({teacher:teacher})
   }
 
+  clearInputs(e){
+    e.target.classTitle.value = "";
+    e.target.classDescription.value = "";
+    e.target.cost.value = "";
+    e.target.maxNumberOfStudents.value = "";
+    e.target.startTime.value = "";
+  }
+
   changeClass(e){
     console.log("changing");
     const field = e.target.name;
@@ -127,17 +135,13 @@ class Dashboard extends Component {
     this.getClassesGiving();
   }
 
-  // teacherName : "Bridgit Wald",
-  //         classTitle : "Yoga",
-  //         classDate : "Thu Feb 23 2017 16:59:25 GMT-0500 (EST)",
-  //         classLink : "www.facebook.com",
-  //         id : 1234
 
   addClass(e){
     console.log("addiing class!")
     let newClass = this.state.newClass;
     e.preventDefault();
     let userId = Auth.retrieveUser().userId;
+    this.clearInputs(e);
     $.ajax({
        url: `http://localhost:8080/dashboard/${userId}/class/new`,
        type: 'POST',
@@ -167,8 +171,10 @@ class Dashboard extends Component {
     let userId = Auth.retrieveUser().userId;
     if (userId == this.props.params.id) {
       let newClassForm;
+      let teacherLink;
       let becomeTeacherOption;
       if (Auth.retrieveUser().teacherId){
+        teacherLink = <p>This is your link: {`http://localhost:3000/#/teacher/${Auth.retrieveUser().teacherId}`}</p>
         newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
@@ -185,6 +191,7 @@ class Dashboard extends Component {
             {becomeTeacherOption}
             <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
+              {teacherLink}
               <p>{this.state.dailyQuote.quote}</p>
               <p>{this.state.dailyQuote.author}</p>
             </section>

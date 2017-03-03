@@ -8,7 +8,7 @@ class TakeMoney extends Component {
     super(props);
     let classId = this.props.classId
     this.state = {
-      classId: classId
+      classId: classId,
     }
   }
   onToken(token) {
@@ -22,8 +22,13 @@ class TakeMoney extends Component {
     user_id: Auth.retrieveUser().userId,
     class_id: this.state.classId
   }
+  let user = Auth.retrieveUser()
+  let classes = user.classes || [];
+  classes.push(this.state.classId);
+  user.classes = classes;
+  Auth.saveUser(user);
   console.log("$$$$$$$$$$$$$$$$");
-  console.log(classRegister);
+  console.log(this.props);
   console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
@@ -34,8 +39,11 @@ class TakeMoney extends Component {
        'Content-Type':'application/json'
       },
       context: this,
-     success: function() {
+     success: function(data) {
+      console.log(data);
       console.log("User has registered for class");
+      this.props.onHandleCount(data);
+      this.props.router.push(`/teacher/${this.props.teacherId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());
