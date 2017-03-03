@@ -50,7 +50,7 @@ app.get('/', function(req, res) {
 
 app.get('/teacher/:id', function(req, res) {
   let teacherId = req.params.id;
-  knex.raw(`select class_name, class_description, price, start_time, clientUsers.first_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
+  knex.raw(`select class_name, class_description, max_number_students, price, start_time, clientUsers.first_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("LOKkkkk", result2);
       let classes = result2.rows;
@@ -61,7 +61,8 @@ app.get('/teacher/:id', function(req, res) {
           classId: classes[n].id,
           first_name: classes[n].first_name,
           classDescription: classes[n].class_description,
-          classCost: classes[n].price
+          classCost: classes[n].price,
+          maxNumberOfStudents:classes[n].max_number_students
         }
       }
       let formattedRes = [];
