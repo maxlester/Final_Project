@@ -11,16 +11,7 @@ class TeacherProfile extends Component {
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       teacher: [],
-      teacherClasses:[
-        {
-          className : "Yoga level III",
-          classDate : "Thu Feb 24 2017 16:59:25 GMT-0500 (EST)",
-          classLink : "",
-          classCost : 5,
-          classDescription : "I have forgotten to mention that, in many things, Queequeg placed great confidence in the excellence of Yojo's judgment and surprising forecast of things; and cherished Yojo with considerable esteem, as a rather good sort of god, who perhaps meant well enough upon the whole, but in all cases did not succeed in his benevolent designs.",
-          id : 5647
-        }
-      ],
+      teacherClasses:[],
     };
   }
 
@@ -62,12 +53,19 @@ getTeacher() {
  }
 
   render() {
+    let classes = null;
+    if (this.state.teacherClasses) {
+    classes = <h2>{this.state.teacher.firstName} is teaching the following classes</h2>
+    }
+    else{
+      classes = <h2>{this.state.teacher.firstName} is currently not teaching any classes</h2>
+    }
     return (
       <div className="teacher-profile">
         <NavBar router = {this.props.router}/>
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
-          <h2>{this.state.teacher.firstName} is teaching the following classes</h2>
+          {classes}
           <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
         </main>
       </div>
