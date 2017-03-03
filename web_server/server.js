@@ -41,6 +41,14 @@ function generateRandomString(n){
   return randomString;
 };
 
+
+function generateRandomNumber(){
+  let randomNumber =  Math.floor(Math.random() * 1000000000);
+  return randomNumber;
+};
+
+
+
 app.get('/', function(req, res) {
   knex('users').where('first_name', "Alice").then((result) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -308,6 +316,7 @@ app.post('/class/:id/register', function(req, res) {
 
 app.post('/users/new', function(req, res) {
   let userObject = {
+    id: generateRandomNumber(),
     first_name: req.body.firstName,
     last_name: req.body.lastName,
     username : req.body.username,
