@@ -14,15 +14,40 @@ class HomePage extends Component {
 
   setTeacherForm(){
     console.log("setting teacher form")
-    this.setState({teacherForm : true})
+    this.setState({teacherForm : true});
   }
 
   removeTeacherForm(){
     console.log("removing teacher form")
-    this.setState({teacherForm : false})
+    this.setState({teacherForm : false});
+  }
+
+  redirectToDashboard(){
+    let userId = Auth.retrieveUser().userId;
+    this.props.router.push(`/dashboard/${userId}`);
   }
 
   render() {
+    let user = Auth.retrieveUser()
+    let firstName = user.firstName;
+    let mainContent;
+    if (firstName){
+      mainContent = (
+        <section>
+          <h2>Welcome, {firstName}</h2>
+          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> Your Dashboard</button>
+        </section>
+      )
+    }
+    else{
+      mainContent = (
+       <section className="register">
+          <button type="button" className="btn btn-default" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
+            <button type="button" className="btn btn-clear" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
+            <Register teacherForm={this.state.teacherForm}/>
+        </section>
+      );
+    }
     return (
       <div className="home">
         <NavBar router={this.props.router}/>
@@ -30,11 +55,7 @@ class HomePage extends Component {
         </aside>
         <main>
           <h2>Teach, connect, make a living with your friends</h2>
-          <section className="register">
-            <button type="button" className="btn btn-default" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
-            <button type="button" className="btn btn-clear" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
-            <Register teacherForm={this.state.teacherForm}/>
-          </section>
+          {mainContent}
         </main>
       </div>
     );

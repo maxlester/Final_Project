@@ -25,7 +25,7 @@ class ClassList extends Component {
         return <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
       })
     }
-    if (this.props.classesGiving.length === 0 && this.props.classesTaking.length === 0) {
+    if ((this.props.classesGiving.length === 0) && (this.props.classesTaking.length === 0)) {
       noClassesMessage = <h3>Your are not registered for any class</h3>
       }
 
