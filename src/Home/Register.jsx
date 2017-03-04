@@ -51,6 +51,8 @@ class Register extends Component {
          },
          error: function(xhr, status, err) {
            console.error(err.toString());
+           console.log(xhr)
+           alert(xhr.responseText)
          }.bind(this)
        })
      return false; //returning false to prevent info showing in url
@@ -66,15 +68,15 @@ class Register extends Component {
   render() {
     let teacherDescription
     if(this.props.teacherForm){
-      teacherDescription = <textarea name = "description" placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)" onChange={this.changeUser.bind(this)}></textarea>
+      teacherDescription = <textarea name = "description" placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)" onChange={this.changeUser.bind(this)} required></textarea>
     }
     return(
       <form className="registerStudent" onSubmit={this.registerUser.bind(this)}>
-        <input className="firstName" name="firstName" type= "text" placeholder="First Name" onChange={this.changeUser.bind(this)}/>
-        <input className="lastName" name="lastName" type= "text" placeholder="Last Name" onChange={this.changeUser.bind(this)}/>
-        <input className="username" name="username" type= "text" placeholder="User Name" onChange={this.changeUser.bind(this)}/>
-        <input className="email" name="email" type= "email" placeholder="Email" onChange={this.changeUser.bind(this)}/>
-        <input className="password" name="password" type= "password" placeholder="Password" onChange={this.changeUser.bind(this)}/>
+        <input className="firstName" name="firstName" type= "text" placeholder="First Name" onChange={this.changeUser.bind(this)} required/>
+        <input className="lastName" name="lastName" type= "text" placeholder="Last Name" onChange={this.changeUser.bind(this)} required/>
+        <input className="username" name="username" type= "text" placeholder="User Name" onChange={this.changeUser.bind(this)} required/>
+        <input className="email" name="email" type= "email" placeholder="Email" onChange={this.changeUser.bind(this)} required/>
+        <input className="password" name="password" type= "password" placeholder="Password" onChange={this.changeUser.bind(this)} required/>
         {teacherDescription}
         <button type="submit">Submit</button>
       </form>
