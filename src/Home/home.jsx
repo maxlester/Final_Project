@@ -30,10 +30,10 @@ class HomePage extends Component {
   render() {
     let user = Auth.retrieveUser()
     let mainContent;
-    if (user){
+    if (user && user.firstName){
       mainContent = (
         <section>
-          <h2>Welcome, {firstName}</h2>
+          <h2>Welcome, {user.firstName}</h2>
           <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> Your Dashboard</button>
         </section>
       )
