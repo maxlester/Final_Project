@@ -102,31 +102,32 @@ class NavBar extends Component {
     let navContent;
     let user = Auth.retrieveUser()
     if (user && user.firstName) {
-      return (
-        <nav>
-          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
-          <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
-          <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
-          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
-        </nav>
-      );
-    } else {
-      return (
-        <nav>
-          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
-          <div id="login-input">
-            <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
-              <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
-              <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
-              <button type="submit" id="logins">Login</button>
-            </form>
-          </div>
-        </nav>
-      );
+    return (
+         <nav>
+           <h1><a onClick={this.redirectHome.bind(this)}>Yoga Buddy </a></h1>
+           <div id="login-input">
+             <span>Logged in as <strong>{this.state.user.firstName} {this.state.user.lastName}</strong></span>
+             <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
+             <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
+           </div>
+         </nav>
+       );
+     } else {
+       return (
+         <nav>
+           <h1><a onClick={this.redirectHome.bind(this)}>Yoga Buddy </a></h1>
+           <div id="login-input">
+             <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
+               <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
+               <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
+               <button type="submit" id="logins">Login</button>
+             </form>
+           </div>
+         </nav>
+       );
     }
   }
 }
-
 
 
 

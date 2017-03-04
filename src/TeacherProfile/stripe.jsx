@@ -17,6 +17,8 @@ class TakeMoney extends Component {
      body: JSON.stringify(token),
    }).then(token => {
      alert("Thank you for your purchase!")
+     let userId = Auth.retrieveUser().userId;
+      this.props.router.push(`/dashboard/${userId}`)
     })
   let classRegister = {
     user_id: Auth.retrieveUser().userId,
@@ -27,9 +29,6 @@ class TakeMoney extends Component {
   classes.push(this.state.classId);
   user.classes = classes;
   Auth.saveUser(user);
-  console.log("$$$$$$$$$$$$$$$$");
-  console.log(this.props);
-  console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
      type: 'POST',
@@ -43,7 +42,6 @@ class TakeMoney extends Component {
       console.log(data);
       console.log("User has registered for class");
       this.props.onHandleCount(data);
-      this.props.router.push(`/teacher/${this.props.teacherId}`)
      },
      error: function(xhr, status, err) {
        console.error(err.toString());
