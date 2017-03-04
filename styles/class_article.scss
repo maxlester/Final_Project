@@ -4,11 +4,15 @@ article.class{
     box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.05);
     margin-bottom:20px;
     .class-info{
-      width:85%;
+      width:75%;
       float: left;
     }
+    h4{
+      text-transform: capitalize;
+      font-size:1.7rem;
+    }
     .class-date{
-      width:15%;
+      width:17%;
       float:left;
       text-align:center;
       span{
@@ -23,5 +27,12 @@ article.class{
       .time{
 
       }
+    }
+    .class-delete{
+      width:8%;
+      float:left;
+      text-align:center;
+      background-color:$dark-green;
+      height:100%;
     }
   }

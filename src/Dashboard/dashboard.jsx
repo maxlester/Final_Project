@@ -245,7 +245,13 @@ class Dashboard extends Component {
       let teacherLink;
       let becomeTeacherOption;
       if (Auth.retrieveUser().teacherId){
-        teacherLink = <div teacherLink><p>This is your link: <a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p></div>
+        teacherLink = (
+          <div className="teacher-link">
+            <p><span className="glyphicon glyphicon-link" aria-hidden="true"></span></p>
+            <h4>Share the link to your profile</h4>
+            <p><a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
+          </div>
+        )
         newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
@@ -263,14 +269,14 @@ class Dashboard extends Component {
             {spinner}
           </aside>
           <main>
-            <h2>Dashboard</h2>
-            {becomeTeacherOption}
-            <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-            {teacherLink}
             <section className = "quote">
               <p>{this.state.dailyQuote.quote}</p>
               <p>- {this.state.dailyQuote.author}</p>
             </section>
+            <h2>Dashboard</h2>
+            {becomeTeacherOption}
+            <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            {teacherLink}
           </main>
         </div>
       );

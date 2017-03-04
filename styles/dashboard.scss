@@ -24,19 +24,44 @@
     }
   }
   .quote{
-    position: relative;
-    top:200px;
-    margin:0px 30px 30px 200px;
+    position:absolute;
+    right:30px;
+    max-width:300px;
     text-align:right;
     color:$mid-grey;
     font-size:1.3;
   }
   h2{
+    margin-top:30px;
     margin-bottom:40px;
+    color:$green;
+  }
+  h3{
+    font-size:2rem;
+    margin-bottom:20px;
   }
   .popup{
-    margin-top:40px;
     text-align: center;
+    font-style : italic;
+    margin:0 auto;
+    margin-top:40px;
+    margin-bottom:40px;
+  }
+  .teacher-link{
+    text-align:center;
+    background-color:white;
+    padding:15px;
+    box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.05);
+    margin:0 auto;
+    width:250px;
+    white-space: pre-line; /* CSS 3.0 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    word-wrap: break-word; /* IE 5+ */
+    h4{
+      color:$green;
+    }
   }
 }
 

@@ -34,7 +34,9 @@ class GivingClass extends Component {
         <div className="class-date">
           <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
         </div>
-        <button onClick={this.props.deleteClass} type="button" data-class-id={this.props.classId}>Delete</button>
+        <div className="class-delete">
+          <button onClick={this.props.deleteClass} type="button" data-class-id={this.props.classId}>Delete</button>
+        </div>
       </article>
     );
   }
