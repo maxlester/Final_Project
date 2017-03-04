@@ -245,7 +245,7 @@ class Dashboard extends Component {
       let teacherLink;
       let becomeTeacherOption;
       if (Auth.retrieveUser().teacherId){
-        teacherLink = <p>This is your link: <a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
+        teacherLink = <div teacherLink><p>This is your link: <a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p></div>
         newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
       }
       else {
@@ -266,10 +266,10 @@ class Dashboard extends Component {
             <h2>Dashboard</h2>
             {becomeTeacherOption}
             <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-            <section className = "Quote">
-              {teacherLink}
+            {teacherLink}
+            <section className = "quote">
               <p>{this.state.dailyQuote.quote}</p>
-              <p>{this.state.dailyQuote.author}</p>
+              <p>- {this.state.dailyQuote.author}</p>
             </section>
           </main>
         </div>
