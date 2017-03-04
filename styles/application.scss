@@ -8,6 +8,24 @@
 @import 'teacher';
 @import 'class_article';
 
+html {
+  box-sizing: border-box;
+  font-family: 'Assistant', sans-serif;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body{
+  width:100%;
+  position:relative;
+  top:0;
+  left:0;
+  background-color:$light-grey;
+  font-family: 'Assistant', sans-serif;
+}
+
+
 .btn{
   border-radius:0px;
   font-size:1.7rem;
