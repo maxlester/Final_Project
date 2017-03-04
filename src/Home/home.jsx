@@ -29,9 +29,8 @@ class HomePage extends Component {
 
   render() {
     let user = Auth.retrieveUser()
-    let firstName = user.firstName;
     let mainContent;
-    if (firstName){
+    if (user){
       mainContent = (
         <section>
           <h2>Welcome, {firstName}</h2>

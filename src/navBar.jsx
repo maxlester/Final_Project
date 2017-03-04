@@ -118,8 +118,8 @@ class NavBar extends Component {
 
   render() {
     let navContent;
-    let username = Auth.retrieveUser().username;
-    if (username) {
+    let user = Auth.retrieveUser()
+    if (user) {
       return (
         <nav>
            <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
