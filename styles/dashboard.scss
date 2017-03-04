@@ -19,6 +19,9 @@
 
   form.newClass{
     margin-top:100px;
+    input, textarea{
+      display:block;
+    }
   }
 }
 
