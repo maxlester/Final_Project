@@ -27,7 +27,8 @@ class Dashboard extends Component {
         startTime:"",
         cost:"",
         maxNumberOfStudents: "",
-      }
+      },
+      creatingClass: false
     };
     this.getClassesTaking();
     this.getClassesGiving();
@@ -35,6 +36,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    console.log("FIRE");
     this.generateRandomQuote();
   }
 
@@ -62,7 +64,7 @@ class Dashboard extends Component {
         author : "Maya Angelou"
       }
     ]
-    let number = Math.floor(Math.random() * 6) + 1  ;
+    let number = Math.floor(Math.random() * 5)  ;
     let quote = quotes[number]
     this.setState({dailyQuote : quote});
   }
@@ -117,6 +119,10 @@ class Dashboard extends Component {
 
   redirectHome(){
     this.props.router.push('/');
+  }
+
+  setSpinner(status) {
+    this.setState({creatingClass: status})
   }
 
   becomeTeacher(e){
@@ -180,6 +186,7 @@ class Dashboard extends Component {
     e.preventDefault();
     let userId = Auth.retrieveUser().userId;
     this.clearInputs(e);
+    this.setSpinner(true);
     $.ajax({
        url: `http://localhost:8080/dashboard/${userId}/class/new`,
        type: 'POST',
@@ -196,6 +203,7 @@ class Dashboard extends Component {
         returnClass.numberOfStudent = 0
         returnClass.students = ["null null"];
         this.addClassToState(returnClass);
+        this.setSpinner(false)
        },
        error: function(xhr, status, err) {
          console.error(err.toString());
@@ -218,11 +226,16 @@ class Dashboard extends Component {
       else {
         becomeTeacherOption = <BecomeTeacher userId = {userId} becomeTeacher = {this.becomeTeacher.bind(this)} handleChange = {this.changeTeacher.bind(this)}/>
       }
+      let spinner;
+      if (this.state.creatingClass) {
+        spinner = <div>I'm spinning</div>
+      }
       return (
         <div className="dashboard">
           <NavBar router={this.props.router}/>
           <aside className="left-sidebar">
             {newClassForm}
+            {spinner}
           </aside>
           <main>
             <h2>Dashboard</h2>
