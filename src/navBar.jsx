@@ -21,7 +21,7 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
-        this.setUser();
+    this.setUser();
   }
 
   redirectHome(){
@@ -89,9 +89,7 @@ class NavBar extends Component {
       },
       context: this,
      success: function(data) {
-      console.log("SUCCESS")
-      console.log("WWWWWWWWWW",this.props.router)
-      Auth.saveUser(data);
+      Auth.saveUser({});
       this.setState({user : data});
       this.props.router.push('/');
      },
