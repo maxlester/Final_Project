@@ -122,7 +122,7 @@ class NavBar extends Component {
     if (user) {
       return (
         <nav>
-           <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
+          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
           <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
           <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
           <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
