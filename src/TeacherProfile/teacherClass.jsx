@@ -16,7 +16,7 @@ class TeacherClass extends Component {
     } else if (this.props.maxNumberOfStudents <= this.props.numberOfStudents){
       registered = <p>Class is full</p>
     }else {
-      registered = <TakeMoney onHandleCount={this.handleCount} maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
+      registered = <TakeMoney maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
     }
     return (
       <article className = "class clearfix">

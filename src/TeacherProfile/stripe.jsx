@@ -17,16 +17,14 @@ class TakeMoney extends Component {
      body: JSON.stringify(token),
    }).then(token => {
      alert("Thank you for your purchase!")
+      let userId = Auth.retrieveUser().userId;
+      console.log("User has registered for class");
+      this.props.router.push(`/dashboard/${userId}`)
     })
   let classRegister = {
     user_id: Auth.retrieveUser().userId,
     class_id: this.state.classId
   }
-  let user = Auth.retrieveUser()
-  let classes = user.classes || [];
-  classes.push(this.state.classId);
-  user.classes = classes;
-  Auth.saveUser(user);
   console.log("$$$$$$$$$$$$$$$$");
   console.log(this.props);
   console.log("$$$$$$$$$$$$$$$$");
@@ -40,10 +38,7 @@ class TakeMoney extends Component {
       },
       context: this,
      success: function(data) {
-      console.log(data);
-      console.log("User has registered for class");
-      this.props.onHandleCount(data);
-      this.props.router.push(`/teacher/${this.props.teacherId}`)
+
      },
      error: function(xhr, status, err) {
        console.error(err.toString());

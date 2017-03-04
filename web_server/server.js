@@ -179,7 +179,6 @@ app.get('/dashboard/:id/taking', function(req, res) {
   .join('users', 'users.id', "=", "teachers.user_id")
   .where('class_user.user_id',req.params.id)
   .then((result) => {
-    console.log("result", result)
     let formattedRes = result;
     let classes = [];
      for (let i = 0; i < formattedRes.length; i++) {
@@ -320,17 +319,16 @@ app.post('/class/:id/register', function(req, res) {
   user_id: req.body.user_id,
   class_id: req.body.class_id
   };
-  console.log(classRegister);
   knex.insert(classRegister)
   .into("class_user")
   .then((result) => {
-    knex.raw(`select count(class_id) from class_user where class_id = '${req.body.class_id}'`)
-      .then((result2) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
+    // knex.raw(`select count(class_id) from class_user where class_id = '${req.body.class_id}'`)
+    //   .then((result2) => {
+    //     res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200)
-        console.log("THIS IS IT", result2.rows[0].count);
-        res.send({count: result2.rows[0].count})
-      })
+        // console.log("THIS IS IT", result2.rows[0].count);
+        // res.send({count: result2.rows[0].count})
+
     })
 });
 
@@ -492,18 +490,18 @@ app.post('/login', function(req,res) {
    })
 });
 
-app.post('/logout', function(req,res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    let returnObject = {
-            username: req.body.username,
-            firstName: req.body.first_name,
-            lastName: req.body.last_name,
-            email: req.body.email,
-            userId: req.body.id
-          }
-    console.log("IMSIDE");
-    res.send(returnObject)
-});
+// app.post('/logout', function(req,res) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     let returnObject = {
+//             username: req.body.username,
+//             firstName: req.body.first_name,
+//             lastName: req.body.last_name,
+//             email: req.body.email,
+//             userId: req.body.id
+//           }
+//     console.log("IMSIDE");
+//     res.send(returnObject)
+// });
 
 
 app.post('/dashboard/:id/class/new', function(req, res) {
