@@ -27,7 +27,7 @@ class ClassList extends Component {
       })
     }
     if ((this.props.classesGiving.length === 0) && (this.props.classesTaking.length === 0)) {
-      noClassesMessage = <h3>Your are not registered for any class</h3>
+      noClassesMessage = <div className="popup"><p>You are not registered for any class</p></div>
       }
 
 

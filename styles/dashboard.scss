@@ -14,7 +14,7 @@
     position:absolute;
     right:0;
     top:0;
-    padding: 150px 30px 30px 30px;
+    padding: 100px 30px 30px 30px;
   }
 
   form.newClass{
@@ -22,6 +22,21 @@
     input, textarea{
       display:block;
     }
+  }
+  .quote{
+    position: relative;
+    top:200px;
+    margin:0px 30px 30px 200px;
+    text-align:right;
+    color:$mid-grey;
+    font-size:1.3;
+  }
+  h2{
+    margin-bottom:40px;
+  }
+  .popup{
+    margin-top:40px;
+    text-align: center;
   }
 }
 
