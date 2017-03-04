@@ -518,7 +518,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
       .then((result1) => {
         console.log("yep all good")
         res.header("Access-Control-Allow-Origin", "*");
-        res.send(classObject)
+        res.status(200)
       })
       .catch(function(err) {
         res.status(400);
@@ -526,17 +526,25 @@ app.post('/dashboard/:id/class/new', function(req, res) {
    })
 });
 
-app.delete('/class/:id/delete', function(req, res) {
-    var classID = req.params.id;
-    knex('class')
-    .where('class.id', classID)
+app.post('/class/delete', function(req, res) {
+    classId = req.body.classId
+    knex('class_user')
+    .where('class_id', classId)
     .del()
-    .then((result) => {
-  })
-  .catch(function(err) {
+    .then ((result) => {
+    knex.select('*').from('class')
+    .where('class.id', classId)
+    .del()
+    .then((result2) => {
+    res.header("Access-Control-Allow-Origin", "*");
+      res.status(200)
+    })
+    .catch(function(err) {
     res.status(400);
+    })
   })
 })
+
 
 // app.get('/token/:userid', function(request, response) {
 //     var userId = request.params.userid

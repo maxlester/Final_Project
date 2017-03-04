@@ -197,12 +197,7 @@ class Dashboard extends Component {
         },
         context: this,
        success: function(data) {
-        console.log('this worked');
-        console.log(data);
-        let returnClass = data;
-        returnClass.numberOfStudent = 0
-        returnClass.students = ["null null"];
-        this.addClassToState(returnClass);
+        this.addClassToState();
         this.setSpinner(false)
        },
        error: function(xhr, status, err) {
