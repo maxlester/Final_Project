@@ -8,6 +8,10 @@
 @import 'teacher';
 @import 'class_article';
 
+.container{
+  max-width:1400px;
+}
+
 html {
   box-sizing: border-box;
   font-family: 'Assistant', sans-serif;

@@ -51,13 +51,13 @@ class Conference extends Component {
   render() {
     if (this.state.startConference){
       return (
-        <ConferenceMain router={this.props.router} classId = {this.state.classId} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo}/>
+        <ConferenceMain className="container" router={this.props.router} classId = {this.state.classId} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo}/>
       );
     }
     else {
       console.log(this.state.classInfo);
       if (this.state.classInfo){
-        return (<PreConference router={this.props.router} startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
+        return (<PreConference className="container" router={this.props.router} startConference={this.startConference.bind(this)} currentUser = {this.state.currentUser} classInfo = {this.state.classInfo} classId = {this.state.classId}/>)
       }
     }
   }
