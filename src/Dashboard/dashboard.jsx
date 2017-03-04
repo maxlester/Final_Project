@@ -80,6 +80,7 @@ class Dashboard extends Component {
      type: 'GET',
      context: this,
      success: function(data) {
+      console.log("return", data)
        this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
@@ -143,7 +144,6 @@ class Dashboard extends Component {
           currentUser.teacherId = data.teacherId;
           Auth.saveUser(currentUser);
           this.setState({currentUser : currentUser})
-          console.log("this worked");
        },
        error: function(xhr, status, err) {
          console.error(err.toString());
@@ -168,7 +168,6 @@ class Dashboard extends Component {
   }
 
   changeClass(e){
-    console.log("changing");
     const field = e.target.name;
     const newClass = this.state.newClass;
     newClass[field] = e.target.value;
@@ -181,7 +180,6 @@ class Dashboard extends Component {
 
 
   addClass(e){
-    console.log("addiing class!")
     let newClass = this.state.newClass;
     e.preventDefault();
     let userId = Auth.retrieveUser().userId;
@@ -197,8 +195,6 @@ class Dashboard extends Component {
         },
         context: this,
        success: function(data) {
-        console.log('this worked');
-        console.log(data);
         let returnClass = data;
         returnClass.numberOfStudent = 0
         returnClass.students = ["null null"];

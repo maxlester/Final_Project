@@ -12,14 +12,15 @@ class ClassList extends Component {
     let takingMessage;
     let noClassesMessage;
     console.log("classesTaking", this.props.classesTaking)
-    console.log("classesGiving", this.props.classesGiving)
     if (this.props.classesTaking.length != 0){
+      console.log("taking")
         takingMessage = <h3>Classes you are registered for</h3>
        classesTaking = this.props.classesTaking.map((item)=>{
         return <TakingClass key = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink}/>
       })
     }
     if (this.props.classesGiving.length != 0){
+      console.log("giving")
       givingMessage = <h3>Classes you are teaching</h3>
       classesGiving = this.props.classesGiving.map((item)=>{
         return <GivingClass key = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
