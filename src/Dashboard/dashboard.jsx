@@ -205,6 +205,38 @@ class Dashboard extends Component {
     return false; //returning false to prevent info showing in url
   }
 
+  deleteClass(e) {
+    let button = e.target
+    let classId = {classId : $(e.target).attr("data-class-id")}
+    let classesGiving = this.state.classesGiving;
+    for (let i = 0; i < classesGiving.length; i++){
+      if (classesGiving[i].classId === classId.classId){
+        classesGiving.splice(i, 1);
+      }
+    }
+    this.setState({classesGiving: classesGiving}, ()=>{
+      console.log(classId);
+    console.log("Class id", classId)
+      $.ajax({
+         url: "http://localhost:8080/class/delete",
+         type: 'POST',
+         dataType: 'json',
+         data: JSON.stringify(classId),
+         headers: {
+           'Content-Type':'application/json'
+          },
+          context: this,
+         success: function() {
+          console.log("class deleted")
+         },
+         error: function(xhr, status, err) {
+           console.error(err.toString());
+         }.bind(this)
+       })
+     return false; //returning false to prevent info showing in url
+    })
+  }
+
 
   render() {
     let userId = Auth.retrieveUser().userId;
@@ -233,7 +265,7 @@ class Dashboard extends Component {
           <main>
             <h2>Dashboard</h2>
             {becomeTeacherOption}
-            <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             <section className = "Quote">
               {teacherLink}
               <p>{this.state.dailyQuote.quote}</p>

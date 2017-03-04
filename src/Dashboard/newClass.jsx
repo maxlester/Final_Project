@@ -21,13 +21,13 @@ class NewClass extends Component {
   render() {
     return(
        <form className="newClass" onSubmit={this.props.addClass}>
-        <input className="classTitle" name="classTitle" type= "text" placeholder="Class Title" onChange={this.props.changeClass}/>
-        <textarea className="classDescription" name="classDescription" type= "text" placeholder="Description" onChange={this.props.changeClass}></textarea>
-        <input className="cost" name="cost" type= "number" placeholder="Cost" onChange={this.props.changeClass}/>
+        <input className="classTitle" name="classTitle" type= "text" placeholder="Class Title" onChange={this.props.changeClass} required/>
+        <textarea className="classDescription" name="classDescription" type= "text" placeholder="Description" onChange={this.props.changeClass} required></textarea>
+        <input className="cost" name="cost" type= "number" placeholder="Cost" onChange={this.props.changeClass} required/>
         <label>Maximum number of students</label>
-        <select className="maxNumberOfStudents" name="maxNumberOfStudents" type= "number" onChange={this.props.changeClass}>
+        <select className="maxNumberOfStudents" name="maxNumberOfStudents" type= "number" onChange={this.props.changeClass} required>
           <option value = "1">1</option>
-          <option value = "2">2</option>
+          <option value = "2" selected>2</option>
           <option value = "3">3</option>
           <option value = "4">4</option>
           <option value = "5">5</option>

@@ -23,7 +23,7 @@ class ClassList extends Component {
       console.log("giving")
       givingMessage = <h3>Classes you are teaching</h3>
       classesGiving = this.props.classesGiving.map((item)=>{
-        return <GivingClass key = {item.classId} classId = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
+        return <GivingClass deleteClass = {this.props.deleteClass} key = {item.classId} classId = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students}/>
       })
     }
     if ((this.props.classesGiving.length === 0) && (this.props.classesTaking.length === 0)) {

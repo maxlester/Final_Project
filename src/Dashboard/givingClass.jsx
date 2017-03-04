@@ -10,29 +10,7 @@ class GivingClass extends Component {
     console.log(this.props.classId)
   }
 
-  deleteClass () {
-    let classId = {
-    classId: this.props.classId
-  }
-    console.log("Class id", classId)
-      $.ajax({
-         url: "http://localhost:8080/class/delete",
-         type: 'POST',
-         dataType: 'json',
-         data: JSON.stringify(classId),
-         headers: {
-           'Content-Type':'application/json'
-          },
-          context: this,
-         success: function() {
-          console.log("class deleted")
-         },
-         error: function(xhr, status, err) {
-           console.error(err.toString());
-         }.bind(this)
-       })
-     return false; //returning false to prevent info showing in url
-  }
+
 
 
   render() {
@@ -56,7 +34,7 @@ class GivingClass extends Component {
         <div className="class-date">
           <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
         </div>
-        <button onClick={this.deleteClass.bind(this)} type="button">Delete</button>
+        <button onClick={this.props.deleteClass} type="button" data-class-id={this.props.classId}>Delete</button>
       </article>
     );
   }
