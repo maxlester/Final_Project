@@ -7,7 +7,6 @@ module.exports = {
       console.log("user could not be saved")
     }
   },
-
   retrieveUser(){
     return JSON.parse(localStorage.getItem('user'));
   }

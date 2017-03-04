@@ -21,7 +21,7 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
-        this.setUser();
+    this.setUser();
   }
 
   redirectHome(){
