@@ -13,9 +13,10 @@ class TakingClass extends Component {
           <a href = {this.props.classLink}>Access at {this.props.classLink}</a>
         </div>
         <div className="class-date">
-          <span className="month">Oct</span>
-          <span className="day">12</span>
-          <span className="time">7:30 PM</span>
+          <span className="year">{this.props.formatDate(this.props.classDate)[0]}</span>
+          <span className="month">{this.props.formatDate(this.props.classDate)[1]}</span>
+          <span className="day">{this.props.formatDate(this.props.classDate)[2]}</span>
+          <span className="time">{this.props.formatDate(this.props.classDate)[3]}</span>
         </div>
       </article>
     );
