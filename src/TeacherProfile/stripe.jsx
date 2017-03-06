@@ -17,37 +17,36 @@ class TakeMoney extends Component {
      body: JSON.stringify(token),
    }).then(token => {
      alert("Thank you for your purchase!")
-      this.props.router.push(`/dashboard/${userId}`)
      let userId = Auth.retrieveUser().userId;
+    let classRegister = {
+      user_id: Auth.retrieveUser().userId,
+      class_id: this.state.classId
+    }
+    let user = Auth.retrieveUser()
+    let classes = user.classes || [];
+    classes.push(this.state.classId);
+    user.classes = classes;
+    Auth.saveUser(user);
+     $.ajax({
+       url: `http://localhost:8080/class/${classRegister.class_id}/register`,
+       type: 'POST',
+       dataType: 'json',
+       data: JSON.stringify(classRegister),
+       headers: {
+         'Content-Type':'application/json'
+        },
+        context: this,
+       success: function(data) {
+        console.log(data);
+        console.log("User has registered for class");
+        this.props.router.push(`/dashboard/${userId}`)
+        // this.props.onHandleCount(data);
+       },
+       error: function(xhr, status, err) {
+         console.error(err.toString());
+       }.bind(this)
+     })
     })
-  let classRegister = {
-    user_id: Auth.retrieveUser().userId,
-    class_id: this.state.classId
-  }
-  let user = Auth.retrieveUser()
-  let classes = user.classes || [];
-  classes.push(this.state.classId);
-  user.classes = classes;
-  Auth.saveUser(user);
-   $.ajax({
-     url: `http://localhost:8080/class/${classRegister.class_id}/register`,
-     type: 'POST',
-     dataType: 'json',
-     data: JSON.stringify(classRegister),
-     headers: {
-       'Content-Type':'application/json'
-      },
-      context: this,
-     success: function(data) {
-      console.log(data);
-      console.log("User has registered for class");
-      this.props.onHandleCount(data);
-
-     },
-     error: function(xhr, status, err) {
-       console.error(err.toString());
-     }.bind(this)
-   })
    return false;
   }
 

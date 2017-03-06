@@ -55,8 +55,8 @@ class NavBar extends Component {
      },
      error: function(xhr, status, err) {
           console.error(err.toString());
-          console.log(status)
-          alert("Wrong")
+          console.log(xhr)
+          alert(xhr.responseText)
           // alert(xhr.responseText)
      }.bind(this)
    })
