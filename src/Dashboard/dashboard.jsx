@@ -258,8 +258,11 @@ class Dashboard extends Component {
       if (Auth.retrieveUser().teacherId){
         teacherLink = (
           <div className="teacher-link">
-            <p><span className="glyphicon glyphicon-link" aria-hidden="true"></span></p>
-            <h4>Share the link to your profile</h4>
+            <h3>View and edit your profile</h3>
+              <div className="fb-share-button"
+                data-href={`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}
+                data-layout="button">
+              </div>
             <p><a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
           </div>
         )
@@ -276,8 +279,8 @@ class Dashboard extends Component {
         <div className="dashboard">
           <NavBar router={this.props.router}/>
           <aside className="left-sidebar">
+            {teacherLink}
             {newClassForm}
-            {spinner}
           </aside>
           <main>
             <section className = "quote">
@@ -287,7 +290,6 @@ class Dashboard extends Component {
             {becomeTeacherOption}
             <h2>Dashboard</h2>
             <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-            {teacherLink}
           </main>
         </div>
       );

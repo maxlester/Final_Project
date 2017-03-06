@@ -54,6 +54,15 @@ textarea, input{
  }
 }
 
+a{
+  text-decoration: none;
+      color:black;
+  &:hover{
+    text-decoration: none;
+
+  }
+}
+
 li{
  list-style: none;
 }
