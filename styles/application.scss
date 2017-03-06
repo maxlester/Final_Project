@@ -30,9 +30,18 @@ body{
  font-size: 1.4rem;
 }
 
+textarea:focus, input:focus, button:focus{
+    outline: none !important;
+}
+
+textarea, input{
+  padding:5px 10px;
+  border:none;
+}
+
 .btn{
  border-radius:0px;
- font-size:1.7rem;
+ font-size:1.4rem;
 }
 .btn-default{
  background-color: $green;
@@ -43,6 +52,15 @@ body{
      border:1px solid $green;
      color:$green;
  }
+}
+
+a{
+  text-decoration: none;
+      color:black;
+  &:hover{
+    text-decoration: none;
+
+  }
 }
 
 li{

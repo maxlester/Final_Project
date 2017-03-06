@@ -107,7 +107,7 @@ class NavBar extends Component {
     if (user && user.firstName) {
     return (
          <nav>
-           <h1><a onClick={this.redirectHome.bind(this)}>Yoga Buddy </a></h1>
+           <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
            <div id="login-input">
              <span>Logged in as <strong>{this.state.user.firstName} {this.state.user.lastName}</strong></span>
              <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
@@ -118,12 +118,12 @@ class NavBar extends Component {
      } else {
        return (
          <nav>
-           <h1><a onClick={this.redirectHome.bind(this)}>Yoga Buddy </a></h1>
+           <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
            <div id="login-input">
              <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
-               <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
-               <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
-               <button type="submit" id="logins">Login</button>
+               <input id="email" name ="email" placeholder="you@email.com" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
+               <input id="password" name="password" placeholder="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
+               <button type="submit" className="btn btn-clear" id="login">Login</button>
              </form>
            </div>
          </nav>

@@ -1,14 +1,20 @@
 article.class{
+    position:relative;
     background-color: white;
     padding:5px 30px;
     box-shadow: 2px 3px 1px 0px rgba(0, 0, 0, 0.05);
     margin-bottom:20px;
+    border-right:60px solid $green;
     .class-info{
-      width:85%;
+      width:75%;
       float: left;
     }
+    h4{
+      text-transform: capitalize;
+      font-size:1.7rem;
+    }
     .class-date{
-      width:15%;
+      width:25%;
       float:left;
       text-align:center;
       span{
@@ -22,6 +28,29 @@ article.class{
       }
       .time{
 
+      }
+    }
+    .class-delete{
+      position:absolute;
+      right:-60px;
+      width:60px;
+      top:0;
+      text-align:center;
+      height:100%;
+      color:white;
+      font-size:2rem;
+      span{
+        height:30px;
+        width:30px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-15px;
+        margin-left:-15px;
+      }
+      &:hover{
+        background-color:$dark-green;
+        cursor:pointer;
       }
     }
   }

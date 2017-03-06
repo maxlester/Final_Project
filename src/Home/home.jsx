@@ -12,14 +12,18 @@ class HomePage extends Component {
     }
   }
 
-  setTeacherForm(){
+  setTeacherForm(e){
     console.log("setting teacher form")
     this.setState({teacherForm : true});
+    $("#select-teach").addClass("btn-panel-active")
+    $("#select-learn").removeClass("btn-panel-active")
   }
 
   removeTeacherForm(){
     console.log("removing teacher form")
     this.setState({teacherForm : false});
+    $("#select-learn").addClass("btn-panel-active")
+    $("#select-teach").removeClass("btn-panel-active")
   }
 
   redirectToDashboard(){
@@ -41,9 +45,9 @@ class HomePage extends Component {
     else{
       mainContent = (
        <section className="register">
-          <button type="button" className="btn btn-default" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
-            <button type="button" className="btn btn-clear" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
-            <Register teacherForm={this.state.teacherForm} router = {this.props.router}/>
+          <button type="button" id="select-learn" className="btn btn-panel btn-panel-active" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
+          <button type="button" id="select-teach" className="btn btn-panel" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
+          <Register teacherForm={this.state.teacherForm} router = {this.props.router}/>
         </section>
       );
     }

@@ -68,17 +68,19 @@ class Register extends Component {
   render() {
     let teacherDescription
     if(this.props.teacherForm){
-      teacherDescription = <textarea name = "description" placeholder="Tell us about yourself and what you plan to teach! (you can always edit this later.)" onChange={this.changeUser.bind(this)} required></textarea>
+      teacherDescription = <div><label>So you want to teach?</label><textarea name = "description" placeholder="Tell us about yourself and what you plan to teach! * " onChange={this.changeUser.bind(this)}></textarea></div>
     }
     return(
       <form className="registerStudent" onSubmit={this.registerUser.bind(this)}>
-        <input className="firstName" name="firstName" type= "text" placeholder="First Name" onChange={this.changeUser.bind(this)} required/>
-        <input className="lastName" name="lastName" type= "text" placeholder="Last Name" onChange={this.changeUser.bind(this)} required/>
-        <input className="username" name="username" type= "text" placeholder="User Name" onChange={this.changeUser.bind(this)} required/>
-        <input className="email" name="email" type= "email" placeholder="Email" onChange={this.changeUser.bind(this)} required/>
-        <input className="password" name="password" type= "password" placeholder="Password" onChange={this.changeUser.bind(this)} required/>
+        <label>Registration</label>
+        <input className="firstName" name="firstName" type= "text" placeholder="First Name *" onChange={this.changeUser.bind(this)}/>
+        <input className="lastName" name="lastName" type= "text" placeholder="Last Name *" onChange={this.changeUser.bind(this)}/>
+        <input className="username" name="username" type= "text" placeholder="User Name *" onChange={this.changeUser.bind(this)}/>
+        <input className="email" name="email" type= "email" placeholder="Email *" onChange={this.changeUser.bind(this)}/>
+        <input className="password" name="password" type= "password" placeholder="Password *" onChange={this.changeUser.bind(this)}/>
         {teacherDescription}
-        <button type="submit">Submit</button>
+        <button type="submit" className="btn btn-default" id="register-btn">Submit</button>
+
       </form>
     )
   }
