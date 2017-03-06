@@ -631,12 +631,12 @@ app.get('/token/:userid/class/:classId', function(request, response) {
 
 });
 
-app.get('*', function (request, response){
-  console.log("caught request")
-  console.log(path.resolve(__dirname, '../index.html'))
-  console.log(path.resolve(__dirname, 'index.html'))
-  response.sendFile(path.resolve(__dirname, 'index.html'))
-})
+// app.get('*', function (request, response){
+//   console.log("caught request")
+//   console.log(path.resolve(__dirname, '../index.html'))
+//   console.log(path.resolve(__dirname, 'index.html'))
+//   response.sendFile(path.resolve(__dirname, 'index.html'))
+// })
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)
