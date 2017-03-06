@@ -3,6 +3,7 @@ import Auth from './auth-helper.js';
 import { default as Router, Route } from 'react-router'
 import { Navigation } from 'react-router'
 
+
 class NavBar extends Component {
 
   constructor(props) {
@@ -17,8 +18,9 @@ class NavBar extends Component {
         lastName : ""
       }
     };
-
   }
+
+
 
   componentDidMount() {
     this.setUser();
@@ -52,7 +54,7 @@ class NavBar extends Component {
        this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
      },
      error: function(xhr, status, err) {
-      alert("email or password is incorrect")
+      alert("WHY are you so slow")
       console.error(err.toString());
      }.bind(this)
    })
