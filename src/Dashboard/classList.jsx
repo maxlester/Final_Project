@@ -35,6 +35,7 @@ class ClassList extends Component {
       <div>
           {givingMessage}
           {classesGiving}
+          <p className="small-notice">Share the link to your profile to let friends register to your classes!</p>
           {takingMessage}
           {classesTaking}
           {noClassesMessage}
