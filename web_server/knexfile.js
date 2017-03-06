@@ -10,7 +10,7 @@ module.exports = {
       port     : process.env.DB_PORT
     },
     migrations: {
-      directory: '../db/migrations',
+      directory: './db/migrations',
       tableName: 'migrations'
     },
     seeds: {
@@ -26,6 +26,7 @@ module.exports = {
       max: 10
     },
     migrations: {
+      directory: './db/migrations',
       tableName: 'migrations'
     }
   }
