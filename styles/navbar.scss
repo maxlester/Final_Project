@@ -33,15 +33,6 @@ nav {
    top: 2px;
  }
 
- #logins {
-   display: inline-block;
-   right: 10px;
-   margin-left: 5px;
-   position: absolute;
-   top: 50%;
-   transform: translateY(-50%);
- }
-
  #login-input{
    position: absolute;
    right: 30px;
@@ -59,14 +50,24 @@ nav {
       &#dashboard {
        border: solid 1px white;
      }
-
-
-
+     &#login{
+      margin-left:10px;
+     }
    }
    input{
      display: inline-block;
-     margin-right: 5px;
+     width:100px;
+     background-color: rgba(255, 255, 255, .8);
+     margin-right: 10px;
      transform: translateY(-50%);
+     color:$mid-grey;
+     position:relative;
+     top:15px;
+     border:none;
+     padding:2px 5px;
+     &:first-child{
+      width:125px;
+     }
    }
  }
 

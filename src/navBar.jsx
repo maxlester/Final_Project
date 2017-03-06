@@ -118,9 +118,9 @@ class NavBar extends Component {
            <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
            <div id="login-input">
              <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
-               <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
-               <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
-               <button type="submit" id="logins">Login</button>
+               <input id="email" name ="email" placeholder="you@email.com" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
+               <input id="password" name="password" placeholder="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
+               <button type="submit" className="btn btn-clear" id="login">Login</button>
              </form>
            </div>
          </nav>
