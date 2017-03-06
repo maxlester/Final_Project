@@ -6,7 +6,7 @@ class TakingClass extends Component {
   render() {
 
     return (
-      <article className = "class clearfix">
+      <article className = "class taking-class clearfix">
         <div className="class-info">
           <h4>{this.props.classTitle}</h4>
           <h5>{this.props.teacherName}</h5>

@@ -19,14 +19,14 @@ class GivingClass extends Component {
     let studentNumber = students.length;
     let studentsMarkup = students.map((student)=>{
       let id = uuidV4();
-      return <li key = {id}>{student}</li>
+      return <li key = {id}><span className="glyphicon glyphicon-ok" aria-hidden="true"></span>{student}</li>
     })
     return (
-      <article className = "class clearfix">
+      <article className = "class giving-class clearfix">
         <div className="class-info">
           <h4>{this.props.classTitle}</h4>
           <a href = {this.props.classLink}>Access at {this.props.classLink}</a>
-          <p><strong>{studentNumber}</strong> students registered</p>
+          <p><strong>{studentNumber} students registered</strong></p>
           <ul>
             {studentsMarkup}
           </ul>
