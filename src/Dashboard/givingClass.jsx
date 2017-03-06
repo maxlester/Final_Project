@@ -9,12 +9,15 @@ class GivingClass extends Component {
   }
 
   deleteClass () {
-    console.log("PROPS", this.props)
+
+    console.log('students')
+
     let classData = {
     classId: this.props.classId,
     students: this.props.students,
     classTitle: this.props.classTitle
     }
+    console.log("class Data:", classData)
       $.ajax({
          url: "http://localhost:8080/class/delete",
          type: 'POST',
@@ -34,31 +37,35 @@ class GivingClass extends Component {
      return false; //returning false to prevent info showing in url
   }
 
-
   render() {
     let students = this.props.students;
     console.log("STUDENTS", students);
     if (students[0] === "null null"){ students = []}
-    console.log("THIS IS THE STRING", students)
+    console.log("THIS IS THE STRING", this.props.classTitle)
     let studentNumber = students.length;
     let studentsMarkup = students.map((student)=>{
       let id = uuidV4();
-      return <li key = {id}>{student}</li>
+      return <li key = {id}><span className="glyphicon glyphicon-ok" aria-hidden="true"></span>{student}</li>
     })
     return (
-      <article className = "class clearfix">
+      <article className = "class giving-class clearfix">
         <div className="class-info">
           <h4>{this.props.classTitle}</h4>
           <a href = {this.props.classLink}>Access at {this.props.classLink}</a>
-          <p><strong>{studentNumber}</strong> students registered</p>
+          <p><strong>{studentNumber} students registered</strong></p>
           <ul>
             {studentsMarkup}
           </ul>
         </div>
         <div className="class-date">
-          <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
+          <span className="year">{this.props.formatDate(this.props.classDate)[0]}</span>
+          <span className="month">{this.props.formatDate(this.props.classDate)[1]}</span>
+          <span className="day">{this.props.formatDate(this.props.classDate)[2]}</span>
+          <span className="time">{this.props.formatDate(this.props.classDate)[3]}</span>
         </div>
-        <button onClick={this.deleteClass.bind(this)} type="button">Delete</button>
+        <div className="class-delete" onClick={this.deleteClass.bind(this)} data-class-id={this.props.classId}>
+          <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </div>
       </article>
     );
   }

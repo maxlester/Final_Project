@@ -4,12 +4,15 @@ import ClassList from './classList.jsx';
 import NewClass from './newClass.jsx';
 import Auth from '../auth-helper.js';
 import BecomeTeacher from './becomeTeacher.jsx';
+var moment = require('moment');
+
 
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.dataServer = "http://localhost:8080";
+    let today = this.getTodaysDate();
     this.state = {
       currentUser: {},
       teacher:{
@@ -24,11 +27,12 @@ class Dashboard extends Component {
       newClass:{
         classTitle:"",
         classDescription:"",
-        startTime:"",
+        startTime:today,
         cost:"",
-        maxNumberOfStudents: "",
+        maxNumberOfStudents: 2,
       },
-      creatingClass: false
+      creatingClass: false,
+      today:today
     };
     this.getClassesTaking();
     this.getClassesGiving();
@@ -80,6 +84,7 @@ class Dashboard extends Component {
      type: 'GET',
      context: this,
      success: function(data) {
+      console.log("return", data)
        this.setClassesTaking(data)
      },
      error: function(xhr, status, err) {
@@ -143,7 +148,6 @@ class Dashboard extends Component {
           currentUser.teacherId = data.teacherId;
           Auth.saveUser(currentUser);
           this.setState({currentUser : currentUser})
-          console.log("this worked");
        },
        error: function(xhr, status, err) {
          console.error(err.toString());
@@ -167,12 +171,18 @@ class Dashboard extends Component {
     e.target.startTime.value = "";
   }
 
+  getTodaysDate(){
+    var today = moment().format('YYYY-MM-DDThh:mm');
+    return today
+  }
+
   changeClass(e){
-    console.log("changing");
     const field = e.target.name;
     const newClass = this.state.newClass;
     newClass[field] = e.target.value;
-    this.setState({newClass})
+    this.setState({newClass}, ()=>{
+      console.log(this.state.newClass)
+    })
   }
 
   addClassToState(classInfo){
@@ -181,7 +191,6 @@ class Dashboard extends Component {
 
 
   addClass(e){
-    console.log("addiing class!")
     let newClass = this.state.newClass;
     e.preventDefault();
     let userId = Auth.retrieveUser().userId;
@@ -196,7 +205,7 @@ class Dashboard extends Component {
          'Content-Type':'application/json'
         },
         context: this,
-       success: function(data) {
+       success: function() {
         this.addClassToState();
         this.setSpinner(false)
        },
@@ -207,6 +216,38 @@ class Dashboard extends Component {
     return false; //returning false to prevent info showing in url
   }
 
+  deleteClass(e) {
+    let button = e.target
+    let classId = {classId : $(e.target).attr("data-class-id")}
+    let classesGiving = this.state.classesGiving;
+    for (let i = 0; i < classesGiving.length; i++){
+      if (classesGiving[i].classId === classId.classId){
+        classesGiving.splice(i, 1);
+      }
+    }
+    this.setState({classesGiving: classesGiving}, ()=>{
+      console.log(classId);
+    console.log("Class id", classId)
+      $.ajax({
+         url: "http://localhost:8080/class/delete",
+         type: 'POST',
+         dataType: 'json',
+         data: JSON.stringify(classId),
+         headers: {
+           'Content-Type':'application/json'
+          },
+          context: this,
+         success: function() {
+          console.log("class deleted")
+         },
+         error: function(xhr, status, err) {
+           console.error(err.toString());
+         }.bind(this)
+       })
+     return false; //returning false to prevent info showing in url
+    })
+  }
+
 
   render() {
     let userId = Auth.retrieveUser().userId;
@@ -215,32 +256,42 @@ class Dashboard extends Component {
       let teacherLink;
       let becomeTeacherOption;
       if (Auth.retrieveUser().teacherId){
-        teacherLink = <p>This is your link: <a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
-        newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)}/>
+        teacherLink = (
+          <div className="teacher-link">
+            <h3>View and edit your profile</h3>
+              <div className="fb-share-button"
+                data-href={`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}
+                data-layout="button">
+              </div>
+            <p><a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>
+          </div>
+        )
+        newClassForm = <NewClass changeClass = {this.changeClass.bind(this)} addClass = {this.addClass.bind(this)} getClassesGiving = {this.getClassesGiving.bind(this)} setClassesGiving = {this.setClassesGiving.bind(this)} today = {this.state.today}/>
       }
       else {
         becomeTeacherOption = <BecomeTeacher userId = {userId} becomeTeacher = {this.becomeTeacher.bind(this)} handleChange = {this.changeTeacher.bind(this)}/>
       }
       let spinner;
       if (this.state.creatingClass) {
-        spinner = <div>I'm spinning</div>
+        spinner = <div>Im spinning</div>;
       }
       return (
         <div className="dashboard">
           <NavBar router={this.props.router}/>
           <aside className="left-sidebar">
+            {teacherLink}
             {newClassForm}
-            {spinner}
           </aside>
           <main>
-            <h2>Dashboard</h2>
-            {becomeTeacherOption}
-            <ClassList classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
-            <section className = "Quote">
-              {teacherLink}
-              <p>{this.state.dailyQuote.quote}</p>
-              <p>{this.state.dailyQuote.author}</p>
-            </section>
+            <div className="container-main">
+              <section className = "quote">
+                <p>{this.state.dailyQuote.quote}</p>
+                <p>- {this.state.dailyQuote.author}</p>
+              </section>
+              {becomeTeacherOption}
+              <h2>Dashboard</h2>
+              <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            </div>
           </main>
         </div>
       );
@@ -249,8 +300,10 @@ class Dashboard extends Component {
       return(
         <div className = "wrong-dashboard">
           <NavBar router={this.props.router}/>
-          <h1>You do not have access to this page it seems</h1>
-          <button className="btn btn-default" onClick={this.redirectHome.bind(this)}>Return to home page</button>
+          <div>
+            <h1>You do not have access to this page it seems</h1>
+            <button className="btn btn-default" onClick={this.redirectHome.bind(this)}>Return to home page</button>
+          </div>
         </div>
       );
     }

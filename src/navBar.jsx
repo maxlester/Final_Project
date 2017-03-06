@@ -3,6 +3,7 @@ import Auth from './auth-helper.js';
 import { default as Router, Route } from 'react-router'
 import { Navigation } from 'react-router'
 
+
 class NavBar extends Component {
 
   constructor(props) {
@@ -17,8 +18,9 @@ class NavBar extends Component {
         lastName : ""
       }
     };
-
   }
+
+
 
   componentDidMount() {
     this.setUser();
@@ -52,10 +54,13 @@ class NavBar extends Component {
        this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
      },
      error: function(xhr, status, err) {
-       console.error(err.toString());
+          console.error(err.toString());
+          console.log(xhr)
+          alert(xhr.responseText)
+          // alert(xhr.responseText)
      }.bind(this)
    })
-   return false; //returning false to prevent info showing in url
+  return false; //returning false to prevent info showing in url
  }
 
   setUser(){
@@ -102,31 +107,32 @@ class NavBar extends Component {
     let navContent;
     let user = Auth.retrieveUser()
     if (user && user.firstName) {
-      return (
-        <nav>
-          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
-          <p>Logged in as {this.state.user.firstName} {this.state.user.lastName}</p>
-          <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
-          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
-        </nav>
-      );
-    } else {
-      return (
-        <nav>
-          <a onClick={this.redirectHome.bind(this)}><h1>Yoga Buddy</h1></a>
-          <div id="login-input">
-            <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
-              <input id="email" name ="email" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
-              <input id="password" name="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
-              <button type="submit" id="logins">Login</button>
-            </form>
-          </div>
-        </nav>
-      );
+    return (
+         <nav>
+           <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
+           <div id="login-input">
+             <span>Logged in as <strong>{this.state.user.firstName} {this.state.user.lastName}</strong></span>
+             <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
+             <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
+           </div>
+         </nav>
+       );
+     } else {
+       return (
+         <nav>
+           <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
+           <div id="login-input">
+             <form className="loginUser" onSubmit={this.loginUser.bind(this)}>
+               <input id="email" name ="email" placeholder="you@email.com" value={this.state.email} type="email" onChange={this.changeUser.bind(this)}/>
+               <input id="password" name="password" placeholder="password" type="password" value={this.state.email} onChange={this.changeUser.bind(this)}/>
+               <button type="submit" className="btn btn-clear" id="login">Login</button>
+             </form>
+           </div>
+         </nav>
+       );
     }
   }
 }
-
 
 
 

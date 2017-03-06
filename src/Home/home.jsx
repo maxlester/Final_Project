@@ -12,14 +12,18 @@ class HomePage extends Component {
     }
   }
 
-  setTeacherForm(){
+  setTeacherForm(e){
     console.log("setting teacher form")
     this.setState({teacherForm : true});
+    $("#select-teach").addClass("btn-panel-active")
+    $("#select-learn").removeClass("btn-panel-active")
   }
 
   removeTeacherForm(){
     console.log("removing teacher form")
     this.setState({teacherForm : false});
+    $("#select-learn").addClass("btn-panel-active")
+    $("#select-teach").removeClass("btn-panel-active")
   }
 
   redirectToDashboard(){
@@ -33,18 +37,31 @@ class HomePage extends Component {
     if (user && user.firstName){
       mainContent = (
         <section>
-          <h2>Welcome, {user.firstName}</h2>
-          <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> Your Dashboard</button>
+          <div className="about">
+            <h2>Welcome, {user.firstName}</h2>
+            <p>At teachurBuddy, we believe that everyone has something to teach, and that teaching should be fairly valued.</p>
+            <p>We created a platform to allow you to teach your friends and let them pay for your time.</p>
+            <p><strong>Happy learning, happy sharing!</strong></p>
+            <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> Your Dashboard</button>
+          </div>
         </section>
       )
     }
     else{
       mainContent = (
+        <div>
+        <div className="about">
+          <h2>Teach and learn <br/> with your friends</h2>
+          <p>At teachurBuddy, we believe that everyone has something to teach, and that knowledge should be fairly valued.</p>
+          <p>We created a platform to allow you to teach your friends and let them pay for your time.</p>
+          <p><strong>Happy learning, happy sharing!</strong></p>
+        </div>
        <section className="register">
-          <button type="button" className="btn btn-default" onClick={this.setTeacherForm.bind(this)}>I want to teach</button>
-            <button type="button" className="btn btn-clear" onClick={this.removeTeacherForm.bind(this)}>I want to take classes</button>
-            <Register teacherForm={this.state.teacherForm} router = {this.props.router}/>
+          <button type="button" id="select-learn" className="btn btn-panel btn-panel-active" onClick={this.removeTeacherForm.bind(this)}><span>I want to take classes</span></button>
+          <button type="button" id="select-teach" className="btn btn-panel" onClick={this.setTeacherForm.bind(this)}><span>I want to teach</span></button>
+          <Register teacherForm={this.state.teacherForm} router = {this.props.router}/>
         </section>
+        </div>
       );
     }
     return (
@@ -53,7 +70,6 @@ class HomePage extends Component {
         <aside className="left-sidebar">
         </aside>
         <main>
-          <h2>Teach, connect, make a living with your friends</h2>
           {mainContent}
         </main>
       </div>

@@ -6,7 +6,7 @@
     width: 50%;
     height:100vh;
     position:fixed;
-    background-image: url(/build/assets/firecracker.jpg);
+    background-image: url(/build/assets/firecracker-girl.jpg);
     background-size: cover;
     background-position: 50% 100%;
     top:0;
@@ -17,17 +17,72 @@
     position:absolute;
     right:0;
     top:0;
-    padding: 150px 30px 30px 30px;
+    padding: 100px 30px 50px 30px;
+  }
+  form.registerStudent{
+    padding:10px 20px;
+    position: relative;
+  }
+  .about{
+    max-width:400px;
+    margin:0 auto;
+    h2{
+      margin-bottom:30px;
+    }
+    #dashboard{
+      margin-top:30px;
+    }
   }
   .register{
-    .register-btn{
-      cursor:pointer;
-      text-align: center;
-      display: inline-block;
-      width:150px;
-      height:50px;
-      padding:10px 20px;
-      background-color: $green;
+    background-color: white;
+    width:100%;
+    max-width:400px;
+    margin:0 auto;
+    margin-top:50px;
+    margin-bottom:30px;
+    box-shadow: $box-shadow;
+    .btn-panel{
+      font-size:1.6rem;
+      width:50%;
+      background-color:$mid-grey;
+      border:none;
+      border-top:10px solid $light-grey;
+      color:white;
+    }
+    .btn-panel-active{
+      background-color:$green;
+      border:none;
+      border-top:10px solid $green;
+      color:white;
+      span{
+        position:relative;
+        top:-5px;
+      }
+
+    }
+    input{
+      width:50%;
+      border:none;
+      padding:2px 5px;
+      background-color:$light-grey;
+      margin:10px 0;
+    }
+    textarea{
+      height:100px;
+      display:block;
+      width:100%;
+      border:none;
+      background-color: $light-grey;
+    }
+    label{
+      display:block;
+    }
+    #register-btn{
+      display:block;
+      width:100%;
+      position:absolute;
+      left:0;
+      margin-top:10px;
     }
   }
 }

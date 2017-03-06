@@ -178,9 +178,16 @@ app.get('/teacher/:id', function(req, res) {
 // });
 
 app.get('/dashboard/:id/taking', function(req, res) {
-  knex.raw(`select loggedInUsers.first_name, teacher_users.first_name, teacher_users.last_name, class_name, class.id, class_description, class.link, start_time from users as loggedInUsers join class_user on loggedInUsers.id = class_user.user_id join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users as teacher_users on teachers.id = teacher_users.id where loggedInUsers.id = ${req.params.id};`)
+  let userId = req.params.id;
+  // knex.raw(`select users.first_name, users.last_name, class_name, class.id, class_description, class.link, start_time from class_user join class on class.id = class_user.class_id join teachers on class.teacher_id = teachers.id join users on teachers.id = users.id where class_user.user_id = ${req.params.id};`)
+  knex.select('users.first_name', 'users.last_name', 'class_name', 'class.id', 'class_description', 'class.link', 'start_time')
+  .from('class_user')
+  .join('class','class.id', '=','class_user.class_id')
+  .join('teachers', 'teachers.id', '=', 'class.teacher_id')
+  .join('users', 'users.id', "=", "teachers.user_id")
+  .where('class_user.user_id',req.params.id)
   .then((result) => {
-    let formattedRes = result.rows;
+    let formattedRes = result;
     let classes = [];
      for (let i = 0; i < formattedRes.length; i++) {
       classes.push({
@@ -203,10 +210,13 @@ app.get('/dashboard/:id/giving', function(req, res) {
   .join('teachers', 'teachers.user_id', '=', 'users.id')
   .where('users.id', req.params.id)
   .then((result) => {
+    console.log("result", result);
     let teacherId = result[0].id || "";
     if (result.length > 0) {
+      console.log("launching knex");
      knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
+      console.log("result2", result2)
       let classes = result2.rows;
       for (var n = 0; n < classes.length; n++) {
         classes[n] = {
@@ -223,6 +233,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
       classes[0].students = [classes[0].first_name + " " + classes[0].last_name];
       formattedRes.push(classes[0]);
       }
+      console.log(formattedRes);
       for (let i = 1; i < classes.length; i++){
         if (classes[i-1].classLink === classes[i].classLink){
           classes[i].students = classes[i].first_name + " " + classes[i].last_name;
@@ -239,7 +250,9 @@ app.get('/dashboard/:id/giving', function(req, res) {
           formattedRes.push(classes[i]);
         }
       }
+      console.log(formattedRes)
       res.send(formattedRes);
+
     })
     }
   })
@@ -386,12 +399,12 @@ app.post('/users/new', function(req, res) {
            }
          )}
          else{
-           res.status(400);
+           res.status(400).send("Username is already in use");
          }
        })
      }
      else {
-       res.status(400);
+       res.status(400).send("Email is already registered");
      }
   })
 });
@@ -455,7 +468,6 @@ app.post('/login', function(req,res) {
    .from('users')
    .where('email', email)
    .then((result)=> {
-    res.setHeader('Access-Control-Allow-Origin', '*');
     console.log(result[0]);
       if (result[0]) {
         var passwordOK = bcrypt.compareSync(password, result[0].password);
@@ -473,31 +485,35 @@ app.post('/login', function(req,res) {
           .then((result1)=>{
             if (result1[0]){
               returnObject.teacherId = result1[0].id;
+              res.setHeader('Access-Control-Allow-Origin', '*');
+              res.send(returnObject)
             }
-            res.send(returnObject);
           })
-
         }
+        res.send(returnObject);
       }
       else if(!result[0]){
-        res.status(400).send("Your fired!");
+        console.log("Your fired")
+       res.status(400).send("Email or password incorrect");
       }
-     else res.status(401).send("Wrong password!");
+     else
+        console.log("Your firedssssss")
+       res.status(400).send("Email or password incorrect");
    })
 });
 
-app.post('/logout', function(req,res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    let returnObject = {
-            username: req.body.username,
-            firstName: req.body.first_name,
-            lastName: req.body.last_name,
-            email: req.body.email,
-            userId: req.body.id
-          }
-    console.log("IMSIDE");
-    res.send(returnObject)
-});
+// app.post('/logout', function(req,res) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     let returnObject = {
+//             username: req.body.username,
+//             firstName: req.body.first_name,
+//             lastName: req.body.last_name,
+//             email: req.body.email,
+//             userId: req.body.id
+//           }
+//     console.log("IMSIDE");
+//     res.send(returnObject)
+// });
 
 
 app.post('/dashboard/:id/class/new', function(req, res) {
@@ -526,7 +542,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
       .then((result1) => {
         console.log("yep all good")
         res.header("Access-Control-Allow-Origin", "*");
-        res.status(200)
+        res.status(200).send({success: true});
       })
       .catch(function(err) {
         res.status(400);
@@ -543,9 +559,18 @@ app.post('/class/delete', function(req, res) {
     classTitle = req.body.classTitle
 
     console.log("SERVER BODY", req.body);
-    console.log("TITLE", req.body.classTitle);
 
-    let recipients = ['maxlester18@gmail.com', 'm.b.aterman@gmail.com']
+    console.log("TITLE REQ", req.body.classTitle);
+    console.log("TITLE", classTitle);
+
+    console.log("STUDENTS REQ", req.body.students);
+    console.log("STUDENTS", students);
+
+    console.log("ID REQ", req.body.classId);
+    console.log("ID", classId);
+
+
+    let recipients = ['m.b.aterman@gmail.com']
     let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
 
     knex('users').innerJoin('class_user', 'users.id', 'class_user.user_id')
@@ -562,7 +587,7 @@ app.post('/class/delete', function(req, res) {
     var data = {
     from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
     to: recipients,
-    subject: "teachurBuddy class:  '" + classTitle + "' has been cancelled",
+    subject: "teachurBuddy class:  " + classTitle + " has been cancelled",
     text: recipientText,
     };
 
@@ -571,21 +596,21 @@ app.post('/class/delete', function(req, res) {
       console.log(body);
     });
 
-    knex('class_user')
-    .where('class_id', classId)
-    .del()
-    .then ((result) => {
-    knex.select('*').from('class')
-    .where('class.id', classId)
-    .del()
-    .then((result2) => {
-    res.header("Access-Control-Allow-Origin", "*");
-      res.status(200)
-    })
-    .catch(function(err) {
-    res.status(400);
-    })
-  })
+  //   knex('class_user')
+  //   .where('class_id', classId)
+  //   .del()
+  //   .then ((result) => {
+  //   knex.select('*').from('class')
+  //   .where('class.id', classId)
+  //   .del()
+  //   .then((result2) => {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //     res.status(200)
+  //   })
+  //   .catch(function(err) {
+  //   res.status(400);
+  //   })
+  // })
 })
 
 
@@ -658,12 +683,12 @@ app.get('/token/:userid/class/:classId', function(request, response) {
 
 });
 
-app.get('*', function (request, response){
-  console.log("caught request")
-  console.log(path.resolve(__dirname, '../index.html'))
-  console.log(path.resolve(__dirname, 'index.html'))
-  response.sendFile(path.resolve(__dirname, 'index.html'))
-})
+// app.get('*', function (request, response){
+//   console.log("caught request")
+//   console.log(path.resolve(__dirname, '../index.html'))
+//   console.log(path.resolve(__dirname, 'index.html'))
+//   response.sendFile(path.resolve(__dirname, 'index.html'))
+// })
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}!`)
