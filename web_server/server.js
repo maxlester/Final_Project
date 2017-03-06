@@ -545,7 +545,7 @@ app.post('/class/delete', function(req, res) {
     console.log("SERVER BODY", req.body);
     console.log("TITLE", req.body.classTitle);
 
-    let recipients = ['jugagnepain75@gmail.com', 'maxlester18@gmail.com', 'm.b.aterman@gmail.com']
+    let recipients = ['maxlester18@gmail.com', 'm.b.aterman@gmail.com']
     let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
 
     knex('users').innerJoin('class_user', 'users.id', 'class_user.user_id')
@@ -562,7 +562,7 @@ app.post('/class/delete', function(req, res) {
     var data = {
     from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
     to: recipients,
-    subject: classTitle + " cancelled",
+    subject: "teachurBuddy class:  '" + classTitle + "' has been cancelled",
     text: recipientText,
     };
 

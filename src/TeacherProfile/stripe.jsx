@@ -27,9 +27,7 @@ class TakeMoney extends Component {
   classes.push(this.state.classId);
   user.classes = classes;
   Auth.saveUser(user);
-  console.log("$$$$$$$$$$$$$$$$");
   console.log(this.props);
-  console.log("$$$$$$$$$$$$$$$$");
    $.ajax({
      url: `http://localhost:8080/class/${classRegister.class_id}/register`,
      type: 'POST',

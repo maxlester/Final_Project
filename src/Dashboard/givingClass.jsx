@@ -6,24 +6,20 @@ var moment = require('moment');
 class GivingClass extends Component {
   constructor(props) {
     super(props);
-    console.log("PROPS", this.props)
-    console.log(this.props.classId)
   }
 
   deleteClass () {
     console.log("PROPS", this.props)
-    let classId = {
+    let classData = {
     classId: this.props.classId,
     students: this.props.students,
     classTitle: this.props.classTitle
     }
-    console.log("students2", classId.students)
-    console.log("Class id", classId)
       $.ajax({
          url: "http://localhost:8080/class/delete",
          type: 'POST',
          dataType: 'json',
-         data: JSON.stringify(classId),
+         data: JSON.stringify(classData),
          headers: {
            'Content-Type':'application/json'
           },
