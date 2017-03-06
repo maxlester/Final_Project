@@ -11,6 +11,14 @@ var AccessToken = require('twilio').AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
 var randomUsername = require('./randos');
 
+
+var mailgun = require('mailgun-js')({apiKey: process.env.MG_API_KEY, domain: process.env.MG_DOMAIN});
+
+
+// var api_key = 'key-0eadf04e0c1e885192e4dc2429b8f920';
+// var domain = 'sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org';
+// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 const knexConfig  = require("./knexfile");
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger  = require('knex-logger');
@@ -527,7 +535,42 @@ app.post('/dashboard/:id/class/new', function(req, res) {
 });
 
 app.post('/class/delete', function(req, res) {
+
+// SELECT * FROM users INNER JOIN class_user ON id = user_id WHERE class_id
+
     classId = req.body.classId
+    students = req.body.students
+    classTitle = req.body.classTitle
+
+    console.log("SERVER BODY", req.body);
+    console.log("TITLE", req.body.classTitle);
+
+    let recipients = ['jugagnepain75@gmail.com', 'maxlester18@gmail.com', 'm.b.aterman@gmail.com']
+    let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
+
+    knex('users').innerJoin('class_user', 'users.id', 'class_user.user_id')
+    .where({
+      class_id: classId
+    }).select('email')
+    .then(function(results) {
+      for (let result of results) {
+      recipients.push(result.email)
+      console.log(recipients);
+      }
+    })
+
+    var data = {
+    from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
+    to: recipients,
+    subject: classTitle + " cancelled",
+    text: recipientText,
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log(data);
+      console.log(body);
+    });
+
     knex('class_user')
     .where('class_id', classId)
     .del()

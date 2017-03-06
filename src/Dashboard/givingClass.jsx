@@ -11,9 +11,13 @@ class GivingClass extends Component {
   }
 
   deleteClass () {
+    console.log("PROPS", this.props)
     let classId = {
-    classId: this.props.classId
-  }
+    classId: this.props.classId,
+    students: this.props.students,
+    classTitle: this.props.classTitle
+    }
+    console.log("students2", classId.students)
     console.log("Class id", classId)
       $.ajax({
          url: "http://localhost:8080/class/delete",
@@ -37,7 +41,9 @@ class GivingClass extends Component {
 
   render() {
     let students = this.props.students;
+    console.log("STUDENTS", students);
     if (students[0] === "null null"){ students = []}
+    console.log("THIS IS THE STRING", students)
     let studentNumber = students.length;
     let studentsMarkup = students.map((student)=>{
       let id = uuidV4();
