@@ -558,17 +558,7 @@ app.post('/class/delete', function(req, res) {
     students = req.body.students
     classTitle = req.body.classTitle
 
-    console.log("SERVER BODY", req.body);
-
-    console.log("TITLE REQ", req.body.classTitle);
-    console.log("TITLE", classTitle);
-
-    console.log("STUDENTS REQ", req.body.students);
-    console.log("STUDENTS", students);
-
-    console.log("ID REQ", req.body.classId);
-    console.log("ID", classId);
-
+    console.log("BODY", req.body);
 
     let recipients = ['m.b.aterman@gmail.com']
     let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
@@ -596,21 +586,21 @@ app.post('/class/delete', function(req, res) {
       console.log(body);
     });
 
-  //   knex('class_user')
-  //   .where('class_id', classId)
-  //   .del()
-  //   .then ((result) => {
-  //   knex.select('*').from('class')
-  //   .where('class.id', classId)
-  //   .del()
-  //   .then((result2) => {
-  //   res.header("Access-Control-Allow-Origin", "*");
-  //     res.status(200)
-  //   })
-  //   .catch(function(err) {
-  //   res.status(400);
-  //   })
-  // })
+    knex('class_user')
+    .where('class_id', classId)
+    .del()
+    .then ((result) => {
+    knex.select('*').from('class')
+    .where('class.id', classId)
+    .del()
+    .then((result2) => {
+    res.header("Access-Control-Allow-Origin", "*");
+      res.status(200)
+    })
+    .catch(function(err) {
+    res.status(400);
+    })
+  })
 })
 
 
