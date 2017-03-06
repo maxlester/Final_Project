@@ -283,13 +283,15 @@ class Dashboard extends Component {
             {newClassForm}
           </aside>
           <main>
-            <section className = "quote">
-              <p>{this.state.dailyQuote.quote}</p>
-              <p>- {this.state.dailyQuote.author}</p>
-            </section>
-            {becomeTeacherOption}
-            <h2>Dashboard</h2>
-            <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            <div className="container-main">
+              <section className = "quote">
+                <p>{this.state.dailyQuote.quote}</p>
+                <p>- {this.state.dailyQuote.author}</p>
+              </section>
+              {becomeTeacherOption}
+              <h2>Dashboard</h2>
+              <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
+            </div>
           </main>
         </div>
       );
@@ -298,8 +300,10 @@ class Dashboard extends Component {
       return(
         <div className = "wrong-dashboard">
           <NavBar router={this.props.router}/>
-          <h1>You do not have access to this page it seems</h1>
-          <button className="btn btn-default" onClick={this.redirectHome.bind(this)}>Return to home page</button>
+          <div>
+            <h1>You do not have access to this page it seems</h1>
+            <button className="btn btn-default" onClick={this.redirectHome.bind(this)}>Return to home page</button>
+          </div>
         </div>
       );
     }

@@ -27,12 +27,17 @@ class ClassList extends Component {
     let noClassesMessage;
     if (this.props.classesTaking.length != 0){
         takingMessage = <h3>Classes you are registered for</h3>
-       classesTaking = this.props.classesTaking.map((item)=>{
+        classesTaking = this.props.classesTaking.map((item)=>{
         return <TakingClass key = {item.classId} classId = {item.classId} classTitle = {item.classTitle} teacherName = {item.teacherName} classDate = {item.classDate} classLink = {item.classLink} formatDate = {this.formatDate.bind(this)}/>
       })
     }
     if (this.props.classesGiving.length != 0){
-      givingMessage = <h3>Classes you are teaching</h3>
+      givingMessage = (
+        <div>
+          <h3>Classes you are teaching</h3>
+          <p className="small-notice">Share the link to your profile to let friends register to your classes!</p>
+        </div>
+        )
       classesGiving = this.props.classesGiving.map((item)=>{
         return <GivingClass deleteClass = {this.props.deleteClass} key = {item.classId} classId = {item.classId} classTitle = {item.classTitle} classDate = {item.classDate} classLink = {item.classLink} students = {item.students} formatDate = {this.formatDate.bind(this)}/>
       })
@@ -46,7 +51,6 @@ class ClassList extends Component {
       <div>
           {givingMessage}
           {classesGiving}
-          <p className="small-notice">Share the link to your profile to let friends register to your classes!</p>
           {takingMessage}
           {classesTaking}
           {noClassesMessage}

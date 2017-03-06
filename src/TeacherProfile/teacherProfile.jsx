@@ -65,8 +65,10 @@ getTeacher() {
         <NavBar router = {this.props.router}/>
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
-          {classes}
-          <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
+          <div className="container-main">
+            {classes}
+            <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
+          </div>
         </main>
       </div>
     );
