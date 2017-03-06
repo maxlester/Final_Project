@@ -30,7 +30,7 @@ class BecomeTeacher extends Component {
     if (this.state.becomeTeacherBtn) teacherForm = <BecomeTeacherForm becomeTeacher = {this.props.becomeTeacher} handleChange = {this.props.handleChange}/>
     return (
       <div className="become-teacher">
-        <button className = "btn btn-default" onClick={this.showBecomeTeacherForm.bind(this)}>Start Teaching Classes</button>
+        <button className = "btn" onClick={this.showBecomeTeacherForm.bind(this)}><span className="glyphicon glyphicon-cog" aria-hidden="true"></span>Start Teaching Classes</button>
         {teacherForm}
       </div>
     );

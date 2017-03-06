@@ -273,8 +273,8 @@ class Dashboard extends Component {
               <p>{this.state.dailyQuote.quote}</p>
               <p>- {this.state.dailyQuote.author}</p>
             </section>
-            <h2>Dashboard</h2>
             {becomeTeacherOption}
+            <h2>Dashboard</h2>
             <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             {teacherLink}
           </main>

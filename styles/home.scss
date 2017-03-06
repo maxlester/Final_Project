@@ -19,15 +19,54 @@
     top:0;
     padding: 150px 30px 30px 30px;
   }
+  form.registerStudent{
+    padding:10px 20px;
+    position: relative;
+  }
   .register{
-    .register-btn{
-      cursor:pointer;
-      text-align: center;
-      display: inline-block;
-      width:150px;
-      height:50px;
-      padding:10px 20px;
-      background-color: $green;
+    background-color: white;
+    width:100%;
+    max-width:400px;
+    margin:0 auto;
+    margin-top:50px;
+    margin-bottom:30px;
+    box-shadow: $box-shadow;
+    .btn-panel{
+      width:50%;
+      background-color:$mid-grey;
+      border:none;
+      border-top:10px solid $light-grey;
+      color:white;
+    }
+    .btn-panel-active{
+      background-color:white;
+      border:none;
+      border-top:10px solid $green;
+      color:$green;
+    }
+    input{
+      width:50%;
+      border:none;
+      padding:2px 5px;
+      background-color:$light-grey;
+      margin:10px 0;
+    }
+    textarea{
+      height:100px;
+      display:block;
+      width:100%;
+      border:none;
+      background-color: $light-grey;
+    }
+    label{
+      display:block;
+    }
+    #register-btn{
+      display:block;
+      width:100%;
+      position:absolute;
+      left:0;
+      margin-top:10px;
     }
   }
 }
