@@ -6,12 +6,7 @@ var moment = require('moment');
 class GivingClass extends Component {
   constructor(props) {
     super(props);
-    console.log("PROPS", this.props)
-    console.log(this.props.classId)
   }
-
-
-
 
   render() {
     let students = this.props.students;
@@ -32,7 +27,10 @@ class GivingClass extends Component {
           </ul>
         </div>
         <div className="class-date">
-          <span className="month">{`${moment(this.props.classDate).format('MMMM Do YYYY, h:mm a')}`}</span>
+          <span className="year">{this.props.formatDate(this.props.classDate)[0]}</span>
+          <span className="month">{this.props.formatDate(this.props.classDate)[1]}</span>
+          <span className="day">{this.props.formatDate(this.props.classDate)[2]}</span>
+          <span className="time">{this.props.formatDate(this.props.classDate)[3]}</span>
         </div>
         <div className="class-delete" onClick={this.props.deleteClass} data-class-id={this.props.classId}>
           <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>

@@ -1,6 +1,6 @@
 nav {
- height: 60px;
- padding: 10px 30px;
+ height: 45px;
+ padding: 0 30px;
  background-color: $green;
  position: fixed;
  top:0;
@@ -10,16 +10,16 @@ nav {
 
  h1 {
    position: relative;
-   top: 6px;
+   top: 8px;
    font-size: 2.5rem;
    display: inline;
    color:white;
-   letter-spacing: .2rem;
+   letter-spacing: .1rem;
+   span{
+    top:0px;
+   }
    a {
      color: white;
-     span{
-        color:$dark-green;
-     }
      &:hover {
        text-decoration: none;
        cursor: pointer;
@@ -36,7 +36,7 @@ nav {
  #login-input{
    position: absolute;
    right: 30px;
-   top: 14px;
+   top: 5px;
    margin-right:5px;
    color: white;
    button{
@@ -57,16 +57,18 @@ nav {
    input{
      display: inline-block;
      width:100px;
-     background-color: rgba(255, 255, 255, .8);
+     background-color: $green;
+     border:1px solid white;
+     //background-color: rgba(255, 255, 255, .8);
      margin-right: 10px;
      transform: translateY(-50%);
-     color:$mid-grey;
+     color:white;
      position:relative;
-     top:15px;
-     border:none;
-     padding:2px 5px;
+     top:18px;
+     //border:none;
+     padding:5px 5px;
      &:first-child{
-      width:125px;
+      width:155px;
      }
    }
  }
