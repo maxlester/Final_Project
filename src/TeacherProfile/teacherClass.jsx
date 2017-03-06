@@ -7,6 +7,7 @@ class TeacherClass extends Component {
 
 
   render() {
+    console.log("DDDDDDDDDDDD", this)
     let userClasses = Auth.retrieveUser().classes;
     let user = Auth.retrieveUser().userId;
     let teacher = Auth.retrieveUser().teacherId

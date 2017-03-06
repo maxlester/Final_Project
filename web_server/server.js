@@ -485,11 +485,13 @@ app.post('/login', function(req,res) {
         }
       }
       else if(!result[0]){
-        res.status(404).send("email or password is incorrect")
+       res.status(400)
+       // .send("Email or password");
         console.log("Your fired")
       }
      else
-        res.status(404).send("email or password is incorrect")
+       res.status(400).send({success: true})
+     // .send({key: "value"});
         console.log("Your firedssssss")
    })
 });

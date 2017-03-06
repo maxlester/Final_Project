@@ -54,11 +54,13 @@ class NavBar extends Component {
        this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
      },
      error: function(xhr, status, err) {
-      alert("WHY are you so slow")
-      console.error(err.toString());
+          console.error(err.toString());
+          console.log(status)
+          alert("Wrong")
+          // alert(xhr.responseText)
      }.bind(this)
    })
-   return false; //returning false to prevent info showing in url
+  return false; //returning false to prevent info showing in url
  }
 
   setUser(){
