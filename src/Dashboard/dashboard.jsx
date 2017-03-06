@@ -205,7 +205,7 @@ class Dashboard extends Component {
          'Content-Type':'application/json'
         },
         context: this,
-       success: function(data) {
+       success: function() {
         this.addClassToState();
         this.setSpinner(false)
        },

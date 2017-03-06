@@ -485,11 +485,12 @@ app.post('/login', function(req,res) {
         }
       }
       else if(!result[0]){
-        res.status(400).send("Your fired!");
+        res.status(404).send("email or password is incorrect")
         console.log("Your fired")
       }
-     else res.status(401).send("Wrong password!");
-        console.log("Your fired")
+     else
+        res.status(404).send("email or password is incorrect")
+        console.log("Your firedssssss")
    })
 });
 
@@ -533,7 +534,7 @@ app.post('/dashboard/:id/class/new', function(req, res) {
       .then((result1) => {
         console.log("yep all good")
         res.header("Access-Control-Allow-Origin", "*");
-        res.status(200)
+        res.status(200).send({success: true});
       })
       .catch(function(err) {
         res.status(400);
