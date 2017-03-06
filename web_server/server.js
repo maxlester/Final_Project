@@ -477,12 +477,12 @@ app.post('/login', function(req,res) {
           .then((result1)=>{
             if (result1[0]){
               returnObject.teacherId = result1[0].id;
+              res.setHeader('Access-Control-Allow-Origin', '*');
+              res.send(returnObject)
             }
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.send(returnObject);
           })
-          res.send(returnObject);
         }
+        res.send(returnObject);
       }
       else if(!result[0]){
         console.log("Your fired")
