@@ -52,7 +52,8 @@ class NavBar extends Component {
        this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)
      },
      error: function(xhr, status, err) {
-       console.error(err.toString());
+      alert("email or password is incorrect")
+      console.error(err.toString());
      }.bind(this)
    })
    return false; //returning false to prevent info showing in url

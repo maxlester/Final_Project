@@ -391,12 +391,12 @@ app.post('/users/new', function(req, res) {
            }
          )}
          else{
-           res.status(400);
+           res.status(400).send("Username is already in use");
          }
        })
      }
      else {
-       res.status(400);
+       res.status(400).send("Email is already registered");
      }
   })
 });
@@ -486,8 +486,10 @@ app.post('/login', function(req,res) {
       }
       else if(!result[0]){
         res.status(400).send("Your fired!");
+        console.log("Your fired")
       }
      else res.status(401).send("Wrong password!");
+        console.log("Your fired")
    })
 });
 

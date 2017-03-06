@@ -51,6 +51,8 @@ class Register extends Component {
          },
          error: function(xhr, status, err) {
            console.error(err.toString());
+           console.log(xhr)
+           alert(xhr.responseText)
          }.bind(this)
        })
      return false; //returning false to prevent info showing in url
