@@ -127,7 +127,8 @@ app.get('/teacher/:id', function(req, res) {
             firstName: result[0].first_name,
             lastName: result[0].last_name,
             description: result[0].description,
-            id: result[0].id
+            id: result[0].id,
+            avatar:result[0].avatar || 1
         }
         teacherObject.classes = formattedRes || "";
         console.log(teacherObject);
@@ -216,7 +217,6 @@ app.get('/dashboard/:id/giving', function(req, res) {
     console.log("result", result);
     let teacherId = result[0].id || "";
     if (result.length > 0) {
-      console.log("launching knex");
      knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("result2", result2)
@@ -259,6 +259,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     })
     }
   })
+  });
 /*  })*/
  /* .then((result) => {
     let formattedRes = result.rows;
@@ -276,7 +277,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     console.log(classes);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(classes);*/
-  });
+
 
       // classesTaking: [
       //   {
@@ -479,40 +480,32 @@ app.post('/users/new', function(req, res) {
   })
 });
 
-app.post('/users/:id/update', function(req, res) {
-  const id =  req.params.id;
-  const userObjectUpdate = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    username : req.body.username,
-    email : req.body.email,
-    password : bcrypt.hashSync(req.body.password, 10)
+app.post('/teacher/:id/edit', function(req, res) {
+  console.log(req.body);
+  const teacher = {
+    description : req.body.description,
+    avatar : req.body.avatar
    }
-   knex('users')
-   .where('id', id)
-   .then((results) => {
-      if(results.length === 1){
-        knex.update(userObjectUpdate)
-        .into("users")
-        .then((result3) => {
-          res.json(JSON.stringify(result3[0]))
-          res.status(200)
-        })
-      }
+    knex('teachers')
+    .where('id', '=', req.params.id)
+    .update(teacher)
+    .then(() => {
+      res.status(200).send({success: true})
     })
 })
 
 app.post('/users/:id/becometeacher', function(req, res) {
   console.log("becoming a teacher");
   const id =  req.params.id;
+  console.log(req.body);
   let teacherToCreate = {
     user_id: id,
     id: generateRandomNumber(),
-    // description: req.body.description,
-      description: 'did this work?'
+    description: req.body.description,
+    avatar : 1
     }
+    console.log(teacherToCreate);
     knex.select("*").from("teachers").where("user_id", id).then((result)=>{
-      console.log("result", result);
       if(result.length === 0){
          knex
          .insert(teacherToCreate, "id")
@@ -540,8 +533,10 @@ app.post('/login', function(req,res) {
    .then((result)=> {
     console.log(result[0]);
       if (result[0]) {
+        console.log("user found")
         var passwordOK = bcrypt.compareSync(password, result[0].password);
         if(passwordOK) {
+          console.log("password ok");
           let returnObject = {
             username: result[0].username,
             firstName: result[0].first_name,
@@ -553,24 +548,22 @@ app.post('/login', function(req,res) {
           .from('teachers')
           .where('user_id', returnObject.userId)
           .then((result1)=>{
+            console.log("result", result1);
             if (result1[0]){
               console.log("In here")
               returnObject.teacherId = result1[0].id;
-              res.setHeader('Access-Control-Allow-Origin', '*');
-              res.send(returnObject)
             }
-          res.send(returnObject);
+            res.send(returnObject);
           })
-          res.send(returnObject);
-        }
+        } res.send(returnObject);
       }
       else if(!result[0]){
         console.log("Your fired")
        res.status(400).send("Email or password incorrect");
       }
-     else
-        console.log("Your firedssssss")
+     else {
        res.status(400).send("Email or password incorrect");
+      }
    })
 });
 

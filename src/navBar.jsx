@@ -47,8 +47,7 @@ class NavBar extends Component {
       },
       context: this,
      success: function(data) {
-       // let user = JSON.parse(data);
-       console.log("LLLLLLLLL", this.props);
+       console.log("data", data);
        Auth.saveUser(data);
        this.setUser();
        this.props.router.push(`/dashboard/${Auth.retrieveUser().userId}`)

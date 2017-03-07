@@ -133,9 +133,9 @@ class Dashboard extends Component {
   becomeTeacher(e){
     e.preventDefault();
     let userId = this.props.params.id;
+    console.log("description", this.state.teacher.description)
     let teacher = {
-      // description : this.state.teacher.description
-      description:"this is a descrption about me as a teacher"
+      description : this.state.teacher.description
     }
     $.ajax({
        url: `http://localhost:8080/users/${userId}/becometeacher`,
@@ -143,6 +143,9 @@ class Dashboard extends Component {
        context: this,
        dataType: 'json',
        data: JSON.stringify(teacher),
+        headers: {
+           'Content-Type':'application/json'
+          },
        success: function(data) {
           let currentUser = Auth.retrieveUser();
           currentUser.teacherId = data.teacherId;
@@ -217,6 +220,8 @@ class Dashboard extends Component {
   }
 
   deleteClass(e) {
+    console.log("deleted:", classId)
+    console.log("state:", this.state)
     let button = e.target
     let classId = {classId : $(e.target).attr("data-class-id")}
     let classesGiving = this.state.classesGiving;
@@ -226,7 +231,7 @@ class Dashboard extends Component {
       }
     }
     this.setState({classesGiving: classesGiving}, ()=>{
-      console.log(classId);
+      console.log("deleted", classId);
     console.log("Class id", classId)
       $.ajax({
          url: "http://localhost:8080/class/delete",
@@ -278,10 +283,6 @@ class Dashboard extends Component {
       return (
         <div className="dashboard">
           <NavBar router={this.props.router}/>
-          <aside className="left-sidebar">
-            {teacherLink}
-            {newClassForm}
-          </aside>
           <main>
             <div className="container-main">
               <section className = "quote">
@@ -293,6 +294,10 @@ class Dashboard extends Component {
               <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             </div>
           </main>
+          <aside className="left-sidebar">
+            {teacherLink}
+            {newClassForm}
+          </aside>
         </div>
       );
     }

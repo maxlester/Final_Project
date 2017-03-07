@@ -63,7 +63,7 @@ class GivingClass extends Component {
           <span className="day">{this.props.formatDate(this.props.classDate)[2]}</span>
           <span className="time">{this.props.formatDate(this.props.classDate)[3]}</span>
         </div>
-        <div className="class-delete" onClick={this.deleteClass.bind(this)} data-class-id={this.props.classId}>
+        <div className="class-delete" onClick={this.props.deleteClass} data-class-id={this.props.classId}>
           <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </div>
       </article>
