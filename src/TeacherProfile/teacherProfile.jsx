@@ -22,7 +22,6 @@ componentWillMount() {
 setTeacher(teacher) {
   this.setState({teacher: teacher})
 }
-
 setClasses(teacherClasses) {
   this.setState({teacherClasses: teacherClasses})
 }
@@ -34,7 +33,8 @@ getTeacher() {
      type: 'GET',
      context: this,
      success: function(data) {
-      console.log("eeeeeeeeeeeeee", data);
+      console.log("SSSSSSS",data.classes)
+      console.log("eeeeeeeeeeeeee", data.classes[0].students);
        let teacher = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -65,8 +65,10 @@ getTeacher() {
         <NavBar router = {this.props.router}/>
         <TeacherProfileInfo teacher = {this.state.teacher}/>
         <main>
-          {classes}
-          <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
+          <div className="container-main">
+            {classes}
+            <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
+          </div>
         </main>
       </div>
     );

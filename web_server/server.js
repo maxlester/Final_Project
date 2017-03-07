@@ -59,7 +59,7 @@ app.get('/', function(req, res) {
 app.get('/teacher/:id', function(req, res) {
   let teacherId = req.params.id;
   let formattedRes;
-  knex.raw(`select class_name, class_description, max_number_students, price, start_time, clientUsers.first_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
+  knex.raw(`select class_name, class_description, max_number_students, price, start_time, clientUsers.first_name, clientUsers.id as user_id, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("LOKkkkk", result2);
       let classes;
@@ -71,6 +71,7 @@ app.get('/teacher/:id', function(req, res) {
               classDate: classes[n].start_time,
               classId: classes[n].id,
               first_name: classes[n].first_name,
+              user_id: classes[n].user_id,
               classDescription: classes[n].class_description,
               classCost: classes[n].price,
               maxNumberOfStudents:classes[n].max_number_students
@@ -78,18 +79,20 @@ app.get('/teacher/:id', function(req, res) {
           }
           formattedRes = [];
           let firstName = "";
+          let user_id = "";
           if (classes.length > 0){
           firstName = classes[0].first_name;
+          user_id = classes[0].user_id;
           }
           if (firstName) {
-          classes[0].students = [classes[0].first_name];
+          classes[0].students = [classes[0].user_id];
           } else {
             classes[0].students = [];
           }
           formattedRes.push(classes[0]);
           for (let i = 1; i < classes.length; i++){
             if (classes[i-1].classId === classes[i].classId){
-              classes[i].students = classes[i].first_name;
+              classes[i].students = classes[i].user_id;
               for(let k = 0; k < formattedRes.length; k++){
                 if (formattedRes[k].classId === classes[i].classId){
                   formattedRes[k].students.push(classes[i].students);
@@ -97,7 +100,7 @@ app.get('/teacher/:id', function(req, res) {
               }
             }
             else{
-              classes[i].students = [classes[i].first_name];
+              classes[i].students = [classes[i].user_id];
               classes[i].first_name = "";
               formattedRes.push(classes[i]);
             }
@@ -325,6 +328,7 @@ app.post('/class/:id/register', function(req, res) {
   .then((result) => {
     knex.raw(`select count(class_id) from class_user where class_id = '${req.body.class_id}'`)
       .then((result2) => {
+        console.log(">>>>>>>>>>>>>",result2);
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200)
         console.log("THIS IS IT", result2.rows[0].count);
@@ -476,13 +480,15 @@ app.post('/login', function(req,res) {
           .where('user_id', returnObject.userId)
           .then((result1)=>{
             if (result1[0]){
+              console.log("In here")
               returnObject.teacherId = result1[0].id;
+              res.setHeader('Access-Control-Allow-Origin', '*');
+              res.send(returnObject)
             }
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.send(returnObject);
+        res.send(returnObject);
           })
-          res.send(returnObject);
         }
+        res.send(returnObject);
       }
       else if(!result[0]){
         console.log("Your fired")

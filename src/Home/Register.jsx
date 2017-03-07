@@ -45,6 +45,7 @@ class Register extends Component {
           },
           context: this,
          success: function(data) {
+          console.log("DDDDAAATTTAA", data)
            Auth.saveUser(data);
            let userId = data.userId;
            this.props.router.push(`/dashboard/${userId}`)
