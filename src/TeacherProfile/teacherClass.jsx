@@ -21,7 +21,7 @@ class TeacherClass extends Component {
     } else if (!user){
       registered = <p>Login to register</p>
     }else {
-      registered = <TakeMoney onHandleCount={this.handleCount} maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
+      registered = <TakeMoney avatar = {this.props.avatar} onHandleCount={this.handleCount} maxNumberOfStudents ={this.props.maxNumberOfStudents} cost = {this.props.classCost} classId = {this.props.id} classTitle = {this.props.classTitle} router={this.props.router} teacherId = {this.props.teacherId} />
     }
     return (
       <article className = "class clearfix teacher-profile-class">

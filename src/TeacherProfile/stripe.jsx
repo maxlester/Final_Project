@@ -53,11 +53,12 @@ class TakeMoney extends Component {
  render() {
   let dollarCost = this.props.cost * 100
   console.log(this.props.classTitle);
+  let avatarUrl = `/build/assets/avatar-${this.props.avatar}.png`
    return (
      // ...
      <StripeCheckout
       name = {this.props.classTitle}
-      image = "https://images.vexels.com/media/users/3/130615/isolated/lists/a26d7ab0bf65ced2518604bc0068fa4e-girl-yoga-practice-silhouette.png"
+      image = {avatarUrl}
       amount = {dollarCost}
       label = "Register"
       data-classId = {this.props.id}
