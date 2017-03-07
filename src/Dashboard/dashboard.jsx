@@ -133,9 +133,9 @@ class Dashboard extends Component {
   becomeTeacher(e){
     e.preventDefault();
     let userId = this.props.params.id;
+    console.log("description", this.state.teacher.description)
     let teacher = {
-      // description : this.state.teacher.description
-      description:"this is a descrption about me as a teacher"
+      description : this.state.teacher.description
     }
     $.ajax({
        url: `http://localhost:8080/users/${userId}/becometeacher`,
@@ -143,6 +143,9 @@ class Dashboard extends Component {
        context: this,
        dataType: 'json',
        data: JSON.stringify(teacher),
+        headers: {
+           'Content-Type':'application/json'
+          },
        success: function(data) {
           let currentUser = Auth.retrieveUser();
           currentUser.teacherId = data.teacherId;

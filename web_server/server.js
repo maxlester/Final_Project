@@ -419,14 +419,15 @@ app.post('/teacher/:id/edit', function(req, res) {
 app.post('/users/:id/becometeacher', function(req, res) {
   console.log("becoming a teacher");
   const id =  req.params.id;
+  console.log(req.body);
   let teacherToCreate = {
     user_id: id,
     id: generateRandomNumber(),
-    // description: req.body.description,
-      description: 'did this work?'
+    description: req.body.description,
+    avatar : 1
     }
+    console.log(teacherToCreate);
     knex.select("*").from("teachers").where("user_id", id).then((result)=>{
-      console.log("result", result);
       if(result.length === 0){
          knex
          .insert(teacherToCreate, "id")
