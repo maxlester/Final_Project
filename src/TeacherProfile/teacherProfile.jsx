@@ -11,7 +11,7 @@ class TeacherProfile extends Component {
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       teacher: [],
-      teacherClasses:[],
+      teacherClasses:[]
     };
   }
 
@@ -34,7 +34,6 @@ getTeacher() {
      type: 'GET',
      context: this,
      success: function(data) {
-      console.log("eeeeeeeeeeeeee", data);
        let teacher = {
         firstName: data.firstName,
         lastName: data.lastName,
@@ -42,11 +41,13 @@ getTeacher() {
         id: data.id
        }
        let classes = data.classes
+       console.log("tecaher",teacher);
        this.setTeacher(teacher);
        this.setClasses(classes);
      },
      error: function(xhr, status, err) {
-       console.error(err.toString());
+
+       e.error(err.toString());
      }.bind(this)
    })
    return false; //returning false to prevent info showing in url
