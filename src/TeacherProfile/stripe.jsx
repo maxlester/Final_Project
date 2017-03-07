@@ -37,7 +37,7 @@ class TakeMoney extends Component {
         },
         context: this,
        success: function(data) {
-        console.log(data);
+        console.log("<<<<<<<<<<", data);
         console.log("User has registered for class");
         this.props.router.push(`/dashboard/${userId}`)
         // this.props.onHandleCount(data);
