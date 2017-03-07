@@ -118,6 +118,7 @@
     }
     p{
       margin-top:10px;
+      padding:0 15px;
     }
   }
   .become-teacher{
@@ -159,7 +160,7 @@
   }
 }
 
-@media screen and (max-width: 660px){
+@media screen and (max-width: 810px){
   .dashboard{
     .left-sidebar{
       width: 100%;
@@ -169,8 +170,10 @@
       top:auto;
       left:auto;
       float:left;
+      padding-bottom: 80px;
     }
     main{
+      position:static;
       width:100%;
       left:0;
     }
