@@ -110,7 +110,7 @@ class NavBar extends Component {
          <nav>
            <h1><a onClick={this.redirectHome.bind(this)}>teach<span>ur</span>Buddy</a></h1>
            <div id="login-input">
-             <span>Logged in as <strong>{this.state.user.firstName} {this.state.user.lastName}</strong></span>
+             <span className = "logged-in-as">Logged in as <strong>{this.state.user.firstName} {this.state.user.lastName}</strong></span>
              <button type="submit" id="logout" className="btn btn-clear" onClick = {this.logout.bind(this)}>Logout</button>
              <button className="btn btn-clear" id="dashboard" onClick = {this.redirectToDashboard.bind(this)}><span className="glyphicon glyphicon-user" aria-hidden="true"></span> My Dashboard</button>
            </div>
