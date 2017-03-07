@@ -116,7 +116,7 @@ getTeacher() {
         <main>
           <div className="container-main">
             {classes}
-            <TeacherClassList teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
+            <TeacherClassList avatar = {this.state.teacher.avatar} teacherId = {this.props.params.teacherId} teacherClasses = {this.state.teacherClasses} router= {this.props.router}/>
           </div>
         </main>
       </div>

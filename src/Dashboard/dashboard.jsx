@@ -220,7 +220,7 @@ class Dashboard extends Component {
   }
 
   deleteClass(e) {
-    let button = e.target
+    let button = e.target;
     let classId = {classId : $(e.target).attr("data-class-id")}
     let classesGiving = this.state.classesGiving;
     for (let i = 0; i < classesGiving.length; i++){

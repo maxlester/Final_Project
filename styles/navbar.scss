@@ -77,3 +77,44 @@ nav {
    margin-right: 5px;
  }
 }
+
+@media screen and (max-width: 700px){
+  nav{
+    padding:0 15px;
+    .logged-in-as{
+      color:$dark-grey;
+      position:absolute;
+      right:0;
+      top:50px;
+    }
+    #login-input{
+   position: absolute;
+   right: 15px;
+   margin-right:5px;
+   color: white;
+    }
+    main{
+      width:100%;
+      left:0;
+    }
+  }
+}
+
+@media screen and (max-width: 435px){
+  nav{
+    h1{
+      font-size:2rem;
+      top:11px;
+    }
+    button{
+      font-size: 1.2rem;
+    }
+    .glyphicon{
+        display:none;
+      }
+  }
+}
+
+
+
+
