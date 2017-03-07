@@ -360,8 +360,8 @@ app.post('/class/:id/register', function(req, res) {
   };
   console.log("CLASS REGISTER:", classRegister);
 
-  teacherEmail = ['maxlester18@gmail.com']
-  classData = []
+  let teacherEmail = 'maxlester18@gmail.com'
+  let classData = []
   //teacherEmailText = '. Your teachurBuddy dashboard: ' + classData[1]
 
   knex.raw(`SELECT users.email, class.class_name, users.id FROM users JOIN teachers ON users.id = teachers.user_id JOIN class ON teachers.id = class.teacher_id WHERE class.id = '${req.body.class_id}'`)
@@ -559,9 +559,9 @@ app.post('/login', function(req,res) {
               res.setHeader('Access-Control-Allow-Origin', '*');
               res.send(returnObject)
             }
-        res.send(returnObject);
+          res.send(returnObject);
           })
-        res.send(returnObject);
+          res.send(returnObject);
         }
       }
       else if(!result[0]){
