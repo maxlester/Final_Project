@@ -23,7 +23,6 @@ componentWillMount() {
 setTeacher(teacher) {
   this.setState({teacher: teacher})
 }
-
 setClasses(teacherClasses) {
   this.setState({teacherClasses: teacherClasses})
 }
