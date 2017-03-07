@@ -11,7 +11,8 @@ class TeacherProfile extends Component {
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       teacher: [],
-      teacherClasses:[]
+      teacherClasses:[],
+      edit:false
     };
   }
 
@@ -38,7 +39,8 @@ getTeacher() {
         firstName: data.firstName,
         lastName: data.lastName,
         description: data.description,
-        id: data.id
+        id: data.id,
+        avatar : 1
        }
        let classes = data.classes
        console.log("tecaher",teacher);
@@ -53,6 +55,45 @@ getTeacher() {
    return false; //returning false to prevent info showing in url
  }
 
+  editProfile(e){
+    console.log("clicked")
+    this.setState({edit : true})
+  }
+
+  saveChanges(e){
+    e.preventDefault();
+    let teacher = {
+        id :this.state.teacher.id,
+        description : this.state.teacher.description,
+        avatar : 1
+      }
+    console.log("saving changes")
+    $.ajax({
+     url: `http://localhost:8080/teacher/${teacher.id}/edit`,
+     type: 'POST',
+     dataType: 'json',
+       data: JSON.stringify(teacher),
+       headers: {
+         'Content-Type':'application/json'
+        },
+     context: this,
+     success: function(data) {
+        this.setState({edit : false})
+     },
+     error: function(xhr, status, err) {
+        console.log("Teacher profile could not be edited")
+     }.bind(this)
+   })
+    return false;
+  }
+  handleChange(e){
+    console.log("changing")
+    const field = e.target.name;
+    const teacher = this.state.teacher;
+    teacher[field] = e.target.value;
+    this.setState({teacher:teacher})
+  }
+
   render() {
     let classes = null;
     if (this.state.teacherClasses) {
@@ -64,7 +105,7 @@ getTeacher() {
     return (
       <div className="teacher-profile">
         <NavBar router = {this.props.router}/>
-        <TeacherProfileInfo teacher = {this.state.teacher}/>
+        <TeacherProfileInfo teacher = {this.state.teacher} edit ={this.state.edit} handleChange = {this.handleChange.bind(this)} saveChanges = {this.saveChanges.bind(this)} editProfile = {this.editProfile.bind(this)}/>
         <main>
           <div className="container-main">
             {classes}
