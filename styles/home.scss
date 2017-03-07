@@ -46,8 +46,15 @@
       width:50%;
       background-color:$mid-grey;
       border:none;
-      border-top:10px solid $light-grey;
+      border-top:10px solid transparent;;
       color:white;
+      span{
+        white-space: pre-line; /* CSS 3.0 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        white-space: -moz-pre-wrap; /* Mozilla */
+        word-wrap: break-word; /* IE 5+ */
+      }
     }
     .btn-panel-active{
       background-color:$green;
@@ -83,6 +90,43 @@
       position:absolute;
       left:0;
       margin-top:10px;
+    }
+  }
+}
+
+@media screen and (max-width: 800px){
+  .home{
+    .left-sidebar{
+      width: 35%;
+    }
+    main{
+      width: 65%;
+    }
+  }
+}
+
+@media screen and (max-width: 610px){
+  .home{
+    .left-sidebar{
+      width: 100%;
+    }
+    main{
+      width: 100%;
+      .about{
+        background-color: rgba(255,255,255, 0.8);
+        padding:15px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 390px){
+  .home{
+    .left-sidebar{
+      width: 100%;
+    }
+    main{
+      width: 100%;
     }
   }
 }

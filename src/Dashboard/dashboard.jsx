@@ -281,10 +281,6 @@ class Dashboard extends Component {
       return (
         <div className="dashboard">
           <NavBar router={this.props.router}/>
-          <aside className="left-sidebar">
-            {teacherLink}
-            {newClassForm}
-          </aside>
           <main>
             <div className="container-main">
               <section className = "quote">
@@ -296,6 +292,10 @@ class Dashboard extends Component {
               <ClassList deleteClass = {this.deleteClass.bind(this)} classesTaking = {this.state.classesTaking} classesGiving = {this.state.classesGiving}/>
             </div>
           </main>
+          <aside className="left-sidebar">
+            {teacherLink}
+            {newClassForm}
+          </aside>
         </div>
       );
     }

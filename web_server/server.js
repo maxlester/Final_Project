@@ -206,7 +206,6 @@ app.get('/dashboard/:id/giving', function(req, res) {
     console.log("result", result);
     let teacherId = result[0].id || "";
     if (result.length > 0) {
-      console.log("launching knex");
      knex.raw(`select class_name, link, start_time, clientUsers.first_name, clientUsers.last_name, class.id from class join teachers on class.teacher_id = teachers.id full outer join class_user on class.id = class_user.class_id full outer join users as clientUsers on class_user.user_id = clientUsers.id  where teachers.id = ${teacherId} order by start_time`)
     .then((result2) =>{
       console.log("result2", result2)
@@ -455,8 +454,10 @@ app.post('/login', function(req,res) {
    .then((result)=> {
     console.log(result[0]);
       if (result[0]) {
+        console.log("user found")
         var passwordOK = bcrypt.compareSync(password, result[0].password);
         if(passwordOK) {
+          console.log("password ok");
           let returnObject = {
             username: result[0].username,
             firstName: result[0].first_name,
@@ -468,22 +469,22 @@ app.post('/login', function(req,res) {
           .from('teachers')
           .where('user_id', returnObject.userId)
           .then((result1)=>{
+            console.log("result", result1);
             if (result1[0]){
               returnObject.teacherId = result1[0].id;
             }
-            res.setHeader('Access-Control-Allow-Origin', '*');
+            console.log(returnObject, "returnObject")
             res.send(returnObject);
           })
-          res.send(returnObject);
         }
       }
       else if(!result[0]){
         console.log("Your fired")
        res.status(400).send("Email or password incorrect");
       }
-     else
-        console.log("Your firedssssss")
+     else {
        res.status(400).send("Email or password incorrect");
+      }
    })
 });
 

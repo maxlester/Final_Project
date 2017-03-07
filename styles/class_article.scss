@@ -11,7 +11,8 @@ article.class{
     border-right:100px solid $green;
   }
   .class-info{
-    width:75%;
+    width:100%;
+    max-width:220px;
     float: left;
   }
   h4{
@@ -35,9 +36,10 @@ article.class{
     color:$green;
   }
   .class-date{
+    position:absolute;
+    right:0;
     margin-top:10px;
-    width:25%;
-    float:left;
+    width:90px;
     text-align:center;
     span{
       display:block;
