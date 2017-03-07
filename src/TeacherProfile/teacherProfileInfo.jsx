@@ -7,19 +7,30 @@ class TeacherProfileInfo extends Component {
 
   render() {
     let editingForm;
-    // console.log(this.props.teacherId)
-    // console.log(Auth.retrieveUser().teacherId)
-    // console.log(this.state.teacher.description)
     let edit = this.props.edit;
+    let avatar = this.props.teacher.avatar;
+    let backgroundImage = `url(/build/assets/avatar-${avatar}.png)`
+    let avatarContainer = <div className="avatar" style={{"background-image" : backgroundImage}}></div>
+
     if (this.props.teacher.id == Auth.retrieveUser().teacherId){
       let form = <p>{this.props.teacher.description}</p>
       if (edit){
-        console.log("edit")
         form = (
           <div>
             <label htmlFor="description">Tell us a bit about yourself and what you will be teaching *</label>
             <textarea name="description" onChange={this.props.handleChange}>{this.props.teacher.description}</textarea>
             <input type="submit" value="Save edits" className="btn btn-default"/>
+          </div>
+        )
+        let avatarOptions = [];
+        for(let i = 1; i<= 9; i++){
+          avatarOptions.push(<li className="avatar-option" key={i} value = {i} style={{"background-image" : `url(/build/assets/avatar-${i}.png`}} onClick={this.props.selectAvatar}></li>)
+        }
+        avatarContainer = (
+          <div className="avatar">
+            <ul>
+              {avatarOptions}
+            </ul>
           </div>
         )
       }
@@ -38,7 +49,7 @@ class TeacherProfileInfo extends Component {
     return (
       <aside className="left-sidebar">
         <div className="container-sidebar">
-          <div className="avatar"></div>
+          {avatarContainer}
           <h2>{this.props.teacher.firstName} {this.props.teacher.lastName}</h2>
           {editingForm}
         </div>

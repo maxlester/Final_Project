@@ -116,7 +116,8 @@ app.get('/teacher/:id', function(req, res) {
             firstName: result[0].first_name,
             lastName: result[0].last_name,
             description: result[0].description,
-            id: result[0].id
+            id: result[0].id,
+            avatar:result[0].avatar || 1
         }
         teacherObject.classes = formattedRes || "";
         console.log(teacherObject);
@@ -407,18 +408,12 @@ app.post('/teacher/:id/edit', function(req, res) {
     description : req.body.description,
     avatar : req.body.avatar
    }
-   // knex('users')
-   // .where('id', id)
-   // .then((results) => {
-   //    if(results.length === 1){
     knex('teachers')
     .where('id', '=', req.params.id)
     .update(teacher)
     .then(() => {
       res.status(200).send({success: true})
     })
-
-    // })
 })
 
 app.post('/users/:id/becometeacher', function(req, res) {

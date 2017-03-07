@@ -40,10 +40,9 @@ getTeacher() {
         lastName: data.lastName,
         description: data.description,
         id: data.id,
-        avatar : 1
+        avatar : data.avatar
        }
        let classes = data.classes
-       console.log("tecaher",teacher);
        this.setTeacher(teacher);
        this.setClasses(classes);
      },
@@ -56,7 +55,6 @@ getTeacher() {
  }
 
   editProfile(e){
-    console.log("clicked")
     this.setState({edit : true})
   }
 
@@ -65,9 +63,8 @@ getTeacher() {
     let teacher = {
         id :this.state.teacher.id,
         description : this.state.teacher.description,
-        avatar : 1
+        avatar : this.state.teacher.avatar
       }
-    console.log("saving changes")
     $.ajax({
      url: `http://localhost:8080/teacher/${teacher.id}/edit`,
      type: 'POST',
@@ -87,10 +84,21 @@ getTeacher() {
     return false;
   }
   handleChange(e){
-    console.log("changing")
     const field = e.target.name;
     const teacher = this.state.teacher;
     teacher[field] = e.target.value;
+    this.setState({teacher:teacher})
+  }
+
+  selectAvatar(e){
+    let $li = e.target;
+    let avatar = e.target.value;
+    if (document.querySelector(".selected")){
+      document.querySelector(".selected").className = "avatar-option";
+    }
+    $li.className += " selected";
+    let teacher = this.state.teacher;
+    teacher.avatar = avatar;
     this.setState({teacher:teacher})
   }
 
@@ -105,7 +113,7 @@ getTeacher() {
     return (
       <div className="teacher-profile">
         <NavBar router = {this.props.router}/>
-        <TeacherProfileInfo teacher = {this.state.teacher} edit ={this.state.edit} handleChange = {this.handleChange.bind(this)} saveChanges = {this.saveChanges.bind(this)} editProfile = {this.editProfile.bind(this)}/>
+        <TeacherProfileInfo teacher = {this.state.teacher} edit ={this.state.edit} selectAvatar = {this.selectAvatar.bind(this)} handleChange = {this.handleChange.bind(this)} saveChanges = {this.saveChanges.bind(this)} editProfile = {this.editProfile.bind(this)}/>
         <main>
           <div className="container-main">
             {classes}
