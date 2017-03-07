@@ -7,14 +7,22 @@ class TeacherClass extends Component {
 
 
   render() {
-    console.log("DDDDDDDDDDDD", this)
-    let userClasses = Auth.retrieveUser().classes;
+    let students = this.props.students
     let user = Auth.retrieveUser().userId;
     let teacher = Auth.retrieveUser().teacherId
     let registered = null;
-    if (user && userClasses && userClasses.includes(this.props.id)) {
+    console.log("DDDDDDDDDDDD", user, this.props.userClasses)
+    let isRegistered;
+    for (let student of students) {
+      if (student == user) {
+        isRegistered = true;
+      }
+    }
+    console.log(isRegistered)
+    if (isRegistered) {
       registered = <p>You are registered</p>
-    } else if (user && this.props.maxNumberOfStudents <= this.props.numberOfStudents){
+      }
+    else if (user && this.props.maxNumberOfStudents <= this.props.numberOfStudents){
       registered = <p>Class is full</p>
     } else if (this.props.teacherId == teacher) {
       registered = <p></p>
