@@ -229,7 +229,7 @@ class Dashboard extends Component {
       }
     }
     this.setState({classesGiving: classesGiving}, ()=>{
-      console.log(classId);
+      console.log("deleted", classId);
     console.log("Class id", classId)
       $.ajax({
          url: "http://localhost:8080/class/delete",

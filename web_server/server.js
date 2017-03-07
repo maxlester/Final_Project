@@ -11,6 +11,14 @@ var AccessToken = require('twilio').AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
 var randomUsername = require('./randos');
 
+
+var mailgun = require('mailgun-js')({apiKey: process.env.MG_API_KEY, domain: process.env.MG_DOMAIN});
+
+
+// var api_key = 'key-0eadf04e0c1e885192e4dc2429b8f920';
+// var domain = 'sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org';
+// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 const knexConfig  = require("./knexfile");
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger  = require('knex-logger');
@@ -251,6 +259,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     })
     }
   })
+  });
 /*  })*/
  /* .then((result) => {
     let formattedRes = result.rows;
@@ -268,7 +277,7 @@ app.get('/dashboard/:id/giving', function(req, res) {
     console.log(classes);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.send(classes);*/
-  });
+
 
       // classesTaking: [
       //   {
@@ -317,12 +326,78 @@ app.get('/class/:id', function(req, res) {
   })
 });
 
+
+   // let recipients = ['m.b.aterman@gmail.com']
+   //  let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
+
+   //  knex('users').innerJoin('class_user', 'users.id', 'class_user.user_id')
+   //  .where({
+   //    class_id: classId
+   //  }).select('email')
+   //  .then(function(results) {
+   //    for (let result of results) {
+   //    recipients.push(result.email)
+   //    console.log(recipients);
+   //    }
+   //  })
+
+   //  var data = {
+   //  from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
+   //  to: recipients,
+   //  subject: "teachurBuddy class:  " + classTitle + " has been cancelled",
+   //  text: recipientText,
+   //  };
+
+   //  mailgun.messages().send(data, function (error, body) {
+   //    console.log(data);
+   //    console.log(body);
+   //  });
+
+
 app.post('/class/:id/register', function(req, res) {
   let classRegister = {
   user_id: req.body.user_id,
   class_id: req.body.class_id
   };
-  console.log(classRegister);
+  console.log("CLASS REGISTER:", classRegister);
+
+  let teacherEmail = 'maxlester18@gmail.com'
+  let classData = []
+  //teacherEmailText = '. Your teachurBuddy dashboard: ' + classData[1]
+
+  knex.raw(`SELECT users.email, class.class_name, users.id FROM users JOIN teachers ON users.id = teachers.user_id JOIN class ON teachers.id = class.teacher_id WHERE class.id = '${req.body.class_id}'`)
+
+  // knex.select('email').from('users').fullOuterJoin('teacher', 'users')
+
+  .then(function(results) {
+  console.log("KNEX RESULTS ROWS", results.rows[0])
+        let resultObject = {
+        email: results.rows[0].email,
+        classTitle: results.rows[0].class_name,
+        id: results.rows[0].id
+        }
+        console.log(resultObject)
+        //teacherEmail.push(results.rows[0].email)
+        classData.push(results.rows[0].class_name, results.rows[0].id)
+
+        console.log('CLASS DATA', classData)
+        console.log(teacherEmail)
+
+        var data = {
+        from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
+        to: teacherEmail,
+        subject: "teachurBuddy class:  " + classData[0] + " has a new student!",
+        text: 'View on teachurBuddy: http://localhost:3000/'
+        };
+
+        mailgun.messages().send(data, function (error, body) {
+          console.log(data);
+          console.log(body);
+        });
+    })
+
+
+
   knex.insert(classRegister)
   .into("class_user")
   .then((result) => {
@@ -335,7 +410,7 @@ app.post('/class/:id/register', function(req, res) {
         res.send({count: result2.rows[0].count})
       })
     })
-});
+  });
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -477,13 +552,10 @@ app.post('/login', function(req,res) {
             if (result1[0]){
               console.log("In here")
               returnObject.teacherId = result1[0].id;
-              res.setHeader('Access-Control-Allow-Origin', '*');
-              res.send(returnObject)
             }
             res.send(returnObject);
           })
-        }
-        res.send(returnObject);
+        } res.send(returnObject);
       }
       else if(!result[0]){
         console.log("Your fired")
@@ -544,7 +616,41 @@ app.post('/dashboard/:id/class/new', function(req, res) {
 });
 
 app.post('/class/delete', function(req, res) {
+
+// SELECT * FROM users INNER JOIN class_user ON id = user_id WHERE class_id
+
     classId = req.body.classId
+    students = req.body.students
+    classTitle = req.body.classTitle
+
+    console.log("BODY", req.body);
+
+    let recipients = ['m.b.aterman@gmail.com']
+    let recipientText = 'This is to notify you that your teachUrBuddy class "' + classTitle + '" has been cancelled'
+
+    knex('users').innerJoin('class_user', 'users.id', 'class_user.user_id')
+    .where({
+      class_id: classId
+    }).select('email')
+    .then(function(results) {
+      for (let result of results) {
+      recipients.push(result.email)
+      console.log(recipients);
+      }
+    })
+
+    var data = {
+    from: 'Admin<postmaster@sandboxcb6c320ee634462d9bcd2f3a3b4d0377.mailgun.org>',
+    to: recipients,
+    subject: "teachurBuddy class:  " + classTitle + " has been cancelled",
+    text: recipientText,
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log(data);
+      console.log(body);
+    });
+
     knex('class_user')
     .where('class_id', classId)
     .del()
