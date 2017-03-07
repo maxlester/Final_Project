@@ -12,6 +12,7 @@ class TeacherProfile extends Component {
       currentUser: {firstName: "Anonymous", id:1234},
       teacher: [],
       teacherClasses:[],
+      edit:false
     };
   }
 
@@ -34,23 +35,72 @@ getTeacher() {
      type: 'GET',
      context: this,
      success: function(data) {
-      console.log("eeeeeeeeeeeeee", data);
        let teacher = {
         firstName: data.firstName,
         lastName: data.lastName,
         description: data.description,
-        id: data.id
+        id: data.id,
+        avatar : data.avatar
        }
        let classes = data.classes
        this.setTeacher(teacher);
        this.setClasses(classes);
      },
      error: function(xhr, status, err) {
-       console.error(err.toString());
+
+       e.error(err.toString());
      }.bind(this)
    })
    return false; //returning false to prevent info showing in url
  }
+
+  editProfile(e){
+    this.setState({edit : true})
+  }
+
+  saveChanges(e){
+    e.preventDefault();
+    let teacher = {
+        id :this.state.teacher.id,
+        description : this.state.teacher.description,
+        avatar : this.state.teacher.avatar
+      }
+    $.ajax({
+     url: `http://localhost:8080/teacher/${teacher.id}/edit`,
+     type: 'POST',
+     dataType: 'json',
+       data: JSON.stringify(teacher),
+       headers: {
+         'Content-Type':'application/json'
+        },
+     context: this,
+     success: function(data) {
+        this.setState({edit : false})
+     },
+     error: function(xhr, status, err) {
+        console.log("Teacher profile could not be edited")
+     }.bind(this)
+   })
+    return false;
+  }
+  handleChange(e){
+    const field = e.target.name;
+    const teacher = this.state.teacher;
+    teacher[field] = e.target.value;
+    this.setState({teacher:teacher})
+  }
+
+  selectAvatar(e){
+    let $li = e.target;
+    let avatar = e.target.value;
+    if (document.querySelector(".selected")){
+      document.querySelector(".selected").className = "avatar-option";
+    }
+    $li.className += " selected";
+    let teacher = this.state.teacher;
+    teacher.avatar = avatar;
+    this.setState({teacher:teacher})
+  }
 
   render() {
     let classes = null;
@@ -63,7 +113,7 @@ getTeacher() {
     return (
       <div className="teacher-profile">
         <NavBar router = {this.props.router}/>
-        <TeacherProfileInfo teacher = {this.state.teacher}/>
+        <TeacherProfileInfo teacher = {this.state.teacher} edit ={this.state.edit} selectAvatar = {this.selectAvatar.bind(this)} handleChange = {this.handleChange.bind(this)} saveChanges = {this.saveChanges.bind(this)} editProfile = {this.editProfile.bind(this)}/>
         <main>
           <div className="container-main">
             {classes}
