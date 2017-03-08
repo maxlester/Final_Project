@@ -395,6 +395,7 @@ app.post('/users/new', function(req, res) {
            }
          )}
          else{
+            res.setHeader('Access-Control-Allow-Origin', '*');
            res.status(400).send("Username is already in use");
          }
        })
@@ -485,9 +486,11 @@ app.post('/login', function(req,res) {
       }
       else if(!result[0]){
         console.log("Your fired")
+        res.setHeader('Access-Control-Allow-Origin', '*');
        res.status(400).send("Email or password incorrect");
       }
      else {
+      res.setHeader('Access-Control-Allow-Origin', '*');
        res.status(400).send("Email or password incorrect");
       }
    })

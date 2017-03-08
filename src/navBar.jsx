@@ -38,7 +38,7 @@ class NavBar extends Component {
    }
    e.preventDefault();
    $.ajax({
-     url: "http://localhost:8080/login",
+     url: "https://teachurbuddy4.herokuapp.com/login",
      type: 'POST',
      dataType: 'json',
      data: JSON.stringify(logInUser),

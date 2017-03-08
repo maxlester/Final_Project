@@ -28,7 +28,7 @@ class TakeMoney extends Component {
     user.classes = classes;
     Auth.saveUser(user);
      $.ajax({
-       url: `http://localhost:8080/class/${classRegister.class_id}/register`,
+       url: `https://teachurbuddy4.herokuapp.com/class/${classRegister.class_id}/register`,
        type: 'POST',
        dataType: 'json',
        data: JSON.stringify(classRegister),

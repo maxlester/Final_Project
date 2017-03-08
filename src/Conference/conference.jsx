@@ -32,7 +32,7 @@ class Conference extends Component {
   getConferenceData(){
     let classId = this.state.classId;
     $.ajax({
-      url: `http://localhost:8080/class/${classId}`,
+      url: `https://teachurbuddy4.herokuapp.com/class/${classId}`,
       type: 'GET',
       context: this,
       async:false,

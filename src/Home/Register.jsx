@@ -36,7 +36,7 @@ class Register extends Component {
       e.preventDefault();
       let user = this.state.user;
        $.ajax({
-         url: "http://localhost:8080/users/new",
+         url: "https://teachurbuddy4.herokuapp.com/users/new",
          type: 'POST',
          dataType: 'json',
          data: JSON.stringify(user),

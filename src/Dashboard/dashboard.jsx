@@ -11,7 +11,7 @@ var moment = require('moment');
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.dataServer = "http://localhost:8080";
+    this.dataServer = "https://teachurbuddy4.herokuapp.com";
     let today = this.getTodaysDate();
     this.state = {
       currentUser: {},
@@ -80,7 +80,7 @@ class Dashboard extends Component {
    let userId = this.props.params.id;
    let authUserId = Auth.retrieveUser().userId
    $.ajax({
-     url: `http://localhost:8080/dashboard/${userId}/taking`,
+     url: `https://teachurbuddy4.herokuapp.com/dashboard/${userId}/taking`,
      type: 'GET',
      context: this,
      success: function(data) {
@@ -98,7 +98,7 @@ class Dashboard extends Component {
    let classesGiving = this.state.classesGiving;
    let userId = this.props.params.id;
    $.ajax({
-     url: `http://localhost:8080/dashboard/${userId}/giving`,
+     url: `https://teachurbuddy4.herokuapp.com/dashboard/${userId}/giving`,
      type: 'GET',
      context: this,
      success: function(data) {
@@ -138,7 +138,7 @@ class Dashboard extends Component {
       description : this.state.teacher.description
     }
     $.ajax({
-       url: `http://localhost:8080/users/${userId}/becometeacher`,
+       url: `https://teachurbuddy4.herokuapp.com/users/${userId}/becometeacher`,
        type: 'POST',
        context: this,
        dataType: 'json',
@@ -200,7 +200,7 @@ class Dashboard extends Component {
     this.clearInputs(e);
     this.setSpinner(true);
     $.ajax({
-       url: `http://localhost:8080/dashboard/${userId}/class/new`,
+       url: `https://teachurbuddy4.herokuapp.com/dashboard/${userId}/class/new`,
        type: 'POST',
        dataType: 'json',
        data: JSON.stringify(newClass),
@@ -232,7 +232,7 @@ class Dashboard extends Component {
       console.log(classId);
     console.log("Class id", classId)
       $.ajax({
-         url: "http://localhost:8080/class/delete",
+         url: "https://teachurbuddy4.herokuapp.com/class/delete",
          type: 'POST',
          dataType: 'json',
          data: JSON.stringify(classId),
@@ -263,7 +263,7 @@ class Dashboard extends Component {
           <div className="teacher-link">
             <h3>View and edit your profile</h3>
               <div className="fb-share-button"
-                data-href={`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}
+                data-href={`https://teachurbuddy4.herokuapp.com/teacher/${Auth.retrieveUser().teacherId}`}
                 data-layout="button">
               </div>
             <p><a href = {`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}>{`http://localhost:3000/teacher/${Auth.retrieveUser().teacherId}`}</a></p>

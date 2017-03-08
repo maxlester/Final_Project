@@ -7,7 +7,7 @@ import TeacherProfileInfo from './teacherProfileInfo.jsx'
 class TeacherProfile extends Component {
   constructor(props) {
     super(props);
-    this.dataServer = "http://localhost:8080";
+    this.dataServer = "https://teachurbuddy4.herokuapp.com";
     this.state = {
       currentUser: {firstName: "Anonymous", id:1234},
       teacher: [],
@@ -31,7 +31,7 @@ setClasses(teacherClasses) {
 getTeacher() {
   let teacherId = this.props.params.teacherId;
    $.ajax({
-     url: `http://localhost:8080/teacher/${teacherId}`,
+     url: `https://teachurbuddy4.herokuapp.com/teacher/${teacherId}`,
      type: 'GET',
      context: this,
      success: function(data) {
@@ -66,7 +66,7 @@ getTeacher() {
         avatar : this.state.teacher.avatar
       }
     $.ajax({
-     url: `http://localhost:8080/teacher/${teacher.id}/edit`,
+     url: `https://teachurbuddy4.herokuapp.com/teacher/${teacher.id}/edit`,
      type: 'POST',
      dataType: 'json',
        data: JSON.stringify(teacher),
