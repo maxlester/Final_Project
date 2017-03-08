@@ -114,7 +114,7 @@ function leaveRoomIfJoined() {
 module.exports = {
   startTwilio(roomName, userId){
     console.log("twilio starting");
-    $.getJSON(`https://teachurbuddy4.herokuapp.com//token/${userId}/class/${roomName}`, function (data) {
+    $.getJSON(`https://teachurbuddy4.herokuapp.com/token/${userId}/class/${roomName}`, function (data) {
 
       identity = data.identity.username;
       let teacherUsername = data.identity.teacher;
